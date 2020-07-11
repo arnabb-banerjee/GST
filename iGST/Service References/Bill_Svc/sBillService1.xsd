@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:50495/sBillService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BusinessObjects" />
+  <xs:element name="GetList_Bill">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="InvoiceID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="BranchID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CusID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="InvoiceDateFrom" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="InvoiceDateTo" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsReturned" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsCancelled" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_BillResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_BillResult" nillable="true" type="q1:ArrayOfInvoiceInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_Bill">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="InvoiceID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="BranchID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CusID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="InvoiceDateFrom" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="InvoiceDateTo" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsReturned" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsCancelled" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_BillResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_BillResult" nillable="true" type="q2:InvoiceInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_Bill">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objBillInfo" nillable="true" type="q3:InvoiceInfo" />
+        <xs:element minOccurs="0" name="UserCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_BillResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_BillResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_Customer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UserType" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CusID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="BranchId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+        <xs:element minOccurs="0" name="UserID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="LanguageId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_CustomerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_CustomerResult" nillable="true" type="q4:ArrayOfCustomerInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_Customer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UserType" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CusID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="BranchId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+        <xs:element minOccurs="0" name="UserID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="LanguageId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_CustomerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_CustomerResult" nillable="true" type="q5:CustomerInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Upload_Customer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UserType" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="isOvereWrite" type="xs:boolean" />
+        <xs:element minOccurs="0" name="ds" nillable="true">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:appinfo>
+                <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+              <xs:element ref="xs:schema" />
+              <xs:any />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="UserCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Upload_CustomerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Upload_CustomerResult" nillable="true">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:appinfo>
+                <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+              <xs:element ref="xs:schema" />
+              <xs:any />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element minOccurs="0" name="bReturn" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_Customer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UserType" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objCustomerInfo" nillable="true" type="q6:CustomerInfo" />
+        <xs:element minOccurs="0" name="UserCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_CustomerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_CustomerResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_CustomerImage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="obj" nillable="true" type="q7:CustomerImageInfo" />
+        <xs:element minOccurs="0" name="UserCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_CustomerImageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_CustomerImageResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_CustomerImage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ImageId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CustomerID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsMain" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_CustomerImageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_CustomerImageResult" nillable="true" type="q8:ArrayOfCustomerImageInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_CustomerImage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ImageId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CustomerID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsMain" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_CustomerImageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_CustomerImageResult" nillable="true" type="q9:CustomerImageInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

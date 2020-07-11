@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="UserAuthenticationService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:50495/sUserAuthenticationService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:50495/sUserAuthenticationService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:50495/sUserAuthenticationService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BusinessObjects" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IUserAuthenticationService_User_Login_InputMessage">
+    <wsdl:part name="parameters" element="tns:User_Login" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_User_Login_OutputMessage">
+    <wsdl:part name="parameters" element="tns:User_LoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_User_ChangePassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:User_ChangePassword" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_User_ChangePassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:User_ChangePasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_User_ForgotPassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:User_ForgotPassword" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_User_ForgotPassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:User_ForgotPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_SocialMediaLogin_InputMessage">
+    <wsdl:part name="parameters" element="tns:SocialMediaLogin" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_SocialMediaLogin_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SocialMediaLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetList_UserModerate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_UserModerate" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetList_UserModerate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_UserModerateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetDetails_UserModerate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_UserModerate" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetDetails_UserModerate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_UserModerateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_Save_UserModerate_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_UserModerate" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_Save_UserModerate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_UserModerateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_Email_Verification_InputMessage">
+    <wsdl:part name="parameters" element="tns:Email_Verification" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_Email_Verification_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Email_VerificationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_UserLogin_InputMessage">
+    <wsdl:part name="parameters" element="tns:UserLogin" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_UserLogin_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UserLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_UserRegistered_EmailChange_InputMessage">
+    <wsdl:part name="parameters" element="tns:UserRegistered_EmailChange" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_UserRegistered_EmailChange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UserRegistered_EmailChangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_UserRegistered_MobileChange_InputMessage">
+    <wsdl:part name="parameters" element="tns:UserRegistered_MobileChange" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_UserRegistered_MobileChange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UserRegistered_MobileChangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetList_OrganizationDropdownList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_OrganizationDropdownList" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetList_OrganizationDropdownList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_OrganizationDropdownListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetList_Organization_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_Organization" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetList_Organization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_OrganizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetDetails_Organization_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_Organization" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetDetails_Organization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_OrganizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_Save_Organization_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_Organization" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_Save_Organization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_OrganizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetList_OrganizationAccountant_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_OrganizationAccountant" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetList_OrganizationAccountant_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_OrganizationAccountantResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetDetails_OrganizationAccountant_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_OrganizationAccountant" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetDetails_OrganizationAccountant_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_OrganizationAccountantResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_Save_OrganizationAccountant_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_OrganizationAccountant" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_Save_OrganizationAccountant_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_OrganizationAccountantResponse" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetDashboard_Organization_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDashboard_Organization" />
+  </wsdl:message>
+  <wsdl:message name="IUserAuthenticationService_GetDashboard_Organization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDashboard_OrganizationResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IUserAuthenticationService">
+    <wsdl:operation name="User_Login">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/User_Login" message="tns:IUserAuthenticationService_User_Login_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/User_LoginResponse" message="tns:IUserAuthenticationService_User_Login_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="User_ChangePassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/User_ChangePassword" message="tns:IUserAuthenticationService_User_ChangePassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/User_ChangePasswordResponse" message="tns:IUserAuthenticationService_User_ChangePassword_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="User_ForgotPassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/User_ForgotPassword" message="tns:IUserAuthenticationService_User_ForgotPassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/User_ForgotPasswordResponse" message="tns:IUserAuthenticationService_User_ForgotPassword_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SocialMediaLogin">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/SocialMediaLogin" message="tns:IUserAuthenticationService_SocialMediaLogin_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/SocialMediaLoginResponse" message="tns:IUserAuthenticationService_SocialMediaLogin_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_UserModerate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetList_UserModerate" message="tns:IUserAuthenticationService_GetList_UserModerate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetList_UserModerateResponse" message="tns:IUserAuthenticationService_GetList_UserModerate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_UserModerate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetDetails_UserModerate" message="tns:IUserAuthenticationService_GetDetails_UserModerate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetDetails_UserModerateResponse" message="tns:IUserAuthenticationService_GetDetails_UserModerate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_UserModerate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/Save_UserModerate" message="tns:IUserAuthenticationService_Save_UserModerate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/Save_UserModerateResponse" message="tns:IUserAuthenticationService_Save_UserModerate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Email_Verification">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/Email_Verification" message="tns:IUserAuthenticationService_Email_Verification_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/Email_VerificationResponse" message="tns:IUserAuthenticationService_Email_Verification_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UserLogin">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/UserLogin" message="tns:IUserAuthenticationService_UserLogin_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/UserLoginResponse" message="tns:IUserAuthenticationService_UserLogin_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UserRegistered_EmailChange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/UserRegistered_EmailChange" message="tns:IUserAuthenticationService_UserRegistered_EmailChange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/UserRegistered_EmailChangeResponse" message="tns:IUserAuthenticationService_UserRegistered_EmailChange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UserRegistered_MobileChange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/UserRegistered_MobileChange" message="tns:IUserAuthenticationService_UserRegistered_MobileChange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/UserRegistered_MobileChangeResponse" message="tns:IUserAuthenticationService_UserRegistered_MobileChange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_OrganizationDropdownList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetList_OrganizationDropdownList" message="tns:IUserAuthenticationService_GetList_OrganizationDropdownList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetList_OrganizationDropdownListResponse" message="tns:IUserAuthenticationService_GetList_OrganizationDropdownList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Organization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetList_Organization" message="tns:IUserAuthenticationService_GetList_Organization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetList_OrganizationResponse" message="tns:IUserAuthenticationService_GetList_Organization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Organization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetDetails_Organization" message="tns:IUserAuthenticationService_GetDetails_Organization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetDetails_OrganizationResponse" message="tns:IUserAuthenticationService_GetDetails_Organization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_Organization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/Save_Organization" message="tns:IUserAuthenticationService_Save_Organization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/Save_OrganizationResponse" message="tns:IUserAuthenticationService_Save_Organization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_OrganizationAccountant">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetList_OrganizationAccountant" message="tns:IUserAuthenticationService_GetList_OrganizationAccountant_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetList_OrganizationAccountantResponse" message="tns:IUserAuthenticationService_GetList_OrganizationAccountant_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_OrganizationAccountant">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetDetails_OrganizationAccountant" message="tns:IUserAuthenticationService_GetDetails_OrganizationAccountant_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetDetails_OrganizationAccountantResponse" message="tns:IUserAuthenticationService_GetDetails_OrganizationAccountant_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_OrganizationAccountant">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/Save_OrganizationAccountant" message="tns:IUserAuthenticationService_Save_OrganizationAccountant_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/Save_OrganizationAccountantResponse" message="tns:IUserAuthenticationService_Save_OrganizationAccountant_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDashboard_Organization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetDashboard_Organization" message="tns:IUserAuthenticationService_GetDashboard_Organization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserAuthenticationService/GetDashboard_OrganizationResponse" message="tns:IUserAuthenticationService_GetDashboard_Organization_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="iGST_Svc.UserAuthenticationService_Binding_IUserAuthenticationService" type="tns:IUserAuthenticationService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="User_Login">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/User_Login" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="User_ChangePassword">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/User_ChangePassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="User_ForgotPassword">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/User_ForgotPassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SocialMediaLogin">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/SocialMediaLogin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_UserModerate">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/GetList_UserModerate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_UserModerate">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/GetDetails_UserModerate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_UserModerate">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/Save_UserModerate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Email_Verification">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/Email_Verification" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserLogin">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/UserLogin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserRegistered_EmailChange">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/UserRegistered_EmailChange" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserRegistered_MobileChange">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/UserRegistered_MobileChange" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_OrganizationDropdownList">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/GetList_OrganizationDropdownList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Organization">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/GetList_Organization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Organization">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/GetDetails_Organization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_Organization">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/Save_Organization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_OrganizationAccountant">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/GetList_OrganizationAccountant" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_OrganizationAccountant">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/GetDetails_OrganizationAccountant" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_OrganizationAccountant">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/Save_OrganizationAccountant" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDashboard_Organization">
+      <soap:operation soapAction="http://tempuri.org/IUserAuthenticationService/GetDashboard_Organization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UserAuthenticationService">
+    <wsdl:port name="iGST_Svc.UserAuthenticationService_Binding_IUserAuthenticationService" binding="tns:iGST_Svc.UserAuthenticationService_Binding_IUserAuthenticationService">
+      <soap:address location="http://localhost:50495/sUserAuthenticationService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

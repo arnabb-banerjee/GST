@@ -1,0 +1,310 @@
+﻿@if (Session["UserDetails"] == null)
+{
+    <script>
+        alert("Invalid session. You are redirecting to the Login page.")
+        parent.CloseParentPopup();
+    </script>
+}
+else
+{
+    @model BusinessObjects.RoleInfo
+
+    <script type="text/javascript">
+
+        function Save_Role(isDelete) {
+            if ($("#txtRoleName").val().trim() == "") { alert("Name is mndtory for a record"); $("#txtRoleName").focus(); return false; }
+            var dataarray = {
+                "isDelete": isDelete
+            , "isActive": ($("#chk_Is_Active").prop('checked') ? "Y" : "")
+            , "isOnlyForModerateUsers": ($("#chk_For_Moderate_Users").prop('checked') ? "Y" : "")
+            , "RoleID": $("#hdn_Roleid").val()
+            , "RoleName": $("#txtRoleName").val()
+            , "chk_Customer_View": ($("#chk_Customer_View").prop('checked') ? "Y" : "")
+            , "chk_Customer_Add": ($("#chk_Customer_Add").prop('checked') ? "Y" : "")
+            , "chk_Customer_Edit": ($("#chk_Customer_Edit").prop('checked') ? "Y" : "")
+            , "chk_Customer_Delete": ($("#chk_Customer_Delete").prop('checked') ? "Y" : "")
+            , "chk_Customer_Audit": ($("#chk_Customer_Audit").prop('checked') ? "Y" : "")
+            , "chk_Product_View": ($("#chk_Product_View").prop('checked') ? "Y" : "")
+            , "chk_Product_Add": ($("#chk_Product_Add").prop('checked') ? "Y" : "")
+            , "chk_Product_Edit": ($("#chk_Product_Edit").prop('checked') ? "Y" : "")
+            , "chk_Product_Delete": ($("#chk_Product_Delete").prop('checked') ? "Y" : "")
+            , "chk_Product_Audit": ($("#chk_Product_Audit").prop('checked') ? "Y" : "")
+            , "chk_Organization_View": ($("#chk_Organization_View").prop('checked') ? "Y" : "")
+            , "chk_Organization_Add": ($("#chk_Organization_Add").prop('checked') ? "Y" : "")
+            , "chk_Organization_Edit": ($("#chk_Organization_Edit").prop('checked') ? "Y" : "")
+            , "chk_Organization_Delete": ($("#chk_Organization_Delete").prop('checked') ? "Y" : "")
+            , "chk_Organization_Audit": ($("#chk_Organization_Audit").prop('checked') ? "Y" : "")
+            , "chk_Branch_View": ($("#chk_Branch_View").prop('checked') ? "Y" : "")
+            , "chk_Branch_Add": ($("#chk_Branch_Add").prop('checked') ? "Y" : "")
+            , "chk_Branch_Edit": ($("#chk_Branch_Edit").prop('checked') ? "Y" : "")
+            , "chk_Branch_Delete": ($("#chk_Branch_Delete").prop('checked') ? "Y" : "")
+            , "chk_Branch_Audit": ($("#chk_Branch_Audit").prop('checked') ? "Y" : "")
+            , "chk_Category_View": ($("#chk_Category_View").prop('checked') ? "Y" : "")
+            , "chk_Category_Add": ($("#chk_Category_Add").prop('checked') ? "Y" : "")
+            , "chk_Category_Edit": ($("#chk_Category_Edit").prop('checked') ? "Y" : "")
+            , "chk_Category_Delete": ($("#chk_Category_Delete").prop('checked') ? "Y" : "")
+            , "chk_Category_Audit": ($("#chk_Category_Audit").prop('checked') ? "Y" : "")
+            , "chk_Bill_View": ($("#chk_Bill_View").prop('checked') ? "Y" : "")
+            , "chk_Bill_Add": ($("#chk_Bill_Add").prop('checked') ? "Y" : "")
+            , "chk_Bill_Edit": ($("#chk_Bill_Edit").prop('checked') ? "Y" : "")
+            , "chk_Bill_Delete": ($("#chk_Bill_Delete").prop('checked') ? "Y" : "")
+            , "chk_Bill_Audit": ($("#chk_Bill_Audit").prop('checked') ? "Y" : "")
+            , "chk_Language_View": ($("#chk_Language_View").prop('checked') ? "Y" : "")
+            , "chk_Language_Add": ($("#chk_Language_Add").prop('checked') ? "Y" : "")
+            , "chk_Language_Edit": ($("#chk_Language_Edit").prop('checked') ? "Y" : "")
+            , "chk_Language_Delete": ($("#chk_Language_Delete").prop('checked') ? "Y" : "")
+            , "chk_Language_Audit": ($("#chk_Language_Audit").prop('checked') ? "Y" : "")
+            , "chk_DefineLanguage_View": ($("#chk_DefineLanguage_View").prop('checked') ? "Y" : "")
+            , "chk_DefineLanguage_Add": ($("#chk_DefineLanguage_Add").prop('checked') ? "Y" : "")
+            , "chk_DefineLanguage_Edit": ($("#chk_DefineLanguage_Edit").prop('checked') ? "Y" : "")
+            , "chk_DefineLanguage_Delete": ($("#chk_DefineLanguage_Delete").prop('checked') ? "Y" : "")
+            , "chk_DefineLanguage_Audit": ($("#chk_DefineLanguage_Audit").prop('checked') ? "Y" : "")
+            , "chk_StaticValue_View": ($("#chk_StaticValue_View").prop('checked') ? "Y" : "")
+            , "chk_StaticValue_Add": ($("#chk_StaticValue_Add").prop('checked') ? "Y" : "")
+            , "chk_StaticValue_Edit": ($("#chk_StaticValue_Edit").prop('checked') ? "Y" : "")
+            , "chk_StaticValue_Delete": ($("#chk_StaticValue_Delete").prop('checked') ? "Y" : "")
+            , "chk_StaticValue_Audit": ($("#chk_StaticValue_Audit").prop('checked') ? "Y" : "")
+            , "chk_Terms_View": ($("#chk_Terms_View").prop('checked') ? "Y" : "")
+            , "chk_Terms_Add": ($("#chk_Terms_Add").prop('checked') ? "Y" : "")
+            , "chk_Terms_Edit": ($("#chk_Terms_Edit").prop('checked') ? "Y" : "")
+            , "chk_Terms_Delete": ($("#chk_Terms_Delete").prop('checked') ? "Y" : "")
+            , "chk_Terms_Audit": ($("#chk_Terms_Audit").prop('checked') ? "Y" : "")
+            , "chk_UserRegistered_View": ($("#chk_UserRegistered_View").prop('checked') ? "Y" : "")
+            , "chk_UserRegistered_Add": ($("#chk_UserRegistered_Add").prop('checked') ? "Y" : "")
+            , "chk_UserRegistered_Edit": ($("#chk_UserRegistered_Edit").prop('checked') ? "Y" : "")
+            , "chk_UserRegistered_Delete": ($("#chk_UserRegistered_Delete").prop('checked') ? "Y" : "")
+            , "chk_UserRegistered_Audit": ($("#chk_UserRegistered_Audit").prop('checked') ? "Y" : "")
+            , "chk_UserModerate_View": ($("#chk_UserModerate_View").prop('checked') ? "Y" : "")
+            , "chk_UserModerate_Add": ($("#chk_UserModerate_Add").prop('checked') ? "Y" : "")
+            , "chk_UserModerate_Edit": ($("#chk_UserModerate_Edit").prop('checked') ? "Y" : "")
+            , "chk_UserModerate_Delete": ($("#chk_UserModerate_Delete").prop('checked') ? "Y" : "")
+            , "chk_UserModerate_Audit": ($("#chk_UserModerate_Audit").prop('checked') ? "Y" : "")
+            , "chk_Role_View": ($("#chk_Role_Audit").prop('checked') ? "Y" : "")
+            , "chk_Role_Add": ($("#chk_Role_Audit").prop('checked') ? "Y" : "")
+            , "chk_Role_Edit": ($("#chk_Role_Audit").prop('checked') ? "Y" : "")
+            , "chk_Role_Delete": ($("#chk_Role_Audit").prop('checked') ? "Y" : "")
+            , "chk_Role_Audit": ($("#chk_Role_Audit").prop('checked') ? "Y" : "")
+            , "chk_Function_View": ($("#chk_Function_View").prop('checked') ? "Y" : "")
+            , "chk_Function_Add": ($("#chk_Function_Audit").prop('checked') ? "Y" : "")
+            , "chk_Function_Edit": ($("#chk_Function_Audit").prop('checked') ? "Y" : "")
+            , "chk_Function_Delete": ($("#chk_Function_Audit").prop('checked') ? "Y" : "")
+            , "chk_Function_Audit": ($("#chk_Function_Audit").prop('checked') ? "Y" : "")
+            }
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "/rolesave",
+                data: dataarray,
+                success: function (data) {
+                    if (data.trim() == "Ok") {
+                        if (isDelete == "Y") {
+                            alert("Data deleted");
+                        } else {
+                            alert("Data updated");
+                        }
+
+                        MakeAllControlsBlank();
+                        CloseParentPopup();
+                    }
+                    else {
+                        alert(data);
+                        return false;
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $("#ddlTitle").focus();
+
+            $('.nav-tabs a').click(function () {
+                $(this).tab('show');
+                $(this).find("input :first").focus();
+            });
+        });
+
+        function MakeAllControlsBlank() {
+            $('input[type="text"]').each(function () {
+                $(this).val('');
+            });
+            $('input[type="hidden"]').each(function () {
+                $(this).val('');
+            });
+            $("input[type='checkbox']").each(function () { $(this).attr('checked', false); });
+            $("#chk_Is_Active").attr('checked', true);
+        }
+
+    </script>
+
+    <div class="row  form-body row-bottom-5px">
+        <div class="row">
+            <div class="col-lg-2">
+                Role name
+            </div>
+            <div class="col-lg-10">
+                @Html.TextBoxFor(m => m.RoleName, new { @id = "txtRoleName", @class = "form-control", @placeholder = "Name of role", autofocus = "" })
+                <input type="hidden" id="hdn_Roleid" value="@Model.RoleID" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-striped table-bordered table-hover" id="sample_3">
+                    <thead>
+                        <tr>
+                            <th>Access Name</th>
+                            <th>View</th>
+                            <th>Add</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            <th>Audit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Manage customer</td>
+                            <td><input type="checkbox" id="chk_Customer_View" class="checkbox" @(Model.Customer_View ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Customer_Add" class="checkbox" @(Model.Customer_Add ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Customer_Edit" class="checkbox" @(Model.Customer_Edit ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Customer_Delete" class="checkbox" @(Model.Customer_Delete ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Customer_Audit" class="checkbox" @(Model.Customer_Audit ? "checked=\"checked\"" : "") /></td>
+                        </tr>
+                        <tr>
+                            <td>Manage product</td>
+                            <td><input type="checkbox" id="chk_Product_View" class="checkbox" @(Model.Product_View ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Product_Add" class="checkbox" @(Model.Product_Add ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Product_Edit" class="checkbox" @(Model.Product_Edit ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Product_Delete" class="checkbox" @(Model.Product_Delete ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Product_Audit" class="checkbox" @(Model.Product_Audit ? "checked=\"checked\"" : "") /></td>
+                        </tr>
+                        <tr>
+                            <td>Manage organization</td>
+                            <td><input type="checkbox" id="chk_Organization_View" class="checkbox" @(Model.Organization_View ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Organization_Add" class="checkbox" @(Model.Organization_Add ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Organization_Edit" class="checkbox" @(Model.Organization_Edit ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Organization_Delete" class="checkbox" @(Model.Organization_Delete ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Organization_Audit" class="checkbox" @(Model.Organization_Audit ? "checked=\"checked\"" : "") /></td>
+                        </tr>
+                        <tr>
+                            <td>Manage branch</td>
+                            <td><input type="checkbox" id="chk_Branch_View" class="checkbox" @(Model.Branch_View ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Branch_Add" class="checkbox" @(Model.Branch_Add ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Branch_Edit" class="checkbox" @(Model.Branch_Edit ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Branch_Delete" class="checkbox" @(Model.Branch_Delete ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Branch_Audit" class="checkbox" @(Model.Branch_Audit ? "checked=\"checked\"" : "") /></td>
+                        </tr>
+                        <tr>
+                            <td>Manage Category</td>
+                            <td><input type="checkbox" id="chk_Category_View" class="checkbox" @(Model.Category_View ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Category_Add" class="checkbox" @(Model.Category_Add ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Category_Edit" class="checkbox" @(Model.Category_Edit ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Category_Delete" class="checkbox" @(Model.Category_Delete ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Category_Audit" class="checkbox" @(Model.Category_Audit ? "checked=\"checked\"" : "") /></td>
+                        </tr>
+                        <tr>
+                            <td>Manage Bill</td>
+                            <td><input type="checkbox" id="chk_Bill_View" class="checkbox" @(Model.Bill_View ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Bill_Add" class="checkbox" @(Model.Bill_Add ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Bill_Edit" class="checkbox" @(Model.Bill_Edit ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Bill_Delete" class="checkbox" @(Model.Bill_Delete ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Bill_Audit" class="checkbox" @(Model.Bill_Audit ? "checked=\"checked\"" : "") /></td>
+                        </tr>
+                        <tr>
+                            <td>Manage Language</td>
+                            <td><input type="checkbox" id="chk_Language_View" class="checkbox" @(Model.Language_View ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Language_Add" class="checkbox" @(Model.Language_Add ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Language_Edit" class="checkbox" @(Model.Language_Edit ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Language_Delete" class="checkbox" @(Model.Language_Delete ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Language_Audit" class="checkbox" @(Model.Language_Audit ? "checked=\"checked\"" : "") /></td>
+                        </tr>
+                        <tr>
+                            <td>Manage Language Defining</td>
+                            <td><input type="checkbox" id="chk_DefineLanguage_View" class="checkbox" @(Model.DefineLanguage_View ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_DefineLanguage_Add" class="checkbox" @(Model.DefineLanguage_Add ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_DefineLanguage_Edit" class="checkbox" @(Model.DefineLanguage_Edit ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_DefineLanguage_Delete" class="checkbox" @(Model.DefineLanguage_Delete ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_DefineLanguage_Audit" class="checkbox" @(Model.DefineLanguage_Audit ? "checked=\"checked\"" : "") /></td>
+                        </tr>
+                        <tr>
+                            <td>Manage Static Value</td>
+                            <td><input type="checkbox" id="chk_StaticValue_View" class="checkbox" @(Model.StaticValue_View ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_StaticValue_Add" class="checkbox" @(Model.StaticValue_Add ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_StaticValue_Edit" class="checkbox" @(Model.StaticValue_Edit ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_StaticValue_Delete" class="checkbox" @(Model.StaticValue_Delete ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_StaticValue_Audit" class="checkbox" @(Model.StaticValue_Audit ? "checked=\"checked\"" : "") /></td>
+                        </tr>
+                        <tr>
+                            <td>Manage Terms</td>
+                            <td><input type="checkbox" id="chk_Terms_View" class="checkbox" @(Model.Terms_View ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Terms_Add" class="checkbox" @(Model.Terms_Add ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Terms_Edit" class="checkbox" @(Model.Terms_Edit ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Terms_Delete" class="checkbox" @(Model.Terms_Delete ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Terms_Audit" class="checkbox" @(Model.Terms_Audit ? "checked=\"checked\"" : "") /></td>
+                        </tr>
+                        <tr>
+                            <td>Manage Role</td>
+                            <td><input type="checkbox" id="chk_Role_View" class="checkbox" @(Model.Role_View ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Role_Add" class="checkbox" @(Model.Role_Add ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Role_Edit" class="checkbox" @(Model.Role_Edit ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Role_Delete" class="checkbox" @(Model.Role_Delete ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Role_Audit" class="checkbox" @(Model.Role_Audit ? "checked=\"checked\"" : "") /></td>
+                        </tr>
+                        <tr>
+                            <td>Manage Function</td>
+                            <td><input type="checkbox" id="chk_Function_View" class="checkbox" @(Model.Function_View ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Function_Add" class="checkbox" @(Model.Function_Add ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Function_Edit" class="checkbox" @(Model.Function_Edit ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Function_Delete" class="checkbox" @(Model.Function_Delete ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_Function_Audit" class="checkbox" @(Model.Function_Audit ? "checked=\"checked\"" : "") /></td>
+                        </tr>
+                        <tr>
+                            <td>Manage User Registered</td>
+                            <td><input type="checkbox" id="chk_UserRegistered_View" class="checkbox" @(Model.UserRegistered_View ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_UserRegistered_Add" class="checkbox" @(Model.UserRegistered_Add ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_UserRegistered_Edit" class="checkbox" @(Model.UserRegistered_Edit ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_UserRegistered_Delete" class="checkbox" @(Model.UserRegistered_Delete ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_UserRegistered_Audit" class="checkbox" @(Model.UserRegistered_Audit ? "checked=\"checked\"" : "") /></td>
+                        </tr>
+                        <tr>
+                            <td>Manage User Moderate</td>
+                            <td><input type="checkbox" id="chk_UserModerate_View" class="checkbox" @(Model.UserModerate_View ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_UserModerate_Add" class="checkbox" @(Model.UserModerate_Add ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_UserModerate_Edit" class="checkbox" @(Model.UserModerate_Edit ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_UserModerate_Delete" class="checkbox" @(Model.UserModerate_Delete ? "checked=\"checked\"" : "") /></td>
+                            <td><input type="checkbox" id="chk_UserModerate_Audit" class="checkbox" @(Model.UserModerate_Audit ? "checked=\"checked\"" : "") /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2">
+                Only For Moderates
+            </div>
+            <div class="col-lg-1">
+                <input type="checkbox" id="chk_For_Moderate_Users" class="checkbox" @(Model.IsOnlyForModerateUsers ? "checked=\"checked\"" : "") />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2">
+                Is Active?
+            </div>
+            <div class="col-lg-1">
+                <input type="checkbox" id="chk_Is_Active" checked="checked" class="checkbox" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+            </div>
+            <div class="col-lg-3">
+                <input type="button" id="uiSaveRole" value="Submit" class="btn green-meadow" onclick="return Save_Role('');" />
+                <input type="submit" id="uiDeleteRole" value="Delete" class="btn red-mint" onclick="return Save_Role('Y');" />
+                <input type="button" value="Close" class="btn yellow" onclick="closepopup();" />
+            </div>
+        </div>
+    </div>
+}

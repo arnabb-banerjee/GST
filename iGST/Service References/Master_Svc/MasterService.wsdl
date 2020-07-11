@@ -1,0 +1,857 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MasterService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:50495/sMasterService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:50495/sMasterService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:50495/sMasterService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BusinessObjects" />
+      <xsd:import schemaLocation="http://localhost:50495/sMasterService.svc?xsd=xsd3" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMasterService_GetList_Branch_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_Branch" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_Branch_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_BranchResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_Branch_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_Branch" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_Branch_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_BranchResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_Branch_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_Branch" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_Branch_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_BranchResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_Bank_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_Bank" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_Bank_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_BankResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_Bank_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_Bank" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_Bank_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_BankResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_Bank_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_Bank" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_Bank_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_BankResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_BankTransaction_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_BankTransaction" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_BankTransaction_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_BankTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_BankTransaction_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_BankTransaction" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_BankTransaction_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_BankTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_BankTransaction_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_BankTransaction" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_BankTransaction_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_BankTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Upload_BankTransaction_InputMessage">
+    <wsdl:part name="parameters" element="tns:Upload_BankTransaction" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Upload_BankTransaction_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Upload_BankTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_CategoryForDropdown_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_CategoryForDropdown" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_CategoryForDropdown_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_CategoryForDropdownResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_Category_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_Category" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_Category_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_CategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_Category_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_Category" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_Category_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_CategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_Category_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_Category" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_Category_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_CategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Upload_Category_InputMessage">
+    <wsdl:part name="parameters" element="tns:Upload_Category" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Upload_Category_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Upload_CategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_Country_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_Country" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_Country_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_CountryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_State_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_State" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_State_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_StateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_Function_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_Function" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_Function_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_FunctionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_Function_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_Function" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_Function_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_FunctionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_Function_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_Function" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_Function_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_FunctionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_Language_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_Language" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_Language_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_LanguageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_Language_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_Language" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_Language_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_LanguageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_Language_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_Language" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_Language_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_LanguageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_DataValueLanguageWise_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_DataValueLanguageWise" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_DataValueLanguageWise_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_DataValueLanguageWiseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_DataValueLanguageWise_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_DataValueLanguageWise" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_DataValueLanguageWise_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_DataValueLanguageWiseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_LanguageCountry_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_LanguageCountry" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_LanguageCountry_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_LanguageCountryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_LanguageCountry_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_LanguageCountry" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_LanguageCountry_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_LanguageCountryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_LanguageCountry_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_LanguageCountry" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_LanguageCountry_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_LanguageCountryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_ServiceClass_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ServiceClass" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_ServiceClass_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ServiceClassResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_ServiceClass_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_ServiceClass" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_ServiceClass_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_ServiceClassResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_ServiceClass_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_ServiceClass" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_ServiceClass_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_ServiceClassResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_ServiceType_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ServiceType" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_ServiceType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ServiceTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_ServiceType_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_ServiceType" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_ServiceType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_ServiceTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_ServiceType_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_ServiceType" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_ServiceType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_ServiceTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_ServiceUnit_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ServiceUnit" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_ServiceUnit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ServiceUnitResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_ServiceUnit_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_ServiceUnit" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_ServiceUnit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_ServiceUnitResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_ServiceUnit_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_ServiceUnit" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_ServiceUnit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_ServiceUnitResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_Settings_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_Settings" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_Settings_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_SettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_Settings_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_Settings" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_Settings_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_SettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_Settings_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_Settings" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_Settings_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_SettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_StaticValue_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_StaticValue" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_StaticValue_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_StaticValueResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_Terms_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_Terms" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetList_Terms_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_TermsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_Terms_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_Terms" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_GetDetails_Terms_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_TermsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_Terms_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_Terms" />
+  </wsdl:message>
+  <wsdl:message name="IMasterService_Save_Terms_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_TermsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IMasterService">
+    <wsdl:operation name="GetList_Branch">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_Branch" message="tns:IMasterService_GetList_Branch_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_BranchResponse" message="tns:IMasterService_GetList_Branch_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Branch">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetDetails_Branch" message="tns:IMasterService_GetDetails_Branch_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetDetails_BranchResponse" message="tns:IMasterService_GetDetails_Branch_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_Branch">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/Save_Branch" message="tns:IMasterService_Save_Branch_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/Save_BranchResponse" message="tns:IMasterService_Save_Branch_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Bank">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_Bank" message="tns:IMasterService_GetList_Bank_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_BankResponse" message="tns:IMasterService_GetList_Bank_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Bank">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetDetails_Bank" message="tns:IMasterService_GetDetails_Bank_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetDetails_BankResponse" message="tns:IMasterService_GetDetails_Bank_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_Bank">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/Save_Bank" message="tns:IMasterService_Save_Bank_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/Save_BankResponse" message="tns:IMasterService_Save_Bank_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_BankTransaction">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_BankTransaction" message="tns:IMasterService_GetList_BankTransaction_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_BankTransactionResponse" message="tns:IMasterService_GetList_BankTransaction_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_BankTransaction">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetDetails_BankTransaction" message="tns:IMasterService_GetDetails_BankTransaction_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetDetails_BankTransactionResponse" message="tns:IMasterService_GetDetails_BankTransaction_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_BankTransaction">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/Save_BankTransaction" message="tns:IMasterService_Save_BankTransaction_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/Save_BankTransactionResponse" message="tns:IMasterService_Save_BankTransaction_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Upload_BankTransaction">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/Upload_BankTransaction" message="tns:IMasterService_Upload_BankTransaction_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/Upload_BankTransactionResponse" message="tns:IMasterService_Upload_BankTransaction_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_CategoryForDropdown">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_CategoryForDropdown" message="tns:IMasterService_GetList_CategoryForDropdown_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_CategoryForDropdownResponse" message="tns:IMasterService_GetList_CategoryForDropdown_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Category">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_Category" message="tns:IMasterService_GetList_Category_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_CategoryResponse" message="tns:IMasterService_GetList_Category_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Category">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetDetails_Category" message="tns:IMasterService_GetDetails_Category_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetDetails_CategoryResponse" message="tns:IMasterService_GetDetails_Category_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_Category">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/Save_Category" message="tns:IMasterService_Save_Category_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/Save_CategoryResponse" message="tns:IMasterService_Save_Category_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Upload_Category">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/Upload_Category" message="tns:IMasterService_Upload_Category_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/Upload_CategoryResponse" message="tns:IMasterService_Upload_Category_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Country">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_Country" message="tns:IMasterService_GetList_Country_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_CountryResponse" message="tns:IMasterService_GetList_Country_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_State">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_State" message="tns:IMasterService_GetList_State_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_StateResponse" message="tns:IMasterService_GetList_State_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Function">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_Function" message="tns:IMasterService_GetList_Function_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_FunctionResponse" message="tns:IMasterService_GetList_Function_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Function">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetDetails_Function" message="tns:IMasterService_GetDetails_Function_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetDetails_FunctionResponse" message="tns:IMasterService_GetDetails_Function_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_Function">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/Save_Function" message="tns:IMasterService_Save_Function_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/Save_FunctionResponse" message="tns:IMasterService_Save_Function_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Language">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_Language" message="tns:IMasterService_GetList_Language_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_LanguageResponse" message="tns:IMasterService_GetList_Language_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Language">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetDetails_Language" message="tns:IMasterService_GetDetails_Language_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetDetails_LanguageResponse" message="tns:IMasterService_GetDetails_Language_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_Language">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/Save_Language" message="tns:IMasterService_Save_Language_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/Save_LanguageResponse" message="tns:IMasterService_Save_Language_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_DataValueLanguageWise">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_DataValueLanguageWise" message="tns:IMasterService_GetList_DataValueLanguageWise_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_DataValueLanguageWiseResponse" message="tns:IMasterService_GetList_DataValueLanguageWise_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_DataValueLanguageWise">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/Save_DataValueLanguageWise" message="tns:IMasterService_Save_DataValueLanguageWise_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/Save_DataValueLanguageWiseResponse" message="tns:IMasterService_Save_DataValueLanguageWise_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_LanguageCountry">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_LanguageCountry" message="tns:IMasterService_GetList_LanguageCountry_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_LanguageCountryResponse" message="tns:IMasterService_GetList_LanguageCountry_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_LanguageCountry">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetDetails_LanguageCountry" message="tns:IMasterService_GetDetails_LanguageCountry_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetDetails_LanguageCountryResponse" message="tns:IMasterService_GetDetails_LanguageCountry_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_LanguageCountry">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/Save_LanguageCountry" message="tns:IMasterService_Save_LanguageCountry_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/Save_LanguageCountryResponse" message="tns:IMasterService_Save_LanguageCountry_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_ServiceClass">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_ServiceClass" message="tns:IMasterService_GetList_ServiceClass_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_ServiceClassResponse" message="tns:IMasterService_GetList_ServiceClass_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_ServiceClass">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetDetails_ServiceClass" message="tns:IMasterService_GetDetails_ServiceClass_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetDetails_ServiceClassResponse" message="tns:IMasterService_GetDetails_ServiceClass_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_ServiceClass">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/Save_ServiceClass" message="tns:IMasterService_Save_ServiceClass_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/Save_ServiceClassResponse" message="tns:IMasterService_Save_ServiceClass_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_ServiceType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_ServiceType" message="tns:IMasterService_GetList_ServiceType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_ServiceTypeResponse" message="tns:IMasterService_GetList_ServiceType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_ServiceType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetDetails_ServiceType" message="tns:IMasterService_GetDetails_ServiceType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetDetails_ServiceTypeResponse" message="tns:IMasterService_GetDetails_ServiceType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_ServiceType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/Save_ServiceType" message="tns:IMasterService_Save_ServiceType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/Save_ServiceTypeResponse" message="tns:IMasterService_Save_ServiceType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_ServiceUnit">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_ServiceUnit" message="tns:IMasterService_GetList_ServiceUnit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_ServiceUnitResponse" message="tns:IMasterService_GetList_ServiceUnit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_ServiceUnit">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetDetails_ServiceUnit" message="tns:IMasterService_GetDetails_ServiceUnit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetDetails_ServiceUnitResponse" message="tns:IMasterService_GetDetails_ServiceUnit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_ServiceUnit">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/Save_ServiceUnit" message="tns:IMasterService_Save_ServiceUnit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/Save_ServiceUnitResponse" message="tns:IMasterService_Save_ServiceUnit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Settings">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_Settings" message="tns:IMasterService_GetList_Settings_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_SettingsResponse" message="tns:IMasterService_GetList_Settings_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Settings">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetDetails_Settings" message="tns:IMasterService_GetDetails_Settings_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetDetails_SettingsResponse" message="tns:IMasterService_GetDetails_Settings_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_Settings">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/Save_Settings" message="tns:IMasterService_Save_Settings_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/Save_SettingsResponse" message="tns:IMasterService_Save_Settings_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_StaticValue">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_StaticValue" message="tns:IMasterService_GetList_StaticValue_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_StaticValueResponse" message="tns:IMasterService_GetList_StaticValue_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Terms">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetList_Terms" message="tns:IMasterService_GetList_Terms_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetList_TermsResponse" message="tns:IMasterService_GetList_Terms_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Terms">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/GetDetails_Terms" message="tns:IMasterService_GetDetails_Terms_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/GetDetails_TermsResponse" message="tns:IMasterService_GetDetails_Terms_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_Terms">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMasterService/Save_Terms" message="tns:IMasterService_Save_Terms_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMasterService/Save_TermsResponse" message="tns:IMasterService_Save_Terms_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="iGST_Svc.MasterService_Binding_IMasterService" type="tns:IMasterService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetList_Branch">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_Branch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Branch">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetDetails_Branch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_Branch">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/Save_Branch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Bank">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_Bank" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Bank">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetDetails_Bank" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_Bank">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/Save_Bank" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_BankTransaction">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_BankTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_BankTransaction">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetDetails_BankTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_BankTransaction">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/Save_BankTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Upload_BankTransaction">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/Upload_BankTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_CategoryForDropdown">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_CategoryForDropdown" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Category">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_Category" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Category">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetDetails_Category" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_Category">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/Save_Category" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Upload_Category">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/Upload_Category" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Country">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_Country" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_State">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_State" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Function">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_Function" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Function">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetDetails_Function" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_Function">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/Save_Function" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Language">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_Language" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Language">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetDetails_Language" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_Language">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/Save_Language" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_DataValueLanguageWise">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_DataValueLanguageWise" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_DataValueLanguageWise">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/Save_DataValueLanguageWise" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_LanguageCountry">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_LanguageCountry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_LanguageCountry">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetDetails_LanguageCountry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_LanguageCountry">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/Save_LanguageCountry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_ServiceClass">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_ServiceClass" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_ServiceClass">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetDetails_ServiceClass" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_ServiceClass">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/Save_ServiceClass" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_ServiceType">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_ServiceType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_ServiceType">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetDetails_ServiceType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_ServiceType">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/Save_ServiceType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_ServiceUnit">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_ServiceUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_ServiceUnit">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetDetails_ServiceUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_ServiceUnit">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/Save_ServiceUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Settings">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_Settings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Settings">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetDetails_Settings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_Settings">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/Save_Settings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_StaticValue">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_StaticValue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Terms">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetList_Terms" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Terms">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/GetDetails_Terms" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_Terms">
+      <soap:operation soapAction="http://tempuri.org/IMasterService/Save_Terms" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MasterService">
+    <wsdl:port name="iGST_Svc.MasterService_Binding_IMasterService" binding="tns:iGST_Svc.MasterService_Binding_IMasterService">
+      <soap:address location="http://localhost:50495/sMasterService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

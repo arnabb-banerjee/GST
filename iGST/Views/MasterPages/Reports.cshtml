@@ -1,0 +1,190 @@
+﻿@{
+    ViewBag.Title = "Bill list";
+}
+
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+@section Styles
+{
+    @Styles.Render("~/assets/global/plugins/datatables/datatables.min.css")
+    @Styles.Render("~/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css")
+
+    @Styles.Render("~/assets/global/plugins/bootstrap-select/css/bootstrap-select.css")
+    @Styles.Render("~/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css")
+    <style type="text/css">
+        .row-bottom-5px {
+            margin-bottom: 5px;
+        }
+    </style>
+}
+<!-- END PAGE LEVEL PLUGINS -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+<script type="text/javascript">
+</script>
+
+<!-- /.modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog modal-full">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="closepopup();" aria-hidden="true"></button>
+                <h4 class="modal-title">Modal Title</h4>
+            </div>
+            <div class="modal-body" id="content_Bill_Details"> </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!-- BEGIN PAGE HEAD-->
+<div class="page-head">
+    <!-- BEGIN PAGE TITLE -->
+    <div class="page-title">
+        <h1>
+            Reports
+            <small>Report</small>
+        </h1>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- BEGIN PAGE TOOLBAR -->
+    <div class="page-toolbar">
+        <!-- BEGIN THEME PANEL -->
+        <div class="btn-group btn-group-devided" data-toggle="buttons">
+            <a class="btn red btn-outline btn-circle" href="javascript:;" data-toggle="dropdown">
+                <i class="fa fa-share"></i>
+                <span class="hidden-xs"> Export </span>
+                <i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="dropdown-menu pull-right" id="sample_3_tools">
+                <li>
+                    <a href="javascript:;" data-action="0" class="tool-action" id="btnPrint">
+                        <i class="icon-printer"></i> Print
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-action="2" class="tool-action" id="btnPdf">
+                        <i class="icon-doc"></i> PDF
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-action="3" class="tool-action" id="btnExcel">
+                        <i class="icon-paper-clip"></i> Excel
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="btn-group" style="width:50px;">
+            &nbsp;
+        </div>
+        <!-- END THEME PANEL -->
+    </div>
+    <!-- END PAGE TOOLBAR -->
+</div>
+<!-- END PAGE HEAD-->
+<div class="row">
+    <div class="col-md-12">
+        <!-- Begin: life time stats -->
+        @*<div class="portlet light portlet-fit portlet-datatable bordered">*@
+        <div class="portlet-body">
+            <div class="table-container">
+                @if (ViewBag.ReportType != null)
+                {
+                    if (ViewBag.ReportType == "E" && ViewBag.ReportData != null)
+                    {
+                        List<BusinessObjects.InvoiceInfo> list = (List<BusinessObjects.InvoiceInfo>)ViewBag.ReportData;
+
+                        <table class="table table-bordered table-hover" id="sample_3">
+                            <thead>
+                                <tr>
+                                    <th>Organisatio</th>
+                                    <th>Date</th>
+                                    <th>Total Amount (Excl. Tax)</th>
+                                    <th>Total Amount (Incl. Tax)</th>
+                                    <th>Total Tax</th>
+                                    <th>Supplier</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (BusinessObjects.InvoiceInfo obj in list)
+                                {
+                                    <tr>
+                                        <td>@obj.OrganizationName</td>
+                                        <td>@obj.InvoiceDate</td>
+                                        <td>@obj.AmountExcludeTax</td>
+                                        <td>@obj.AmountIncludeTax</td>
+                                        <td>@obj.TaxOnProduct</td>
+                                        <td>@obj.CustomerName</td>
+                                        <td>@(obj.IsCancelled ? "Cancelled" : (obj.IsReturned ? "Returned" : "Paid"))</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else if (ViewBag.ReportType == "S" && ViewBag.ReportData != null)
+                    {
+                        List<BusinessObjects.InvoiceInfo> list = (List<BusinessObjects.InvoiceInfo>)ViewBag.ReportData;
+
+                        <table class="table table-bordered table-hover" id="sample_3">
+                            <thead>
+                                <tr>
+                                    <th>Organisation</th>
+                                    <th>Date</th>
+                                    <th>Total Amount (Excl. Tax)</th>
+                                    <th>Total Amount (Incl. Tax)</th>
+                                    <th>Total Tax</th>
+                                    <th>Customer</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (BusinessObjects.InvoiceInfo obj in list)
+                                {
+                                    <tr>
+                                        <td>@obj.OrganizationName</td>
+                                        <td>@obj.InvoiceDate</td>
+                                        <td>@obj.AmountExcludeTax</td>
+                                        <td>@obj.AmountIncludeTax</td>
+                                        <td>@obj.TaxOnProduct</td>
+                                        <td>@obj.CustomerName</td>
+                                        <td>@(obj.IsCancelled ? "Cancelled" : (obj.IsReturned ? "Returned" : "Paid"))</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                }
+                else
+                {
+                    <div class="col-md-6">
+                        No data to be previewed
+                    </div>
+                }
+            </div>
+        </div>
+        @*</div>*@
+        <!-- End: life time stats -->
+    </div>
+</div>
+
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+@section Scripts1
+{
+    @Scripts.Render("~/assets/global/scripts/datatable.js")
+    @Scripts.Render("~/assets/global/plugins/datatables/datatables.min.js")
+    @Scripts.Render("~/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js")
+
+    @Scripts.Render("~/assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js")
+    @Scripts.Render("~/assets/global/plugins/moment.min.js")
+    @Scripts.Render("~/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js")
+}
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+@section Scripts2
+{
+    @Scripts.Render("~/assets/pages/scripts/table-datatables-buttons.min.js")
+    @Scripts.Render("~/assets/pages/scripts/components-bootstrap-select.min.js")
+    @Scripts.Render("~/assets/pages/scripts/components-date-time-pickers.min.js")
+}
+<!--END PAGE LEVEL SCRIPTS-->

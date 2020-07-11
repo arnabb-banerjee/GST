@@ -1,0 +1,916 @@
+﻿@model BusinessObjects.InvoiceInfo
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        // Added on 29/11/2019
+        $(function () {
+            $(".date-picker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+0", // You can set the year range as per as your need
+                dateFormat: 'dd/mm/yy'
+            });
+        });
+
+        $('.decimal').keypress(function (e) {
+            var character = String.fromCharCode(e.keyCode)
+            var newValue = this.value + character;
+            if (isNaN(newValue) || hasDecimalPlace(newValue, 3)) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        function hasDecimalPlace(value, x) {
+            var pointIndex = value.indexOf('.');
+            return pointIndex >= 0 && pointIndex < value.length - x;
+        }
+
+        // Format date in dd/mm/yyyy
+        function formatDateToDDMMYYYY(date) {
+            var parts = date.split("-");
+            return new Date(parts[2], parts[1] - 1, parts[0]);
+        }
+
+        // End: Added on 29/11/2019
+
+        $("#addButton").click(function () {
+            var rowcount = 0;
+            var tr = null;
+            var tbody = $(this).closest("tbody");
+
+            $(this).closest("tr").clone(true).appendTo("#sample_3").find('input[type=text]').each(function () { $(this).val(''); });
+
+            tbody.find('tr').each(function () {
+                $(this).find("a[id^='deleteButton']").show();
+                $(this).find("a[id^='addButton']").hide();
+                tr = $(this);
+                rowcount++;
+            });
+
+            if (rowcount < 2) {
+                tr.find("a[id^='deleteButton']").hide();
+            }
+
+            tr.find("a[id^='addButton']").show();
+        });
+
+        $("#deleteButton").click(function () {
+
+            var rowcount = 0;
+            var tr = null;
+            var tbody = $(this).closest("tbody");
+
+            $(this).closest("tr").remove();
+
+            tbody.find('tr').each(function () {
+                $(this).find("a[id^='deleteButton']").show();
+                $(this).find("a[id^='addButton']").hide();
+                tr = $(this);
+                rowcount++;
+            });
+
+            if (rowcount < 2) {
+                tr.find("a[id^='deleteButton']").hide();
+            }
+
+            tr.find("a[id^='addButton']").show();
+        });
+
+        // Added for Travel Expense
+        $("#addTravelButton").click(function () {
+            var rowcount = 0;
+            var tr = null;
+            var tbody = $(this).closest("tbody");
+
+            $(this).closest("tr").clone(true).appendTo("#sample_4").find('input[type=text]').each(function () { $(this).val(''); });
+
+            tbody.find('tr').each(function () {
+                $(this).find("a[id^='deleteTravelButton']").show();
+                $(this).find("a[id^='addTravelButton']").hide();
+                tr = $(this);
+                rowcount++;
+            });
+
+            if (rowcount < 2) {
+                tr.find("a[id^='deleteTravelButton']").hide();
+            }
+
+            tr.find("a[id^='addTravelButton']").show();
+        });
+
+        $("#deleteTravelButton").click(function () {
+
+            var rowcount = 0;
+            var tr = null;
+            var tbody = $(this).closest("tbody");
+
+            $(this).closest("tr").remove();
+
+            tbody.find('tr').each(function () {
+                $(this).find("a[id^='deleteTravelButton']").show();
+                $(this).find("a[id^='addButton']").hide();
+                tr = $(this);
+                rowcount++;
+            });
+
+            if (rowcount < 2) {
+                tr.find("a[id^='deleteTravelButton']").hide();
+            }
+
+            tr.find("a[id^='addTravelButton']").show();
+        });
+        // End: Added for Travel Expense
+
+        $("#ddlCountry_Basic").change(function () {
+            BindState($("#ddlState_Basic"), $(this).val(), $("#hdnStateId").val());
+        });
+
+        //BindTerms();
+        BindCountry($("#ddlCountry_Basic"), $("#hdnCusCountry").val(), $("#ddlState_Basic"), $("#hdnStateId").val());
+        //BindCustomer($("#ddlCustomer"), $("#hdnCusID").val());
+        //BindExpenseCategory("Y", document.getElementById("ddlState_Basic"), document.getElementById("uiOrganisationName"));
+        BindProduct(document.getElementById("uiOrganisationName"),
+                    document.getElementById("ddlCustomer"),
+                    document.getElementById("txtExpenceDate"),
+                    document.getElementById("txtCusAddress"),
+                    document.getElementById("ddlCountry_Basic"),
+                    document.getElementById("ddlState_Basic"),
+                    document.getElementById("txtCusCity"));
+
+        //if (document.getElementById("uiOrganisationName") != null && document.getElementById("uiOrganisationName") != undefined) {
+        //    BindOrganization($("#uiOrganisationName"), $("#hdnOrganizationCode").val());
+        //}
+
+        //$("input[name=text_Quantity]").each(function () {
+        //    $(this).keydown(function (e) { FilterKeys("money", e, $(this)); });
+        //    $(this).keyup(function (e) { GetTotal($(this)); });
+        //});
+
+        $("#tbl_breakeup_body1 input").each(function () {
+            switch ($(this).attr("name")) {
+                case "text_Quantity":
+                    $(this).keydown(function (e) { FilterKeys("money", e, $(this)); });
+                    $(this).keyup(function (e) { GetTotal($(this)); });
+                    break;
+                case "text_Price":
+                    $(this).keydown(function (e) { FilterKeys("money", e, $(this)); });
+                    $(this).keyup(function (e) { GetTotal($(this)); });
+                    break;
+                case "text_Total":
+                    $(this).keydown(function (e) { FilterKeys("money", e, $(this)); });
+                    $(this).keyup(function (e) { return false; });
+                    $(this).keypress(function (e) { return false; });
+                    break;
+                case "text_Tax":
+                    $(this).keydown(function (e) { FilterKeys("money", e, $(this)); });
+                    $(this).keyup(function (e) { GetTotal($(this)); });
+                    break;
+                case "text_Total_Tax":
+                    $(this).keyup(function (e) { return false; });
+                    $(this).keypress(function (e) { return false; });
+                    //$(this).keydown(function (e) {
+                    //    if (e.keyCode == 9) {
+                    //        var rowcount = 0;
+                    //        var tr = null;
+                    //        var tbody = $(this).closest("tbody");
+
+                    //        $(this).closest("tr").clone(true).appendTo("#sample_3").find('input[type=text]').each(function () { $(this).val(''); });
+
+                    //        tbody.find('tr').each(function () {
+                    //            $(this).find("a[id^='deleteButton']").show();
+                    //            $(this).find("a[id^='addButton']").hide();
+                    //            tr = $(this);
+                    //            rowcount++;
+                    //        });
+
+                    //        if (rowcount < 2) {
+                    //            tr.find("a[id^='deleteButton']").hide();
+                    //        }
+
+                    //        tr.find("a[id^='addButton']").show();
+
+                    //    } else { return false; }
+                    //});
+
+                    break;
+            }
+        });
+
+
+        //$("#text_PaidAmount").keydown(function (e) { FilterKeys("money", e, $(this)); });
+        //$("#text_PaidAmount").keyup(function (e) { finddueAmount(); });
+        //$("#text_DueAmount").keydown(function (e) { FilterKeys("money", e, $(this)); });
+        $("#text_ConversionRate").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+        $("#text_ConversionRate").keyup(function (e) { PriceConversion(); });
+        $("#text_Total_Tax_Total").keypress(function (e) { return false; });
+        $("#text_Total_Tax_Total").keyup(function (e) { return false; });
+
+        //$("#text_DueAmount").keydown(function (e) { return false; });
+        //$("#text_DueAmount").keyup(function (e) { return false; });
+        //$("#text_Total_Tax_Total").keydown(function (e) { return false; });
+        //$("#text_Total_Tax_Total").keyup(function (e) { return false; });
+
+        //$("select[name=ddlProductList]").each(function () {
+        //    $(this).change(function () {
+        //        /*alert($(this).val());*/
+        //        GetGst($(this), document.getElementById("ddlState_Basic").value, document.getElementById("uiOrganisationName").value);
+        //    });
+        //});
+
+        //$("#ddlState_Basic").change(function () {
+        //    $("select[name=ddlProductList]").each(function () {
+        //        GetGst($(this), document.getElementById("ddlState_Basic").value, document.getElementById("uiOrganisationName").value);
+        //    });
+        //});
+
+
+        //$("#uiOrganisationName").change(function () {
+        //    $("select[name=ddlProductList]").each(function () {
+        //        GetGst($(this), document.getElementById("ddlState_Basic").value, document.getElementById("uiOrganisationName").value);
+        //    });
+        //});
+    });
+
+    function Save_Bill(isDelete) {
+
+        if ($("#txtExpenceDate").val() == "") {
+            alert("Date selection is mandatory");
+            $("#txtExpenceDate").focus();
+            return false;
+        }
+
+        if (document.getElementById("uiOrganisationName") != null && document.getElementById("uiOrganisationName") != undefined && $.trim($("#uiOrganisationName").val()).length == 0) {
+            $("#uiOrganisationName").prop("selectedIndex", "");
+            alert("If you are not our [Business User] then please select one Organization from the list");
+            $("#uiOrganisationName").focus();
+            return false;
+        }
+        else if ($("#ddlCustomer") != null && $("#ddlCustomer") != undefined && $.trim($("#ddlCustomer").val()).length == 0) {
+            $("#ddlCustomer").prop("selectedIndex", "");
+            alert("Customer should be selected");
+            $("#ddlCustomer").focus();
+            return false;
+        }
+        else if ($("#txtCusAddress") != null && $("#txtCusAddress") != undefined && $.trim($("#txtCusAddress").val()).length == 0) {
+            $("#txtCusAddress").val("");
+            alert("Shipping address should be specified");
+            $("#txtCusAddress").focus();
+            return false;
+        }
+        else if ($("#txtCusCity") != null && $("#txtCusCity") != undefined && $.trim($("#txtCusCity").val()).length == 0) {
+            $("#txtCusCity").val("");
+            alert("City name should be specified");
+            $("#txtCusCity").focus();
+            return false;
+        }
+        else if ($("#ddlCountry_Basic") != null && $("#ddlCountry_Basic") != undefined && $.trim($("#ddlCountry_Basic").val()).length == 0) {
+            $("#ddlCountry_Basic").prop("selectedIndex", "");
+            alert("Country should be selected");
+            $("#ddlCountry_Basic").focus();
+            return false;
+        }
+        else if ($("#ddlState_Basic") != null && $("#ddlState_Basic") != undefined && $.trim($("#ddlState_Basic").val()).length == 0) {
+            $("#ddlState_Basic").prop("selectedIndex", "");
+            alert("Please select state in the shipping details.");
+            $("#ddlState_Basic").focus();
+            return false;
+        }
+
+        var xmlstring = "";
+        var XMLExpenseData = '';
+        var noofbreakup = 0;
+        var numberofitem = 0;
+        var isValid = false;
+        var errorFound = false;
+
+        /*
+        <row>
+				<col pid="" price="" qty="", totalamout = "", tax="" />
+			</row>
+        */
+
+        $("[name*=ddlProductList]").each(function () {
+            if (!errorFound) {
+                if ($(this).val().length == 0) {
+                    alert("Please select a product/service.");
+                    text_Quantity.focus();
+                    errorFound = true;
+                }
+                else {
+
+                    var tr = $(this).closest("tr");
+                    var BreakupNeed = "";
+
+                    var tr = $(this).closest("tr");
+                    var text_Quantity = tr.find("input[name^='text_Quantity']").val();
+                    var text_Price = tr.find("input[name^='text_Price']").val();
+                    var text_Total = tr.find("input[name^='text_Total']").val();
+                    var text_Tax = tr.find("input[name^='text_Tax']").val();
+                    var text_Total_Tax = tr.find("input[name^='text_Total_Tax']").val();
+                    //var BreakupNeed = tr.find("input[name^='chkBreakupNeed']");
+
+                    if (!$.isNumeric(text_Quantity)) {
+                        alert("Please enter quantity details.");
+                        tr.find("input[name^='text_Quantity']").focus();
+                        errorFound = true;
+                        return false;
+                    }
+                    else if (!$.isNumeric(text_Price)) {
+                        alert("Please enter price for the selected product.");
+                        tr.find("input[name^='text_Price']").focus();
+                        errorFound = true;
+                        return false;
+                    }
+                    else if (!$.isNumeric(text_Total)) {
+                        alert("Total should not be empty");
+                        tr.find("input[name^='text_Total']").focus();
+                        errorFound = true;
+                        return false;
+                    }
+                    else if (!$.isNumeric(text_Tax)) {
+                        alert("Tax should not be empty");
+                        tr.find("input[name^='text_Tax']").focus();
+                        errorFound = true;
+                        return false;
+                    }
+                    else if (!$.isNumeric(text_Total_Tax)) {
+                        alert("Total (incl. Tax) should not be empty");
+                        tr.find("input[name^='text_Total_Tax']").focus();
+                        errorFound = true;
+                        return false;
+                    }
+                    else {
+                        xmlstring += '[row]';
+                        xmlstring += '  [col ';
+                        xmlstring += '      pid="' + $(this).val() + '"  ';
+                        xmlstring += '      qty="' + text_Quantity + '" ';
+                        xmlstring += '      price="' + text_Price + '" ';
+                        xmlstring += '      total="' + text_Total + '" ';
+                        xmlstring += '      tax="' + text_Tax + '" ';
+                        xmlstring += '      AmtInclTax="' + text_Total_Tax + '" ';
+                        xmlstring += '      isBreakupNeed="' + (tr.find("input[id^='chkBreakupNeed']").prop('checked') ? "Y" : "") + '" ';
+                        xmlstring += '  /] ';
+                        xmlstring += '[/row]';
+
+                        if (tr.find("input[id^='chkBreakupNeed']").prop('checked')) {
+                            $("[name*=text_FromDate]").each(function () {
+                                var tr = $(this).closest("tr");
+                                XMLExpenseData += '[row]';
+                                XMLExpenseData += '  [col ';
+                                XMLExpenseData += '      invoiceproductid="" ';
+                                XMLExpenseData += '      fromdt="' + $(this).val() + '"  ';
+                                XMLExpenseData += '      todt="' + tr.find("input[name^='text_ToDate']").val() + '" ';
+                                XMLExpenseData += '      distance="' + tr.find("input[name^='text_Distance']").val() + '" ';
+                                XMLExpenseData += '      price="' + tr.find("input[name^='text_Price']").val() + '" ';
+                                XMLExpenseData += '      remarks="' + tr.find("input[name^='text_Remarks']").val() + '" ';
+                                XMLExpenseData += '  /] ';
+                                XMLExpenseData += '[/row]';
+
+                                noofbreakup = Number(noofbreakup) + 1;
+                            });
+                        }
+
+                        numberofitem = Number(numberofitem) + 1;
+                    }
+                }
+            }
+        });
+
+        if (numberofitem == 0) {
+            alert("At least one item is mandatory for Invoice details");
+            isValid = false;
+            return false;
+        }
+
+        if (!errorFound) { isValid = true; }
+
+        if (isValid) {
+
+            var dataarray = {
+                "isOnlyDelete": isDelete
+                , "OrganizationCode": $("#uiOrganisationName").val()
+                , "BillId": $("#hdnInvoiceID").val()
+                , "CusID": $("#ddlCustomer").val()
+                , "BranchID": $("#hdnBranchID").val()
+                , "BillDate": $("#txtExpenceDate").val()
+                , "DueDate": ""
+                , "ShipAddress": $("#txtCusAddress").val()
+                , "ShipCity": $("#txtCusCity").val()
+                , "ShipCountry": $("#ddlCountry_Basic").val()
+                , "ShipState": $("#ddlState_Basic").val()
+                , "xmlstring": xmlstring
+                , "XMLExpenseData": XMLExpenseData // Added for Expense to create the xml
+                , "ChangedCurrency": $("#ddlCurrency").val()
+                , "ConversionRate": $("#text_ConversionRate").val()
+                , "PrevConversionRate": $("#hidden_ConversionRate").val()
+                , "IsReturned": ($("#chkIsReturned").prop('checked') ? "Y" : "")
+                , "Iscancelled": ($("#chkIsCancelled").prop('checked') ? "Y" : "")
+                , "PaidAmount": $("#text_Total_Tax_Total").val()
+                , "DueAmount": ""
+                , "SumAmount": $("#text_Total_Tax_Total").val()
+            }
+
+            //url: "/saveexpense",
+            //Modified on [19th Juy 2019] by [Partha] cause [no resoure found after save] - Start
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.RouteUrl("saveexpense"))",
+                data: dataarray,
+                success: function (data) {
+                    if (data == "Ok") {
+                        if (isDelete == "Y") {
+                            alert("Data deleted");
+                        } else {
+                            alert("Data updated");
+                        }
+
+                        MakeAllControlsBlank();
+                        CloseParentPopup();
+                    }
+                    else {
+                        alert(data);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+
+                }
+            });
+        }
+    }
+
+    function PriceConversion() {
+        var previousconversionrate = $("#hidden_ConversionRate").val().trim() == "" ? 1 : Number($("#hidden_ConversionRate").val());
+        var conversionrate = $("#text_ConversionRate").val().trim() == "" ? 1 : Number($("#text_ConversionRate").val());
+
+        $("input[name=text_Price]").each(function () {
+            var newval = (($(this).val().trim() == "" ? 0 : Number($(this).val())) / previousconversionrate) * conversionrate;
+
+            $(this).val(newval);
+
+            GetTotal($(this));
+        });
+
+        //var newpaidamount = ($("#text_PaidAmount").val() == "" ? 0 : Number($("#text_PaidAmount").val())) * conversionrate;
+
+        //$("#text_PaidAmount").val(newpaidamount.toFixed(2));
+
+        //finddueAmount();
+
+        $("#hidden_ConversionRate").val(conversionrate.toFixed(2));
+    }
+
+    function GetTotal(obj) {
+
+        obj.closest("tr").find("input[name=text_Total]").each(function () {
+            var price = 0;
+            var qty = 0;
+            var tax = 0;
+
+            $(this).closest("tr").find("input[name=text_Price]").each(function () { price = Number($(this).val() == "" ? 0 : $(this).val()); });
+            $(this).closest("tr").find("input[name=text_Quantity]").each(function () { qty = Number($(this).val() == "" ? 1 : $(this).val()); });
+
+            $(this).closest("tr").find("input[name=text_Tax]").each(function () { tax = Number($(this).val() == "" ? 0 : $(this).val()); });
+
+            $(this).val((price * qty).toFixed(2));
+
+            $(this).closest("tr").find("input[name=text_Total_Tax]").each(function () { $(this).val(((price * qty) + Number(tax)).toFixed(2)); });
+        });
+
+        var sum = 0;
+
+        obj.closest("tbody").find("input[name=text_Total_Tax]").each(function () {
+            sum = sum + ($(this).val() == "" ? 0 : Number($(this).val()));
+        });
+
+        obj.closest("table").find("input[id=text_Total_Tax_Total]").each(function () {
+            $(this).val(sum);
+        });
+
+    }
+
+    function Breakup_visibility(obj) {
+        if (obj.checked) {
+            $("#tbl_breakeup").show();
+        }
+        else {
+            $("#tbl_breakeup").hide();
+        }
+    }
+
+</script>
+
+<div class="portlet-body form">
+    <div class="form-body">
+        <input type="hidden" id="hdnOrganizationCode" value="@Model.OrganizationCode" />
+        <input type="hidden" id="hdnExpenceID" value="@Model.InvoiceID" />
+        <input type="hidden" id="hdnStateId" value="@Model.ShipState" />
+        <input type="hidden" id="hdnCusCountry" value="@Model.ShipCountry" />
+        <input type="hidden" id="hdnInvoiceID" value="@Model.InvoiceID" />
+        <input type="hidden" id="hdnBranchID" value="@Model.BranchID" />
+        <input type="hidden" id="hdnCurrency" value="@Model.ChangedCurrency" />
+        <input type="hidden" id="hdnCusID" value="@Model.CusID" />
+
+        <div class="row">
+            <div class="col-lg-9" style="border-right:solid 1px #83767c;">
+                @if (Session["UserDetails"] != null && "MA".Contains(((BusinessObjects.UserInfo)Session["UserDetails"]).UserType.ToString().Trim().ToUpper()))
+                {
+                    <div class="row row-bottom-5px">
+                        <div class="col-lg-1 col-md-1 col-sm-1">
+                            Organizations
+                        </div>
+                        <div class="col-lg-5">
+                            <select id="uiOrganisationName" class="bs-select form-control" data-live-search="true" data-size="8">@Html.Raw(HttpUtility.HtmlDecode(ViewBag.Organizations))</select>
+                        </div>
+                    </div>
+                }
+
+                <div class="row row-bottom-5px">
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        Supplier
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5">
+                        <select id="ddlCustomer" class="bs-select form-control">
+                            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Customers))
+                        </select>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        Date
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5">
+                        <div class="form-group">
+                            <input type="datetime" id="txtExpenceDate" value="@Model.InvoiceDate" autocomplete="off" class="form-control date-picker" style="width:80%; float:left;" onkeydown="return createnewrow(event);" />
+                            @*<i class="fa fa-calendar" style="float:left;font-size:28px;"></i>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-bottom-5px">
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        Ship to
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-5">
+                        <input type="text" id="txtCusAddress" value="@Model.ShipAddress" class="form-control" placeholder="Address" />
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        City
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-5">
+                        <input type="text" id="txtCusCity" value="@Model.ShipCity" class="form-control" />
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        Country
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-5">
+                        <select id="ddlCountry_Basic" class="bs-select form-control" data-live-search="true" data-size="8"></select><div class="form-control-focus"> </div>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        Sate
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-5">
+                        <select id="ddlState_Basic" class="bs-select form-control" data-live-search="true" data-size="8"></select><div class="form-control-focus"> </div>
+                    </div>
+                </div>
+                <div class="row row-bottom-5px">
+                    <div class="col-lg-12">
+                        <table class="table table-striped table-bordered table-hover" id="sample_3">
+                            <thead>
+                                <tr>
+                                    <td><b>Total</b></td>
+                                    <td><input type="text" id="text_Total_Tax_Total" class="form-control" value="@Model.SumAmount" /></td>
+                                    <td>&nbsp;</td>
+                                    <td colspan="2">
+                                        @*<div class="mt-checkbox-inline">
+                                                <label class="mt-checkbox">
+                                                    Need to add breakup?&nbsp;&nbsp;<input type="checkbox" id="chkIsCancelled" onclick="Breakup_visibility(this);" class="checkbox" @(!Model.IsCancelled ? "" : "checked=checked") />
+                                                    <span></span>
+                                                </label>
+                                            </div>*@
+                                    </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th colspan="5">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <thead id="tbl_breakeup_head1">
+                                <tr>
+                                    <th>Items</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                    <th>Tax</th>
+                                    <th>Total incld. Tax</th>
+                                    @*<th colspan="2">Add/ Delete</th>*@
+                                </tr>
+                            </thead>
+                            <tbody id="tbl_breakeup_body1">
+                                @if (Model != null && Model.InvoiceProductList != null && Model.InvoiceProductList.Count > 0)
+                                {
+                                    for (int icount = 0; icount < Model.InvoiceProductList.Count(); icount++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <select name="ddlProductList" class="bs-select form-control"></select>
+                                                <input name="hdnProductId" value="@Model.InvoiceProductList[icount].ProductId" type="hidden" />
+                                            </td>
+                                            <td><input type="text" name="text_Quantity" class="form-control" value="@Model.InvoiceProductList[icount].Quantity" /></td>
+                                            <td><input type="text" name="text_Price" class="form-control" value="@Model.InvoiceProductList[icount].PricePerUnit" /></td>
+                                            <td><input type="text" name="text_Total" class="form-control" value="@Model.InvoiceProductList[icount].TotalAmount" /></td>
+                                            <td><input type="text" name="text_Tax" class="form-control" value="@Model.InvoiceProductList[icount].TaxOnProduct" /></td>
+                                            <td><input type="text" name="text_Total_Tax" class="form-control" value="@Model.InvoiceProductList[icount].TotalAmountIncludeTax" />
+                                                @*<input type="hidden" id="hBreakupNeed" name="hBreakupNeed" />*@
+                                            </td>
+                                            
+                                                @*<td><a id="addButton" style="vertical-align:middle;text-align:center;"><i class="fa fa-plus-square fa-lg" style="font-size:28px;vertical-align:middle;text-align:center;"></i></a></td>
+                                                <td><a id="deleteButton" style="vertical-align:middle;text-align:center;display:none;"><i class="fa fa-trash-o fa-lg" style="color:red;font-size:28px;vertical-align:middle;text-align:center;"></i></a></td>*@
+                                            <td class="mt-checkbox-inline">
+                                                <label class="mt-checkbox">
+                                                    Need to add breakup?&nbsp;&nbsp;<input type="checkbox" id="chkBreakupNeed" onclick="Breakup_visibility(this);" class="checkbox" @(!Model.IsCancelled ? "" : "checked=checked") />
+                                                    <span></span>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <!-- Start: Added on 15/10/2019. When expenses occured for travelling -->
+                                        <tr @(Model.InvoiceProductList[icount].isBreakupNeed == false ? "style=\"display: none; \"" :"")>
+                                            <td id="tbl_breakeup" colspan="7">
+                                                <table class="table table-striped table-bordered table-hover" id="sample_4">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>From Date</th>
+                                                            <th>To Date</th>
+                                                            <th>Distance</th>
+                                                            <th>Price</th>
+                                                            <th>Remarks</th>
+                                                            <th colspan="2">Add/ Delete</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model != null && Model.ExpenseBreakupList != null && Model.ExpenseBreakupList.Count > 0)
+                                                        {
+                                                            for (int jcount = 0; jcount < Model.ExpenseBreakupList.Count(); jcount++)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        <input name="hdnBreakupId" value="@Model.ExpenseBreakupList[jcount].BreakupId" type="hidden" />
+                                                                        <input type="text" name="text_FromDate" class="form-control" value="@Model.ExpenseBreakupList[jcount].FromDate.ToString("dd/MM/yyy")" />
+                                                                    </td>
+                                                                    <td><input type="text" name="text_ToDate" class="form-control" value="@Model.ExpenseBreakupList[jcount].Todate.ToString("dd/MM/yyy")" /></td>
+                                                                    <td><input type="text" name="text_Distance" class="form-control" value="@Model.ExpenseBreakupList[jcount].Description" /></td>
+                                                                    <td><input type="text" name="text_Price" class="form-control" value="@String.Format("#.00", @Model.ExpenseBreakupList[jcount].Price)" /></td>
+                                                                    <td><input type="text" name="text_Remarks" class="form-control" value="@Model.ExpenseBreakupList[jcount].Remarks" /></td>
+                                                                    <td><a id="addTravelButton" style="vertical-align:middle;text-align:center;"><i class="fa fa-plus-square fa-lg" style="font-size:28px;vertical-align:middle;text-align:center;"></i></a></td>
+                                                                    <td><a id="deleteTravelButton" style="vertical-align:middle;text-align:center;display:none;"><i class="fa fa-trash-o fa-lg" style="color:red;font-size:28px;vertical-align:middle;text-align:center;"></i></a></td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <tr>
+                                                                <td><input type="text" name="text_FromDate" class="form-control" /></td>
+                                                                <td><input type="text" name="text_ToDate" class="form-control" /></td>
+                                                                <td><input type="text" name="text_Distance" class="form-control" /></td>
+                                                                <td><input type="text" name="text_Price" class="form-control" /></td>
+                                                                <td><input type="text" name="text_Remarks" class="form-control" /></td>
+                                                                <td><a id="addTravelButton" style="vertical-align:middle;text-align:center;"><i class="fa fa-plus-square solid fa-lg" style="font-size:28px;vertical-align:middle;text-align:center;"></i></a></td>
+                                                                <td><a id="deleteTravelButton" style="vertical-align:middle;text-align:center;display:none;"><i class="fa fa-trash-o fa-lg" style="color:red;font-size:28px;vertical-align:middle;text-align:center;"></i></a></td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <!-- End: Added on 15/10/2019. When expenses occured for travelling -->
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td><select name="ddlProductList" class="bs-select form-control"></select></td>
+                                        <td><input type="text" name="text_Quantity" class="form-control" /></td>
+                                        <td><input type="text" name="text_Price" class="form-control" /></td>
+                                        <td><input type="text" name="text_Total" class="form-control" /></td>
+                                        <td><input type="text" name="text_Tax" class="form-control" /></td>
+                                        <td><input type="text" name="text_Total_Tax" class="form-control" /></td>
+                                        @*<td><a id="addButton" style="vertical-align:middle;text-align:center;"><i class="fa fa-plus-square solid fa-lg" style="font-size:28px;vertical-align:middle;text-align:center;"></i></a></td>
+                                            <td><a id="deleteButton" style="vertical-align:middle;text-align:center;display:none;"><i class="fa fa-trash-o fa-lg" style="color:red;font-size:28px;vertical-align:middle;text-align:center;"></i></a></td>*@
+                                        <td class="mt-checkbox-inline">
+                                            <label class="mt-checkbox">
+                                                Need to add breakup?&nbsp;&nbsp;<input type="checkbox" id="chkBreakupNeed" onclick="Breakup_visibility(this);" class="checkbox" @(!Model.IsCancelled ? "" : "checked=checked") />
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td id="tbl_breakeup" style="display:none;" colspan="7">
+                                            <table class="table table-striped table-bordered table-hover" id="sample_4">
+                                                <thead>
+                                                    <tr>
+                                                        <th>From Date</th>
+                                                        <th>To Date</th>
+                                                        <th>Distance</th>
+                                                        <th>Price</th>
+                                                        <th>Remarks</th>
+                                                        <th colspan="2">Add/ Delete</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="text" name="text_FromDate" autocomplete="off" class="form-control date-picker" /></td>
+                                                        <td><input type="text" name="text_ToDate" autocomplete="off" class="form-control date-picker" /></td>
+                                                        <td><input type="text" name="text_Distance" class="form-control" /></td>
+                                                        <td><input type="text" name="text_Price" class="form-control" /></td>
+                                                        <td><input type="text" name="text_Remarks" class="form-control" /></td>
+                                                        <td><a id="addTravelButton" style="vertical-align:middle;text-align:center;"><i class="fa fa-plus-square solid fa-lg" style="font-size:28px;vertical-align:middle;text-align:center;"></i></a></td>
+                                                        <td><a id="deleteTravelButton" style="vertical-align:middle;text-align:center;display:none;"><i class="fa fa-trash-o fa-lg" style="color:red;font-size:28px;vertical-align:middle;text-align:center;"></i></a></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row row-bottom-5px">
+                    <div class="col-lg-1">
+                        Currency
+                    </div>
+                    <div class="col-lg-2">
+                        <select id="ddlCurrency" class="bs-select form-control" data-live-search="true" data-size="8">
+                            <option value="">Select</option>
+                            <option value="ALL" @(Model.ChangedCurrency.Trim().ToUpper() == "ALL" ? "selected=selected" : "")>Leke (Lek)</option>
+                            <option value="USD" @(Model.ChangedCurrency.Trim().ToUpper() == "USD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="AFN" @(Model.ChangedCurrency.Trim().ToUpper() == "AFN" ? "selected=selected" : "")>Afghanis (?)</option>
+                            <option value="ARS" @(Model.ChangedCurrency.Trim().ToUpper() == "ARS" ? "selected=selected" : "")>Pesos ($)</option>
+                            <option value="AWG" @(Model.ChangedCurrency.Trim().ToUpper() == "AWG" ? "selected=selected" : "")>Guilders (ƒ)</option>
+                            <option value="AUD" @(Model.ChangedCurrency.Trim().ToUpper() == "AUD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="AZN" @(Model.ChangedCurrency.Trim().ToUpper() == "AZN" ? "selected=selected" : "")>New Manats (ман)</option>
+                            <option value="BSD" @(Model.ChangedCurrency.Trim().ToUpper() == "BSD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="BBD" @(Model.ChangedCurrency.Trim().ToUpper() == "BBD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="BYR" @(Model.ChangedCurrency.Trim().ToUpper() == "BYR" ? "selected=selected" : "")>Rubles (p.)</option>
+                            <option value="EUR" @(Model.ChangedCurrency.Trim().ToUpper() == "EUR" ? "selected=selected" : "")>Euro (€)</option>
+                            <option value="BZD" @(Model.ChangedCurrency.Trim().ToUpper() == "BZD" ? "selected=selected" : "")>Dollars (BZ$)</option>
+                            <option value="BMD" @(Model.ChangedCurrency.Trim().ToUpper() == "BMD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="BOB" @(Model.ChangedCurrency.Trim().ToUpper() == "BOB" ? "selected=selected" : "")>Bolivianos ($b)</option>
+                            <option value="BAM" @(Model.ChangedCurrency.Trim().ToUpper() == "BAM" ? "selected=selected" : "")>Convertible Marka (KM)</option>
+                            <option value="BWP" @(Model.ChangedCurrency.Trim().ToUpper() == "BWP" ? "selected=selected" : "")>Pula (P)</option>
+                            <option value="BGN" @(Model.ChangedCurrency.Trim().ToUpper() == "BGN" ? "selected=selected" : "")>Leva (??)</option>
+                            <option value="BRL" @(Model.ChangedCurrency.Trim().ToUpper() == "BRL" ? "selected=selected" : "")>Reais (R$)</option>
+                            <option value="GBP" @(Model.ChangedCurrency.Trim().ToUpper() == "GBP" ? "selected=selected" : "")>Pounds (£)</option>
+                            <option value="BND" @(Model.ChangedCurrency.Trim().ToUpper() == "BND" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="KHR" @(Model.ChangedCurrency.Trim().ToUpper() == "KHR" ? "selected=selected" : "")>Riels (?)</option>
+                            <option value="CAD" @(Model.ChangedCurrency.Trim().ToUpper() == "CAD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="KYD" @(Model.ChangedCurrency.Trim().ToUpper() == "KYD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="CLP" @(Model.ChangedCurrency.Trim().ToUpper() == "CLP" ? "selected=selected" : "")>Pesos ($)</option>
+                            <option value="CNY" @(Model.ChangedCurrency.Trim().ToUpper() == "CNY" ? "selected=selected" : "")>Yuan Renminbi (¥)</option>
+                            <option value="COP" @(Model.ChangedCurrency.Trim().ToUpper() == "COP" ? "selected=selected" : "")>Pesos ($)</option>
+                            <option value="CRC" @(Model.ChangedCurrency.Trim().ToUpper() == "CRC" ? "selected=selected" : "")>Colón (¢)</option>
+                            <option value="HRK" @(Model.ChangedCurrency.Trim().ToUpper() == "HRK" ? "selected=selected" : "")>Kuna (kn)</option>
+                            <option value="CUP" @(Model.ChangedCurrency.Trim().ToUpper() == "CUP" ? "selected=selected" : "")>Pesos (?)</option>
+                            <option value="CZK" @(Model.ChangedCurrency.Trim().ToUpper() == "CZK" ? "selected=selected" : "")>Koruny (Kc)</option>
+                            <option value="DKK" @(Model.ChangedCurrency.Trim().ToUpper() == "DKK" ? "selected=selected" : "")>Kroner (kr)</option>
+                            <option value="DOP  @(Model.ChangedCurrency.Trim().ToUpper()=="DOP" ? "selected=selected" : "")">Pesos (RD$)</option>
+                            <option value="XCD" @(Model.ChangedCurrency.Trim().ToUpper() == "XCD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="EGP" @(Model.ChangedCurrency.Trim().ToUpper() == "EGP" ? "selected=selected" : "")>Pounds (£)</option>
+                            <option value="SVC" @(Model.ChangedCurrency.Trim().ToUpper() == "SVC" ? "selected=selected" : "")>Colones ($)</option>
+                            <option value="FKP" @(Model.ChangedCurrency.Trim().ToUpper() == "FKP" ? "selected=selected" : "")>Pounds (£)</option>
+                            <option value="FJD" @(Model.ChangedCurrency.Trim().ToUpper() == "FJD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="GHC" @(Model.ChangedCurrency.Trim().ToUpper() == "GHC" ? "selected=selected" : "")>Cedis (¢)</option>
+                            <option value="GIP" @(Model.ChangedCurrency.Trim().ToUpper() == "GIP" ? "selected=selected" : "")>Pounds (£)</option>
+                            <option value="GTQ" @(Model.ChangedCurrency.Trim().ToUpper() == "GTQ" ? "selected=selected" : "")>Quetzales (Q)</option>
+                            <option value="GGP" @(Model.ChangedCurrency.Trim().ToUpper() == "GGP" ? "selected=selected" : "")>Pounds (£)</option>
+                            <option value="GYD" @(Model.ChangedCurrency.Trim().ToUpper() == "GYD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="HNL" @(Model.ChangedCurrency.Trim().ToUpper() == "HNL" ? "selected=selected" : "")>Lempiras (L)</option>
+                            <option value="HKD" @(Model.ChangedCurrency.Trim().ToUpper() == "HKD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="HUF" @(Model.ChangedCurrency.Trim().ToUpper() == "HUF" ? "selected=selected" : "")>Forint (Ft)</option>
+                            <option value="ISK" @(Model.ChangedCurrency.Trim().ToUpper() == "ISK" ? "selected=selected" : "")>Kronur (kr)</option>
+                            <option value="INR" @(Model.ChangedCurrency.Trim().ToUpper() == "INR" ? "selected=selected" : "")>Rupees (Rp)</option>
+                            <option value="IDR" @(Model.ChangedCurrency.Trim().ToUpper() == "IDR" ? "selected=selected" : "")>Rupiahs (Rp)</option>
+                            <option value="IRR" @(Model.ChangedCurrency.Trim().ToUpper() == "IRR" ? "selected=selected" : "")>Rials (?)</option>
+                            <option value="IMP" @(Model.ChangedCurrency.Trim().ToUpper() == "IMP" ? "selected=selected" : "")>Pounds (£)</option>
+                            <option value="ILS" @(Model.ChangedCurrency.Trim().ToUpper() == "ILS" ? "selected=selected" : "")>New Shekels (?)</option>
+                            <option value="JMD" @(Model.ChangedCurrency.Trim().ToUpper() == "JMD" ? "selected=selected" : "")>Dollars (J$)</option>
+                            <option value="JPY" @(Model.ChangedCurrency.Trim().ToUpper() == "JPY" ? "selected=selected" : "")>Yen (¥)</option>
+                            <option value="JEP" @(Model.ChangedCurrency.Trim().ToUpper() == "JEP" ? "selected=selected" : "")>Pounds (£)</option>
+                            <option value="KZT" @(Model.ChangedCurrency.Trim().ToUpper() == "KZT" ? "selected=selected" : "")>Tenge (??)</option>
+                            <option value="KPW" @(Model.ChangedCurrency.Trim().ToUpper() == "KPW" ? "selected=selected" : "")>Won (?)</option>
+                            <option value="KRW" @(Model.ChangedCurrency.Trim().ToUpper() == "KRW" ? "selected=selected" : "")>Won (?)</option>
+                            <option value="KGS" @(Model.ChangedCurrency.Trim().ToUpper() == "KGS" ? "selected=selected" : "")>Soms (??)</option>
+                            <option value="LAK" @(Model.ChangedCurrency.Trim().ToUpper() == "LAK" ? "selected=selected" : "")>Kips (?)</option>
+                            <option value="LVL" @(Model.ChangedCurrency.Trim().ToUpper() == "LVL" ? "selected=selected" : "")>Lati (Ls)</option>
+                            <option value="LBP" @(Model.ChangedCurrency.Trim().ToUpper() == "LBP" ? "selected=selected" : "")>Pounds (£)</option>
+                            <option value="LRD" @(Model.ChangedCurrency.Trim().ToUpper() == "LRD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="CHF" @(Model.ChangedCurrency.Trim().ToUpper() == "CHF" ? "selected=selected" : "")>Switzerland Francs (CHF)</option>
+                            <option value="LTL" @(Model.ChangedCurrency.Trim().ToUpper() == "LTL" ? "selected=selected" : "")>Litai (Lt)</option>
+                            <option value="MKD" @(Model.ChangedCurrency.Trim().ToUpper() == "MKD" ? "selected=selected" : "")>Denars (???)</option>
+                            <option value="MYR" @(Model.ChangedCurrency.Trim().ToUpper() == "MYR" ? "selected=selected" : "")>Ringgits (RM)</option>
+                            <option value="MUR" @(Model.ChangedCurrency.Trim().ToUpper() == "MUR" ? "selected=selected" : "")>Rupees (?)</option>
+                            <option value="MXN" @(Model.ChangedCurrency.Trim().ToUpper() == "MXN" ? "selected=selected" : "")>Pesos ($)</option>
+                            <option value="MNT" @(Model.ChangedCurrency.Trim().ToUpper() == "MNT" ? "selected=selected" : "")>Tugriks (?)</option>
+                            <option value="MZN" @(Model.ChangedCurrency.Trim().ToUpper() == "MZN" ? "selected=selected" : "")>Meticais (MT)</option>
+                            <option value="NAD" @(Model.ChangedCurrency.Trim().ToUpper() == "NAD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="NPR" @(Model.ChangedCurrency.Trim().ToUpper() == "NPR" ? "selected=selected" : "")>Rupees (?)</option>
+                            <option value="ANG" @(Model.ChangedCurrency.Trim().ToUpper() == "ANG" ? "selected=selected" : "")>Guilders (ƒ)</option>
+                            <option value="NZD" @(Model.ChangedCurrency.Trim().ToUpper() == "NZD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="NIO" @(Model.ChangedCurrency.Trim().ToUpper() == "NIO" ? "selected=selected" : "")>Cordobas (C$)</option>
+                            <option value="NGN" @(Model.ChangedCurrency.Trim().ToUpper() == "NGN" ? "selected=selected" : "")>Nairas (?)</option>
+                            <option value="NOK" @(Model.ChangedCurrency.Trim().ToUpper() == "NOK" ? "selected=selected" : "")>Krone (kr)</option>
+                            <option value="OMR" @(Model.ChangedCurrency.Trim().ToUpper() == "OMR" ? "selected=selected" : "")>Rials (?)</option>
+                            <option value="PKR" @(Model.ChangedCurrency.Trim().ToUpper() == "PKR" ? "selected=selected" : "")>Rupees (?)</option>
+                            <option value="PAB" @(Model.ChangedCurrency.Trim().ToUpper() == "PAB" ? "selected=selected" : "")>Balboa (B/.)</option>
+                            <option value="PYG" @(Model.ChangedCurrency.Trim().ToUpper() == "PYG" ? "selected=selected" : "")>Guarani (Gs)</option>
+                            <option value="PEN" @(Model.ChangedCurrency.Trim().ToUpper() == "PEN" ? "selected=selected" : "")>Nuevos Soles (S/.)</option>
+                            <option value="PHP" @(Model.ChangedCurrency.Trim().ToUpper() == "PHP" ? "selected=selected" : "")>Pesos (Php)</option>
+                            <option value="PLN" @(Model.ChangedCurrency.Trim().ToUpper() == "PLN" ? "selected=selected" : "")>Zlotych (zl)</option>
+                            <option value="QAR" @(Model.ChangedCurrency.Trim().ToUpper() == "QAR" ? "selected=selected" : "")>Rials (?)</option>
+                            <option value="RON" @(Model.ChangedCurrency.Trim().ToUpper() == "RON" ? "selected=selected" : "")>New Lei (lei)</option>
+                            <option value="RUB" @(Model.ChangedCurrency.Trim().ToUpper() == "RUB" ? "selected=selected" : "")>Rubles (???)</option>
+                            <option value="SHP" @(Model.ChangedCurrency.Trim().ToUpper() == "SHP" ? "selected=selected" : "")>Pounds (£)</option>
+                            <option value="SAR" @(Model.ChangedCurrency.Trim().ToUpper() == "SAR" ? "selected=selected" : "")>Riyals (?)</option>
+                            <option value="RSD" @(Model.ChangedCurrency.Trim().ToUpper() == "RSD" ? "selected=selected" : "")>Dinars (???.)</option>
+                            <option value="SCR" @(Model.ChangedCurrency.Trim().ToUpper() == "SCR" ? "selected=selected" : "")>Rupees (?)</option>
+                            <option value="SGD" @(Model.ChangedCurrency.Trim().ToUpper() == "SGD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="SBD" @(Model.ChangedCurrency.Trim().ToUpper() == "SBD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="SOS" @(Model.ChangedCurrency.Trim().ToUpper() == "SOS" ? "selected=selected" : "")>Shillings (S)</option>
+                            <option value="ZAR" @(Model.ChangedCurrency.Trim().ToUpper() == "ZAR" ? "selected=selected" : "")>Rand (R)</option>
+                            <option value="LKR" @(Model.ChangedCurrency.Trim().ToUpper() == "LKR" ? "selected=selected" : "")>Rupees (?)</option>
+                            <option value="SEK" @(Model.ChangedCurrency.Trim().ToUpper() == "SEK" ? "selected=selected" : "")>Kronor (kr)</option>
+                            <option value="SRD" @(Model.ChangedCurrency.Trim().ToUpper() == "SRD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="SYP" @(Model.ChangedCurrency.Trim().ToUpper() == "SYP" ? "selected=selected" : "")>Pounds (£)</option>
+                            <option value="TWD" @(Model.ChangedCurrency.Trim().ToUpper() == "TWD" ? "selected=selected" : "")>New Dollars (NT$)</option>
+                            <option value="THB" @(Model.ChangedCurrency.Trim().ToUpper() == "THB" ? "selected=selected" : "")>Baht (?)</option>
+                            <option value="TTD" @(Model.ChangedCurrency.Trim().ToUpper() == "TTD" ? "selected=selected" : "")>Dollars (TT$)</option>
+                            <option value="TRY" @(Model.ChangedCurrency.Trim().ToUpper() == "TRY" ? "selected=selected" : "")>Lira (TL)</option>
+                            <option value="TRL" @(Model.ChangedCurrency.Trim().ToUpper() == "TRL" ? "selected=selected" : "")>Liras (£)</option>
+                            <option value="TVD" @(Model.ChangedCurrency.Trim().ToUpper() == "TVD" ? "selected=selected" : "")>Dollars ($)</option>
+                            <option value="UAH" @(Model.ChangedCurrency.Trim().ToUpper() == "UAH" ? "selected=selected" : "")>Hryvnia (?)</option>
+                            <option value="UYU" @(Model.ChangedCurrency.Trim().ToUpper() == "UYU" ? "selected=selected" : "")>Pesos ($U)</option>
+                            <option value="UZS" @(Model.ChangedCurrency.Trim().ToUpper() == "UZS" ? "selected=selected" : "")>Sums (??)</option>
+                            <option value="VEF" @(Model.ChangedCurrency.Trim().ToUpper() == "VEF" ? "selected=selected" : "")>Bolivares Fuertes (Bs)</option>
+                            <option value="VND" @(Model.ChangedCurrency.Trim().ToUpper() == "VND" ? "selected=selected" : "")>Dong (?)</option>
+                            <option value="YER" @(Model.ChangedCurrency.Trim().ToUpper() == "YER" ? "selected=selected" : "")>Rials (?)</option>
+                            <option value="ZWD" @(Model.ChangedCurrency.Trim().ToUpper() == "ZWD" ? "selected=selected" : "")>Zimbabwe Dollars (Z$)</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3">
+                        Convert rate (1 INR =)
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="text" id="text_ConversionRate" class="form-control decimal" placeholder="1234" @(Model.ConversionRate.Trim() == "1" ? "" : "value=" + Model.ConversionRate + "") />
+                        <input type="hidden" id="hidden_ConversionRate" />
+                    </div>
+                    <div class="col-lg-3">
+                        Is Returned?&nbsp;&nbsp;<input type="checkbox" id="chkIsReturned" class="checkbox" @(!Model.IsReturned ? "" : "checked=checked") />
+                    </div>
+                </div>
+                @*<div class="row row-bottom-5px">
+                        <div class="col-lg-1">
+                            Paid
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="text" id="text_PaidAmount" class="form-control" placeholder="Amount to be paid" value="@Model.AmountPayable" />
+                        </div>
+                        <div class="col-lg-1">
+                            Due
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="text" id="text_DueAmount" class="form-control" value="@Model.AmountDue" />
+                        </div>
+                        <div class="col-lg-1">
+                            Due Date
+                        </div>
+                        <div class="col-lg-5">
+                            <input type="datetime" id="txtExpenceDueDate" @(Model.InvoiceDueDate.Trim().Contains("1900") ? "" : "value='" + Model.InvoiceDueDate + "'") class="form-control" style="width:80%;float:left;" />
+                            <i class="fa fa-calendar" style="float:left;font-size:28px;"></i>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display:none;">
+                        <div class="mt-checkbox-inline">
+                            <label class="mt-checkbox">
+                                Is Cancelled?&nbsp;&nbsp;<input type="checkbox" id="chkIsCancelled" class="checkbox" @(!Model.IsCancelled ? "" : "checked=checked") />
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>*@
+                <div class="form-actions ">
+                    <input type="button" id="uiSaveExpence" value="Submit" class="btn green-meadow" onclick="return Save_Bill('');" />
+                    <input type="submit" id="uiDeleteExpence" value="Delete" class="btn red-mint" onclick="return Save_Bill('Y');" />
+                    <input type="button" value="Close" class="btn yellow" onclick="closepopup();" />
+                </div>
+            </div>
+            <div class="col-lg-3">
+
+            </div>
+        </div>
+    </div>
+</div>

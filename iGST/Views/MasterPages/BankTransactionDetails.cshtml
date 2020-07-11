@@ -1,0 +1,123 @@
+﻿@model BusinessObjects.BankTransactionInfo
+
+<script type="text/javascript">
+
+    function Save_Bank(isDelete) {
+        var dataarray = {
+            "isOnlyDelete": isDelete
+        , "OrganizaionName": $("#uiOrganisationName").val()
+        , "Id": $("#hdnID").val()
+        , "Products": $("#ddlProducts").val()
+        , "CustomerId": $("#ddlCustomerId").val()
+        , "IsSellExpense": ($("#chkIsSellExpense").prop('checked') ? "E" : "S")
+        , "Tax": $("#txtTax").val()
+        , "isActive": ($("#chkIsActive").prop('checked') ? "Y" : "")
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/banktransactionsave",
+            data: dataarray,
+            success: function (data) {
+                if (data == "Ok") {
+                    if (isDelete == "Y") {
+                        alert("Data deleted");
+                    } else {
+                        alert("Data updated");
+                    }
+
+                    MakeAllControlsBlank();
+                    CloseParentPopup();
+                }
+                else {
+                    alert(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $("#txtTax").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+
+        if (document.getElementById("uiOrganisationName") != null && document.getElementById("uiOrganisationName") != undefined){
+            BindOrganization($("#uiOrganisationName"), $("#hdnOrganizationCode").val());
+        }
+    });
+
+</script>
+
+<div class="portlet-body form">
+    <input type="hidden" value="@Model.OrganizationCode" id="hdnOrganizationCode" />
+    <input type="hidden" value="@Model.Id" id="hdnID" />
+    <div class="form-body">
+        @if (Session["UserDetails"] != null && "MA".Contains(((BusinessObjects.UserInfo)Session["UserDetails"]).UserType.ToString().Trim().ToUpper()))
+        {
+            <div class="form-group">
+                <label class="control-label">Organizations</label>
+                <select id="uiOrganisationName" class="bs-select form-control" data-live-search="true" data-size="8"></select>
+                <div class="form-control-focus"> </div>
+            </div>
+        }
+        <div class="form-group">
+            <label class="control-label">Transaction Date</label>
+            <input type="text" id="txtDebit" class="form-control" placeholder="Transaction Date" value="@Model.TransactionDate" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Debit</label>
+            <input type="text" id="txtDebit" class="form-control" placeholder="Debit" value="@Model.Debit" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Credit</label>
+            <input type="text" id="txtDebit" class="form-control" placeholder="Debit" value="@Model.Credit" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Init Br</label>
+            <input type="text" id="txtInitBr" class="form-control" placeholder="Init Br" value="@Model.InitBr" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Products</label>
+            <select id="ddlProducts" class="bs-select form-control"></select>
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Customers</label>
+            <select id="ddlCustomerId" class="bs-select form-control"></select>
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <div class="mt-checkbox-inline">
+                <label class="mt-checkbox">
+                    Is this expense?&nbsp;&nbsp;<input type="checkbox" id="chkIsSellExpense" checked="checked" class="checkbox" />
+                    <span></span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Tax</label>
+            <input type="text" id="txtAddress" class="form-control" placeholder="Tax" value="@Model.Tax" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <div class="mt-checkbox-inline">
+                <label class="mt-checkbox">
+                    Is Active?&nbsp;&nbsp;<input type="checkbox" id="chkIsActive" checked="checked" class="checkbox" />
+                    <span></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-actions">
+        <input type="button" id="uiSaveBank" value="Submit" class="btn green-meadow" onclick="return Save_Bank('');" />
+        <input type="submit" id="uiDeleteBank" value="Delete" class="btn red-mint" onclick="return Save_Bank('Y');" />
+        <input type="button" value="Close" class="btn yellow" onclick="closepopup();" />
+    </div>
+</div>

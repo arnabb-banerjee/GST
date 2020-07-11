@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="BillService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:50495/sBillService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:50495/sBillService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:50495/sBillService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BusinessObjects" />
+      <xsd:import schemaLocation="http://localhost:50495/sBillService.svc?xsd=xsd3" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IBillService_GetList_Bill_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_Bill" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_GetList_Bill_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_BillResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_GetDetails_Bill_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_Bill" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_GetDetails_Bill_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_BillResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_Save_Bill_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_Bill" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_Save_Bill_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_BillResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_GetList_Customer_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_Customer" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_GetList_Customer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_CustomerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_GetDetails_Customer_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_Customer" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_GetDetails_Customer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_CustomerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_Upload_Customer_InputMessage">
+    <wsdl:part name="parameters" element="tns:Upload_Customer" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_Upload_Customer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Upload_CustomerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_Save_Customer_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_Customer" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_Save_Customer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_CustomerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_Save_CustomerImage_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_CustomerImage" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_Save_CustomerImage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_CustomerImageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_GetList_CustomerImage_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_CustomerImage" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_GetList_CustomerImage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_CustomerImageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_GetDetails_CustomerImage_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_CustomerImage" />
+  </wsdl:message>
+  <wsdl:message name="IBillService_GetDetails_CustomerImage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_CustomerImageResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IBillService">
+    <wsdl:operation name="GetList_Bill">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBillService/GetList_Bill" message="tns:IBillService_GetList_Bill_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBillService/GetList_BillResponse" message="tns:IBillService_GetList_Bill_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Bill">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBillService/GetDetails_Bill" message="tns:IBillService_GetDetails_Bill_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBillService/GetDetails_BillResponse" message="tns:IBillService_GetDetails_Bill_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_Bill">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBillService/Save_Bill" message="tns:IBillService_Save_Bill_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBillService/Save_BillResponse" message="tns:IBillService_Save_Bill_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Customer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBillService/GetList_Customer" message="tns:IBillService_GetList_Customer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBillService/GetList_CustomerResponse" message="tns:IBillService_GetList_Customer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Customer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBillService/GetDetails_Customer" message="tns:IBillService_GetDetails_Customer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBillService/GetDetails_CustomerResponse" message="tns:IBillService_GetDetails_Customer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Upload_Customer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBillService/Upload_Customer" message="tns:IBillService_Upload_Customer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBillService/Upload_CustomerResponse" message="tns:IBillService_Upload_Customer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_Customer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBillService/Save_Customer" message="tns:IBillService_Save_Customer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBillService/Save_CustomerResponse" message="tns:IBillService_Save_Customer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_CustomerImage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBillService/Save_CustomerImage" message="tns:IBillService_Save_CustomerImage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBillService/Save_CustomerImageResponse" message="tns:IBillService_Save_CustomerImage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_CustomerImage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBillService/GetList_CustomerImage" message="tns:IBillService_GetList_CustomerImage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBillService/GetList_CustomerImageResponse" message="tns:IBillService_GetList_CustomerImage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_CustomerImage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBillService/GetDetails_CustomerImage" message="tns:IBillService_GetDetails_CustomerImage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBillService/GetDetails_CustomerImageResponse" message="tns:IBillService_GetDetails_CustomerImage_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="iGST_Svc.BillService_Binding_IBillService" type="tns:IBillService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetList_Bill">
+      <soap:operation soapAction="http://tempuri.org/IBillService/GetList_Bill" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Bill">
+      <soap:operation soapAction="http://tempuri.org/IBillService/GetDetails_Bill" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_Bill">
+      <soap:operation soapAction="http://tempuri.org/IBillService/Save_Bill" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Customer">
+      <soap:operation soapAction="http://tempuri.org/IBillService/GetList_Customer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Customer">
+      <soap:operation soapAction="http://tempuri.org/IBillService/GetDetails_Customer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Upload_Customer">
+      <soap:operation soapAction="http://tempuri.org/IBillService/Upload_Customer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_Customer">
+      <soap:operation soapAction="http://tempuri.org/IBillService/Save_Customer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_CustomerImage">
+      <soap:operation soapAction="http://tempuri.org/IBillService/Save_CustomerImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_CustomerImage">
+      <soap:operation soapAction="http://tempuri.org/IBillService/GetList_CustomerImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_CustomerImage">
+      <soap:operation soapAction="http://tempuri.org/IBillService/GetDetails_CustomerImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BillService">
+    <wsdl:port name="iGST_Svc.BillService_Binding_IBillService" binding="tns:iGST_Svc.BillService_Binding_IBillService">
+      <soap:address location="http://localhost:50495/sBillService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

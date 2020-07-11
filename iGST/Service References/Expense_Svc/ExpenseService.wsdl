@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ExpenseService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:50495/sExpenseService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:50495/sExpenseService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:50495/sExpenseService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BusinessObjects" />
+      <xsd:import schemaLocation="http://localhost:50495/sExpenseService.svc?xsd=xsd3" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IExpenseService_GetList_ExpenseOrganization_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ExpenseOrganization" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_GetList_ExpenseOrganization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ExpenseOrganizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_GetDetails_ExpenseOrganization_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_ExpenseOrganization" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_GetDetails_ExpenseOrganization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_ExpenseOrganizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_Save_ExpenseOrganization_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_ExpenseOrganization" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_Save_ExpenseOrganization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_ExpenseOrganizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_GetList_Expense_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_Expense" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_GetList_Expense_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ExpenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_GetDetails_Expense_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_Expense" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_GetDetails_Expense_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_ExpenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_Save_Expense_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_Expense" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_Save_Expense_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_ExpenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_GetList_Supplier_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_Supplier" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_GetList_Supplier_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_SupplierResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_GetDetails_Supplier_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_Supplier" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_GetDetails_Supplier_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_SupplierResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_Upload_Supplier_InputMessage">
+    <wsdl:part name="parameters" element="tns:Upload_Supplier" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_Upload_Supplier_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Upload_SupplierResponse" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_Save_Supplier_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_Supplier" />
+  </wsdl:message>
+  <wsdl:message name="IExpenseService_Save_Supplier_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_SupplierResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IExpenseService">
+    <wsdl:operation name="GetList_ExpenseOrganization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExpenseService/GetList_ExpenseOrganization" message="tns:IExpenseService_GetList_ExpenseOrganization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExpenseService/GetList_ExpenseOrganizationResponse" message="tns:IExpenseService_GetList_ExpenseOrganization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_ExpenseOrganization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExpenseService/GetDetails_ExpenseOrganization" message="tns:IExpenseService_GetDetails_ExpenseOrganization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExpenseService/GetDetails_ExpenseOrganizationResponse" message="tns:IExpenseService_GetDetails_ExpenseOrganization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_ExpenseOrganization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExpenseService/Save_ExpenseOrganization" message="tns:IExpenseService_Save_ExpenseOrganization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExpenseService/Save_ExpenseOrganizationResponse" message="tns:IExpenseService_Save_ExpenseOrganization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Expense">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExpenseService/GetList_Expense" message="tns:IExpenseService_GetList_Expense_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExpenseService/GetList_ExpenseResponse" message="tns:IExpenseService_GetList_Expense_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Expense">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExpenseService/GetDetails_Expense" message="tns:IExpenseService_GetDetails_Expense_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExpenseService/GetDetails_ExpenseResponse" message="tns:IExpenseService_GetDetails_Expense_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_Expense">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExpenseService/Save_Expense" message="tns:IExpenseService_Save_Expense_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExpenseService/Save_ExpenseResponse" message="tns:IExpenseService_Save_Expense_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Supplier">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExpenseService/GetList_Supplier" message="tns:IExpenseService_GetList_Supplier_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExpenseService/GetList_SupplierResponse" message="tns:IExpenseService_GetList_Supplier_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Supplier">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExpenseService/GetDetails_Supplier" message="tns:IExpenseService_GetDetails_Supplier_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExpenseService/GetDetails_SupplierResponse" message="tns:IExpenseService_GetDetails_Supplier_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Upload_Supplier">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExpenseService/Upload_Supplier" message="tns:IExpenseService_Upload_Supplier_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExpenseService/Upload_SupplierResponse" message="tns:IExpenseService_Upload_Supplier_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_Supplier">
+      <wsdl:input wsaw:Action="http://tempuri.org/IExpenseService/Save_Supplier" message="tns:IExpenseService_Save_Supplier_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IExpenseService/Save_SupplierResponse" message="tns:IExpenseService_Save_Supplier_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="iGST_Svc.ExpenseService_Binding_IExpenseService" type="tns:IExpenseService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetList_ExpenseOrganization">
+      <soap:operation soapAction="http://tempuri.org/IExpenseService/GetList_ExpenseOrganization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_ExpenseOrganization">
+      <soap:operation soapAction="http://tempuri.org/IExpenseService/GetDetails_ExpenseOrganization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_ExpenseOrganization">
+      <soap:operation soapAction="http://tempuri.org/IExpenseService/Save_ExpenseOrganization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Expense">
+      <soap:operation soapAction="http://tempuri.org/IExpenseService/GetList_Expense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Expense">
+      <soap:operation soapAction="http://tempuri.org/IExpenseService/GetDetails_Expense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_Expense">
+      <soap:operation soapAction="http://tempuri.org/IExpenseService/Save_Expense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Supplier">
+      <soap:operation soapAction="http://tempuri.org/IExpenseService/GetList_Supplier" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Supplier">
+      <soap:operation soapAction="http://tempuri.org/IExpenseService/GetDetails_Supplier" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Upload_Supplier">
+      <soap:operation soapAction="http://tempuri.org/IExpenseService/Upload_Supplier" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_Supplier">
+      <soap:operation soapAction="http://tempuri.org/IExpenseService/Save_Supplier" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ExpenseService">
+    <wsdl:port name="iGST_Svc.ExpenseService_Binding_IExpenseService" binding="tns:iGST_Svc.ExpenseService_Binding_IExpenseService">
+      <soap:address location="http://localhost:50495/sExpenseService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

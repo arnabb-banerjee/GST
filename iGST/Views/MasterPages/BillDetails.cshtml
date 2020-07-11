@@ -1,0 +1,551 @@
+﻿@model BusinessObjects.InvoiceInfo
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(function () {
+            $(".date-picker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+0", // You can set the year range as per as your need
+                dateFormat: 'dd/mm/yy',
+                regional: "en-GB",
+            });
+        });
+
+        $("#addButton").click(function () {
+            var rowcount = 0;
+            var tr = null;
+            var tbody = $(this).closest("tbody");
+
+            $(this).closest("tr").clone(true).appendTo("#sample_3").find('input[type=text]').each(function () { $(this).val(''); });
+
+            tbody.find('tr').each(function () {
+                $(this).find("a[id^='deleteButton']").show();
+                $(this).find("a[id^='addButton']").hide();
+                tr = $(this);
+                rowcount++;
+            });
+
+            if (rowcount < 2) {
+                tr.find("a[id^='deleteButton']").hide();
+            }
+
+            tr.find("a[id^='addButton']").show();
+        });
+
+        $("#deleteButton").click(function () {
+
+            var rowcount = 0;
+            var tr = null;
+            var tbody = $(this).closest("tbody");
+
+            $(this).closest("tr").remove();
+
+            tbody.find('tr').each(function () {
+                $(this).find("a[id^='deleteButton']").show();
+                $(this).find("a[id^='addButton']").hide();
+                tr = $(this);
+                rowcount++;
+            });
+
+            if (rowcount < 2) {
+                tr.find("a[id^='deleteButton']").hide();
+            }
+
+            tr.find("a[id^='addButton']").show();
+
+            GetTotal();
+        });
+
+        $("#ddlCountry_Basic").change(function () {
+            BindState($("#ddlState_Basic"), $(this).val(), $("#hdnStateId").val());
+        });
+
+        //BindTerms();
+        BindCountry($("#ddlCountry_Basic"), $("#hdnCusCountry").val(), $("#ddlState_Basic"), $("#hdnStateId").val());
+        //BindCustomer($("#ddlCustomer"), $("#hdnCusID").val());
+
+        BindProduct(document.getElementById("uiOrganisationName"),
+                    document.getElementById("ddlCustomer"),
+                    document.getElementById("txtExpenceDate"),
+                    document.getElementById("txtCusAddress"),
+                    document.getElementById("ddlCountry_Basic"),
+                    document.getElementById("ddlState_Basic"),
+                    document.getElementById("txtCusCity"));
+
+        //if (document.getElementById("uiOrganisationName") != null && document.getElementById("uiOrganisationName") != undefined) {
+        //    BindOrganization($("#uiOrganisationName"), $("#hdnOrganizationCode").val());
+        //}
+
+        $("#tbl_breakeup_body1 input").each(function () {
+            switch ($(this).attr("name")) {
+                case "text_Quantity":
+                    $(this).keydown(function (e) { FilterKeys("money", e, $(this)); });
+                    $(this).keyup(function (e) { GetTotal(); });
+                    break;
+                case "text_Price":
+                    $(this).keydown(function (e) { FilterKeys("money", e, $(this)); });
+                    $(this).keyup(function (e) { GetTotal(); });
+                    break;
+                case "text_Total":
+                    $(this).keyup(function (e) { return false; });
+                    $(this).keypress(function (e) { return false; });
+                    $(this).keydown(function (e) { FilterKeys("money", e, $(this)); });
+                    break;
+                case "text_Tax":
+                    $(this).keydown(function (e) { FilterKeys("money", e, $(this)); });
+                    $(this).keyup(function (e) { GetTotal(); });
+                    break;
+                case "text_Total_Tax":
+                    $(this).keydown(function (e) {
+                        if (e.keyCode == 9) {
+                            var rowcount = 0;
+                            var tr = null;
+                            var tbody = $(this).closest("tbody");
+
+                            $(this).closest("tr").clone(true).appendTo("#sample_3").find('input[type=text]').each(function () { $(this).val(''); });
+
+                            tbody.find('tr').each(function () {
+                                $(this).find("a[id^='deleteButton']").show();
+                                $(this).find("a[id^='addButton']").hide();
+                                tr = $(this);
+                                rowcount++;
+                            });
+
+                            if (rowcount < 2) {
+                                tr.find("a[id^='deleteButton']").hide();
+                            }
+
+                            tr.find("a[id^='addButton']").show();
+
+                        } else { return false; }
+                    });
+
+                    $(this).keyup(function (e) { return false; });
+                    $(this).keypress(function (e) { return false; });
+                    break;
+            }
+        });
+
+        $("#text_ConversionRate").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+        $("#text_ConversionRate").keyup(function (e) { PriceConversion(); });
+
+        $("#text_Total_Tax_Total").keydown(function (e) { return false; });
+        $("#text_Total_Tax_Total").keyup(function (e) { return false; });
+        $("#text_Total_Tax_Total").keypress(function (e) { return false; });
+    });
+
+    function Save_Bill(isDelete) {
+        alert($("#txtExpenceDate").val());
+        if ($("#txtExpenceDate").val() == "") {
+            alert("Date selection is mandatory");
+            $("#txtExpenceDate").focus();
+            return false;
+        }
+
+        if (document.getElementById("uiOrganisationName") != null && document.getElementById("uiOrganisationName") != undefined && $.trim($("#uiOrganisationName").val()).length == 0) {
+            $("#uiOrganisationName").prop("selectedIndex", "");
+            alert("If you are not our [Business User] then please select one Organization from the list");
+            $("#uiOrganisationName").focus();
+            return false;
+        }
+        else if ($("#ddlCustomer") != null && $("#ddlCustomer") != undefined && $.trim($("#ddlCustomer").val()).length == 0) {
+            $("#ddlCustomer").prop("selectedIndex", "");
+            alert("Customer should be selected");
+            $("#ddlCustomer").focus();
+            return false;
+        }
+        else if ($("#txtCusAddress") != null && $("#txtCusAddress") != undefined && $.trim($("#txtCusAddress").val()).length == 0) {
+            $("#txtCusAddress").val("");
+            alert("Shipping address should be specified");
+            $("#txtCusAddress").focus();
+            return false;
+        }
+        else if ($("#txtCusCity") != null && $("#txtCusCity") != undefined && $.trim($("#txtCusCity").val()).length == 0) {
+            $("#txtCusCity").val("");
+            alert("City name should be specified");
+            $("#txtCusCity").focus();
+            return false;
+        }
+        else if ($("#ddlCountry_Basic") != null && $("#ddlCountry_Basic") != undefined && $.trim($("#ddlCountry_Basic").val()).length == 0) {
+            $("#ddlCountry_Basic").prop("selectedIndex", "");
+            alert("Country should be selected");
+            $("#ddlCountry_Basic").focus();
+            return false;
+        }
+        else if ($("#ddlState_Basic") != null && $("#ddlState_Basic") != undefined && $.trim($("#ddlState_Basic").val()).length == 0) {
+            $("#ddlState_Basic").prop("selectedIndex", "");
+            alert("Please select state in the shipping details.");
+            $("#ddlState_Basic").focus();
+            return false;
+        }
+
+        var xmlstring = "";
+        var numberofitem = 0;
+        var isValid = false;
+        var errorFound = false;
+
+        /*
+        <row>
+				<col pid="" price="" qty="", totalamout = "", tax="" />
+			</row>
+        */
+
+        $("[name*=ddlProductList]").each(function () {
+            if (!errorFound) {
+                if ($(this).val().length == 0) {
+                    alert("Please select a product/service.");
+                    text_Quantity.focus();
+                    errorFound = true;
+                }
+                else {
+                    var tr = $(this).closest("tr");
+                    var text_Quantity = tr.find("input[name^='text_Quantity']").val();
+                    var text_Price = tr.find("input[name^='text_Price']").val();
+                    var text_Total = tr.find("input[name^='text_Total']").val();
+                    var text_Tax = tr.find("input[name^='text_Tax']").val();
+                    var text_Total_Tax = tr.find("input[name^='text_Total_Tax']").val();
+
+                    if (!$.isNumeric(text_Quantity)) {
+                        alert("Please enter quantity details.");
+                        tr.find("input[name^='text_Quantity']").focus();
+                        errorFound = true;
+                        return false;
+                    }
+                    else if (!$.isNumeric(text_Price)) {
+                        alert("Please enter price for the selected product.");
+                        tr.find("input[name^='text_Price']").focus();
+                        errorFound = true;
+                        return false;
+                    }
+                    else if (!$.isNumeric(text_Total)) {
+                        alert("Total should not be empty");
+                        tr.find("input[name^='text_Total']").focus();
+                        errorFound = true;
+                        return false;
+                    }
+                    else if (!$.isNumeric(text_Tax)) {
+                        alert("Tax should not be empty");
+                        tr.find("input[name^='text_Tax']").focus();
+                        errorFound = true;
+                        return false;
+                    }
+                    else if (!$.isNumeric(text_Total_Tax)) {
+                        alert("Total (incl. Tax) should not be empty");
+                        tr.find("input[name^='text_Total_Tax']").focus();
+                        errorFound = true;
+                        return false;
+                    }
+                    else {
+                        xmlstring += '[row]';
+                        xmlstring += '  [col ';
+                        xmlstring += '      pid="' + $.trim($(this).val()) + '"  ';
+                        xmlstring += '      qty="' + $.trim(text_Quantity) + '" ';
+                        xmlstring += '      price="' + $.trim(text_Price) + '" ';
+                        xmlstring += '      total="' + $.trim(text_Total) + '" ';
+                        xmlstring += '      tax="' + $.trim(text_Tax) + '" ';
+                        xmlstring += '      AmtInclTax="' + $.trim(text_Total_Tax) + '" ';
+                        xmlstring += '  /] ';
+                        xmlstring += '[/row]';
+
+                        numberofitem = Number(numberofitem) + 1;
+                    }
+                }
+            }
+        });
+
+        if (numberofitem == 0) {
+            alert("At least one item is mandatory for Invoice details");
+            isValid = false;
+            return false;
+        }
+
+        if (!errorFound) { isValid = true; }
+
+        //alert($("#ddlCurrency").val());
+
+        if (isValid) {
+            var dataarray = {
+
+                "isOnlyDelete": isDelete
+                , "OrganizationCode": $("#uiOrganisationName").val()
+                , "BillId": $("#hdnInvoiceID").val()
+                , "CusID": $("#ddlCustomer").val()
+                , "BranchID": $("#hdnBranchID").val()
+                , "BillDate": $("#txtExpenceDate").val()
+                , "DueDate": $("#txtExpenceDueDate").val()
+                , "ShipAddress": $("#txtCusAddress").val()
+                , "ShipCity": $("#txtCusCity").val()
+                , "ShipCountry": $("#ddlCountry_Basic").val()
+                , "ShipState": $("#ddlState_Basic").val()
+                , "xmlstring": xmlstring
+                , "ChangedCurrency": $("#ddlCurrency").val()
+                , "ConversionRate": $("#text_ConversionRate").val()
+                , "PrevConversionRate": ""
+                , "IsReturned": ($("#chkIsReturned").prop('checked') ? "Y" : "")
+                , "Iscancelled": ($("#chkIsCancelled").prop('checked') ? "Y" : "")
+                , "PaidAmount": $("#text_AmounttobePaid").val()
+                , "DueAmount": ""
+                , "SumAmount": $("#text_Total_Tax_Total").val()
+            }
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "/saveinvoice",
+                data: dataarray,
+                success: function (data) {
+                    if (data == "Ok") {
+                        if (isDelete == "Y") {
+                            alert("Data deleted");
+                        } else {
+                            alert("Data updated");
+                        }
+
+                        MakeAllControlsBlank();
+                        CloseParentPopup();
+                    }
+                    else {
+                        //alert(data);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.responseText);
+
+                }
+            });
+        }
+    }
+
+    function PriceConversion() {
+        if ($("#text_Total_Tax_Total").val().length > 0) {
+            $("#text_AmounttobePaid").val((Number($("#text_Total_Tax_Total").val()) * ($("#text_ConversionRate").val().trim() == "" ? 1 : Number($("#text_ConversionRate").val()))).toFixed(2));
+        }
+        else {
+            $("#text_AmounttobePaid").val("");
+        }
+    }
+
+    function GetTotal() {
+        var gtotal = 0;
+        var price = 0;
+        var qty = 0;
+        var tax = 0;
+        var z = 0;
+
+        $("#tbl_breakeup_body1").find("tr").each(function () {
+            price = $(this).find("input[name=text_Price]").val() == "" ? 0 : Number($(this).find("input[name=text_Price]").val());
+            qty = $(this).find("input[name=text_Quantity]").val() == "" ? 1 : Number($(this).find("input[name=text_Quantity]").val());
+            tax = $(this).find("input[name=text_Tax]").val() == "" ? 0 : Number($(this).find("input[name=text_Tax]").val());
+
+            z = (price * qty).toFixed(2);
+            $(this).find("input[name=text_Total]").val(z);
+
+            z = ((price * qty) + Number(tax)).toFixed(2);
+            $(this).find("input[name=text_Total_Tax]").val(z);
+
+            gtotal = Number(gtotal) + Number(z);
+        });
+
+        $("#text_Total_Tax_Total").val(gtotal);
+
+        $("#text_AmounttobePaid").val(gtotal * ($("#text_ConversionRate").val().trim() == "" ? 1 : Number($("#text_ConversionRate").val())).toFixed(2));
+    }
+
+</script>
+
+<div class="portlet-body form">
+    <div class="form-body">
+        <input type="hidden" id="hdnOrganizationCode" value="@Model.OrganizationCode" />
+        <input type="hidden" id="hdnExpenceID" value="@Model.InvoiceID" />
+        <input type="hidden" id="hdnStateId" value="@Model.ShipState" />
+        <input type="hidden" id="hdnCusCountry" value="@Model.ShipCountry" />
+        <input type="hidden" id="hdnInvoiceID" value="@Model.InvoiceID" />
+        <input type="hidden" id="hdnBranchID" value="@Model.BranchID" />
+        <input type="hidden" id="hdnCurrency" value="@Model.ChangedCurrency" />
+        <input type="hidden" id="hdnCusID" value="@Model.CusID" />
+
+        <div class="row">
+            <div class="col-lg-9" style="border-right:solid 1px #83767c;">
+                @if (Session["UserDetails"] != null && "MA".Contains(((BusinessObjects.UserInfo)Session["UserDetails"]).UserType.ToString().Trim().ToUpper()))
+                {
+                    <div class="row row-bottom-5px">
+                        <div class="col-lg-1 col-md-1 col-sm-1">
+                            Organizations
+                        </div>
+                        <div class="col-lg-5">
+                            <select id="uiOrganisationName" class="bs-select form-control" data-live-search="true" data-size="8">@Html.Raw(HttpUtility.HtmlDecode(ViewBag.Organizations))</select>
+                        </div>
+                    </div>
+                }
+
+                <div class="row row-bottom-5px">
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        Customer
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5">
+                        <select id="ddlCustomer" class="bs-select form-control">
+                            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Customers))
+                        </select>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        Date
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5">
+                        <div class="form-group">
+                            <input id="txtExpenceDate" value="@Model.InvoiceDate" class="form-control date-picker" style="width:80%; float:left;" onkeydown="return createnewrow(event);" />
+                            @*<i class="fa fa-calendar" style="float:left;font-size:28px;"></i>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-bottom-5px">
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        Ship to
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-5">
+                        <input type="text" id="txtCusAddress" value="@Model.ShipAddress" class="form-control" placeholder="Address" />
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        City
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-5">
+                        <input type="text" id="txtCusCity" value="@Model.ShipCity" class="form-control" />
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        Country
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-5">
+                        <select id="ddlCountry_Basic" class="bs-select form-control" data-live-search="true" data-size="8"></select><div class="form-control-focus"> </div>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        Sate
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-5">
+                        <select id="ddlState_Basic" class="bs-select form-control" data-live-search="true" data-size="8"></select><div class="form-control-focus"> </div>
+                    </div>
+                </div>
+                <div class="row row-bottom-5px">
+                    <div class="col-lg-12">
+                        <table class="table table-striped table-bordered table-hover" id="sample_3">
+                            <thead>
+                                <tr>
+                                    <th>Items</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                    <th>Tax</th>
+                                    <th>Total incld. Tax</th>
+                                    <th colspan="2">Add/ Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl_breakeup_body1">
+                                @if (Model != null && Model.InvoiceProductList != null && Model.InvoiceProductList.Count > 0)
+                                {
+                                    for (int icount = 0; icount < Model.InvoiceProductList.Count(); icount++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <select name="ddlProductList" class="bs-select form-control"></select>
+                                                <input name="hdnProductId" value="@Model.InvoiceProductList[icount].ProductId" type="hidden" />
+                                            </td>
+                                            <td><input type="text" name="text_Quantity" class="form-control" value="@Model.InvoiceProductList[icount].Quantity" /></td>
+                                            <td><input type="text" name="text_Price" class="form-control" value="@Model.InvoiceProductList[icount].PricePerUnit" /></td>
+                                            <td><input type="text" name="text_Total" class="form-control" value="@Model.InvoiceProductList[icount].TotalAmount" /></td>
+                                            <td><input type="text" name="text_Tax" class="form-control" value="@Model.InvoiceProductList[icount].TaxOnProduct" /></td>
+                                            <td><input type="text" name="text_Total_Tax" class="form-control" value="@Model.InvoiceProductList[icount].TotalAmountIncludeTax" /></td>
+                                            <td>
+                                                @if (icount == Model.InvoiceProductList.Count - 1)
+                                                {
+                                                    <a id="addButton" style="vertical-align:middle;text-align:center;"><i class="fa fa-plus-square fa-lg" style="font-size:28px;vertical-align:middle;text-align:center;"></i></a>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (Model.InvoiceProductList.Count > 1)
+                                                {
+                                                    <a id="deleteButton" style="vertical-align:middle;text-align:center;"><i class="fa fa-trash-o fa-lg" style="color:red;font-size:28px;vertical-align:middle;text-align:center;"></i></a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td><select name="ddlProductList" class="bs-select form-control"></select></td>
+                                        <td><input type="text" name="text_Quantity" class="form-control" /></td>
+                                        <td><input type="text" name="text_Price" class="form-control" /></td>
+                                        <td><input type="text" name="text_Total" class="form-control" /></td>
+                                        <td><input type="text" name="text_Tax" class="form-control" /></td>
+                                        <td><input type="text" name="text_Total_Tax" class="form-control" /></td>
+                                        <td><a id="addButton" style="vertical-align:middle;text-align:center;"><i class="fa fa-plus-square solid fa-lg" style="font-size:28px;vertical-align:middle;text-align:center;"></i></a></td>
+                                        <td><a id="deleteButton" style="vertical-align:middle;text-align:center;display:none;"><i class="fa fa-trash-o fa-lg" style="color:red;font-size:28px;vertical-align:middle;text-align:center;"></i></a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td><b>Total</b></td>
+                                    <td><input type="text" id="text_Total_Tax_Total" class="form-control" value="@Model.SumAmount" /></td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="row row-bottom-5px">
+                    <div class="col-lg-1">
+                        Currency
+                    </div>
+                    <div class="col-lg-2">
+                        <select id="ddlCurrency" class="bs-select form-control" data-live-search="true" data-size="8">
+                            <option value="">Select</option>
+                            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Currencies))
+                        </select>
+                    </div>
+                    <div class="col-lg-1">
+                        Convert rate
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="text" id="text_ConversionRate" class="form-control" placeholder="1 Currency = ?" @(Model.ConversionRate.Trim() == "1" ? "" : "value=" + Model.ConversionRate + "") />
+                        <input type="hidden" id="hidden_ConversionRate" />
+                    </div>
+                    <div class="col-lg-2">
+                        Amount to be Paid
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="text" id="text_AmounttobePaid" class="form-control" placeholder="Amount to be paid" value="@Model.AmountPayable" />
+                    </div>
+                    <div class="col-lg-2 mt-checkbox-inline">
+                        <label class="mt-checkbox">
+                            Is Returned?&nbsp;&nbsp;<input type="checkbox" id="chkIsReturned" class="checkbox" @(!Model.IsCancelled ? "" : "checked=checked") />
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group" style="display:none;">
+                    <div class="mt-checkbox-inline">
+                        <label class="mt-checkbox">
+                            Is Cancelled?&nbsp;&nbsp;<input type="checkbox" id="chkIsCancelled" class="checkbox" @(!Model.IsCancelled ? "" : "checked=checked") />
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-actions ">
+                    <input type="button" id="uiSaveExpence" value="Submit" class="btn green-meadow" onclick="return Save_Bill('');" />
+                    <input type="submit" id="uiDeleteExpence" value="Delete" class="btn red-mint" onclick="return Save_Bill('Y');" />
+                    <input type="button" value="Close" class="btn yellow" onclick="closepopup();" />
+                </div>
+            </div>
+            <div class="col-lg-3">
+
+            </div>
+        </div>
+    </div>
+</div>

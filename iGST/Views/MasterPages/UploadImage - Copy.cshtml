@@ -1,0 +1,275 @@
+﻿@*@model List<BusinessObjects.ProductOrganiztionImageInfo>*@
+
+<style type="text/css">
+    .hide-bullets {
+        list-style: none;
+        margin-left: -40px;
+        margin-top: 20px;
+    }
+
+    .thumbnail {
+        padding: 0;
+    }
+
+    .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+        width: 100%;
+    }
+
+    .fa-times {
+        margin-right: 0;
+        margin-top: 0;
+        float: right;
+        cursor: pointer;
+    }
+</style>
+<script type="text/javascript">
+    function DeleteImage(obj) {
+        if (confirm("Do you want to delete the item ?")) {
+            $("#loading").show();
+
+            var imageData = new FormData();
+
+            imageData.append("isOnlyDelete", "Y");
+            imageData.append("ImageId", obj.id);
+            imageData.append("OrganizationproductId", $("#hdnOrganizationProductId").val());
+            imageData.append("ProductId", "");
+            imageData.append("IsMain", "");
+            imageData.append("IsActive", "");
+            imageData.append("file", null);
+
+            var Url = "";
+            if ($("#hdnType").val() == "P") {
+                Url = "/uploadroductorganizationimage";
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/uploadroductorganizationimage",
+                data: imageData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    $("#loading").hide();
+                    GetMainImage();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $("#loading").hide();
+                    //$("#divErrorMessage").html(xhr.responseText);
+                }
+            });
+        }
+        else {
+            return false;
+        }
+    }
+
+    function UploadImage() {
+        //if (!ValidateControl(document.getElementById("imageUpload"), "Browse", true)) {
+        //    return false;
+        //}
+
+        $("#loading").show();
+
+        var imageData = new FormData();
+
+        imageData.append("isOnlyDelete", "");
+        imageData.append("ImageId", $("#hdnImageId").val());
+        imageData.append("OrganizationproductId", $("#hdnOrganizationProductId").val());
+        imageData.append("ProductId", "");
+        imageData.append("IsMain", ($("#chkIsActive").prop('checked') ? "Y" : "N"));
+        imageData.append("IsActive", ($("#chkIsMain").prop('checked') ? "Y" : "N"));
+
+        var totalFiles = document.getElementById("imageUpload").files.length;
+
+        for (var i = 0; i < totalFiles; i++) {
+            var file = document.getElementById("imageUpload").files[i];
+
+            imageData.append("files", file);
+        }
+
+        var Url = "";
+        if ($("#hdnType").val() == "P") {
+            Url = "/uploadroductorganizationimage";
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/uploadroductorganizationimage",
+            data: imageData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                $("#loading").hide();
+
+                if (!response.Success) {
+                    $("#divErrorMessage").html(response.Message);
+                }
+                else {
+                    $("#imageUpload").val('');
+                    $("#divErrorMessage").html(response.Message);
+                    //CloseChildParentPopup();
+                    GetMainImage();
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $("#loading").hide();
+                $("#divErrorMessage").html(xhr.responseText);
+            }
+        });
+    }
+
+    function GetMainImage() {
+        $("#loading").show();
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/getimagefororganizationproduct",
+            contentType: "application/json; charset=utf-8",
+            data: { "ImageId": "0", "OrganizationproductId": $("#hdnOrganizationProductId").val(), "ProductID": "", "IsActive": "", "IsMain": "" },
+            datatype: "json",
+            success: function (data) {
+                thumhtml = "";
+                imagehtml = "";
+                if (data != null && data != "NO") {
+                    //alert(shtml);
+
+                    var i = 0;
+                    $.each(data, function (id, option) {
+
+                        //imagehtml += '  <div class="' + (i == 0 ? "active item" : "item") + '" data-slide-number="' + i + '">';
+                        //imagehtml += '     <img src="/UploadData/' + option.FileName + '">';
+                        //imagehtml += '  </div>';
+
+                        thumhtml += '  <li class="col-sm-3">';
+                        thumhtml += '      <a class="thumbnail" id="carousel-selector-' + i + '" onclick="imageclick(this)">';
+                        thumhtml += '           <i class="fa fa-times" id="' + option.ImageId + '" onclick="return DeleteImage(this);"></i>';
+                        thumhtml += '           <img src="/UploadData/' + option.FileName + '">';
+                        thumhtml += '      </a>';
+                        thumhtml += '  </li>';
+
+                        //shtml += '  <div class="col-lg-3 col-md-4 col-sm-12">';
+                        //shtml += '      <img src="" alt = ""/>';
+                        //shtml += '  </div>';
+
+                        i++;
+                    });
+                    //alert(shtml);
+                }
+                else {
+                    thumhtml += '  <div class="col-lg-3 col-md-4 col-sm-12">';
+                    thumhtml += '      <img src="/UploadData/NoImage.jpg" alt = ""/>';
+                    thumhtml += '  </div>';
+                }
+                $("#loading").hide();
+                $(".hide-bullets").html(thumhtml);
+                //$(".carousel-inner").html(imagehtml);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $("#loading").hide();
+                alert('Failed to display image ' + xhr.responseText + thrownError);
+            }
+        });
+    }
+
+    function imageclick(obj) {
+        //Handles the carousel thumbnails
+        //var id_selector = obj.attr("id");
+        var id_selector = obj.id;
+
+        //try {
+        //    //alert(id_selector);
+        //    var id = /-(\d+)$/.exec(id_selector)[1];
+        //    //alert(id);
+        //    //console.log(id_selector, id);
+        //    //jQuery('#myCarousel').carousel(parseInt(id));
+        //} catch (e) {
+        //    console.log('Regex failed!', e);
+        //}
+    }
+
+    $(document).ready(function () {
+
+        GetMainImage();
+
+        //$('#myCarousel').carousel({
+        //    interval: 5000
+        //});
+
+        //Handles the carousel thumbnails
+        //$('[id^=carousel-selector-]').click(function () {
+        //    var id_selector = $(this).attr("id");
+        //    try {
+        //        alert(id_selector);
+        //        var id = /-(\d+)$/.exec(id_selector)[1];
+        //        alert(id);
+        //        console.log(id_selector, id);
+        //        jQuery('#myCarousel').carousel(parseInt(id));
+        //    } catch (e) {
+        //        console.log('Regex failed!', e);
+        //    }
+        //});
+        //// When the carousel slides, auto update the text
+        //$('#myCarousel').on('slid.bs.carousel', function (e) {
+        //    var id = $('.item.active').data('slide-number');
+        //    $('#carousel-text').html($('#slide-content-' + id).html());
+        //});
+    });
+
+
+</script>
+
+<div id="loading" style="display:none;width:100vw; height:100vh; background-color:rgba(0,0,0,0.7); z-index:999; position:fixed; margin:0;top:0;left:0;padding-left:49%; padding-top:22%; ">
+    <i class="fa fa-spinner fa-spin" style="font-size:48px;color:white;"></i>
+</div>
+<div class="row" style="min-height:100px;display:none;">
+    <div class="col-lg-2">
+        <input type="hidden" id="hdnPageType" value="@ViewBag.type" />
+        <input type="hidden" id="hdnImageId" value="0" />
+        <input type="hidden" id="hdnOrganizationProductId" value="@ViewBag.OrganizationProductId" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6" style="text-align:right;padding:5px;">
+        <input type="file" name="imageUpload" id="imageUpload" multiple required class="form-control" style="width:250px; float:right;" />&nbsp;&nbsp;
+    </div>
+    <div class="col-lg-1" style="text-align:right;padding:5px;display:none;">
+        <label class="mt-checkbox">
+            @*Is Main?&nbsp;&nbsp;<input type="checkbox" id="chkIsMain" class="checkbox" @(Model.Ismain == "Y" ? "checked" : "") />*@
+            Is Main?&nbsp;&nbsp;<input type="checkbox" id="chkIsMain" class="checkbox">
+            <span></span>
+        </label>
+    </div>
+    <div class="col-lg-1" style="text-align:right;padding:5px;display:none;">
+        <label class="mt-checkbox">
+            @*Is Active?&nbsp;&nbsp;<input type="checkbox" id="chkIsActive" class="checkbox" @(Model.IsActive == "Y" ? "checked" : "") />*@
+            Is Active?&nbsp;&nbsp;<input type="checkbox" id="chkIsActive" class="checkbox">
+            <span></span>
+        </label>
+    </div>
+    <div class="col-lg-1" style="text-align:left;padding:5px;">
+        <input type="submit" id="Upload" value="Upload" class="btn btn-primary" onclick="return UploadImage();">
+    </div>
+</div>
+<div class="row"><div class="col-lg-12">&nbsp;</div></div>
+<div class="row" id="divImage" style="text-align:left; height:280px;border:solid 1px #000000;overflow-y:auto;overflow-x:no-display;">
+    <div class="row">
+        <div class="col-sm-12" id="slider-thumbs">
+            <!-- Bottom switcher of slider -->
+            <ul class="hide-bullets">
+                @*<li class="col-sm-3">
+                        <a class="thumbnail" id="carousel-selector-0"><img src="http://placehold.it/150x150&text=zero"></a>
+                    </li>
+                    <li class="col-sm-3">
+                        <a class="thumbnail" id="carousel-selector-1"><img src="http://placehold.it/150x150&text=1"></a>
+                    </li>*@
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row" style="min-height:80px;display:none;">
+    <div class="col-lg-12" id="divErrorMessage">
+    </div>
+</div>

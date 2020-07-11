@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:50495/sMasterService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BusinessObjects" />
+  <xs:element name="GetList_Branch">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="BranchID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsMainBranch" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_BranchResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_BranchResult" nillable="true" type="q1:ArrayOfBranchInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_Branch">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="BranchID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsMainBranch" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_BranchResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_BranchResult" nillable="true" type="q2:BranchInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_Branch">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="obj" nillable="true" type="q3:BranchInfo" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q4:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_BranchResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_BranchResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_Bank">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="BankID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_BankResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_BankResult" nillable="true" type="q5:ArrayOfBankInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_Bank">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="BankID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_BankResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_BankResult" nillable="true" type="q6:BankInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_Bank">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objBankInfo" nillable="true" type="q7:BankInfo" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q8:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_BankResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_BankResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_BankTransaction">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="BankTransactionID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_BankTransactionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_BankTransactionResult" nillable="true" type="q9:ArrayOfBankTransactionInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_BankTransaction">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="BankTransactionID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_BankTransactionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_BankTransactionResult" nillable="true" type="q10:BankTransactionInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_BankTransaction">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objBankInfo" nillable="true" type="q11:BankTransactionInfo" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q12:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_BankTransactionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_BankTransactionResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Upload_BankTransaction">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOvereWrite" type="xs:boolean" />
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element minOccurs="0" name="ds" nillable="true">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:appinfo>
+                <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+              <xs:element ref="xs:schema" />
+              <xs:any />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element minOccurs="0" name="BankName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q13:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Upload_BankTransactionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Upload_BankTransactionResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="bReturn" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_CategoryForDropdown">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IsExpenseType" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CountryID" type="xs:int" />
+        <xs:element minOccurs="0" name="CategoryID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Option" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="LanguageId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_CategoryForDropdownResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_CategoryForDropdownResult" nillable="true" type="q14:ArrayOfCategoryInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_Category">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IsExpenseType" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CategoryID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CountryId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ProductId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+        <xs:element minOccurs="0" name="Option" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="LanguageId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_CategoryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_CategoryResult" nillable="true" type="q15:ArrayOfCategoryInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_Category">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="CategoryID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CountryId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ProductId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+        <xs:element minOccurs="0" name="LanguageId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_CategoryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_CategoryResult" nillable="true" type="q16:CategoryInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_Category">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="obj" nillable="true" type="q17:CategoryInfo" />
+        <xs:element minOccurs="0" name="UserCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_CategoryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_CategoryResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Upload_Category">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOvereWrite" type="xs:boolean" />
+        <xs:element minOccurs="0" name="ds" nillable="true">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:appinfo>
+                <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+              <xs:element ref="xs:schema" />
+              <xs:any />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element minOccurs="0" name="UserCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Upload_CategoryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Upload_CategoryResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="bReturn" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_Country">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_CountryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_CountryResult" nillable="true" type="q18:ArrayOfCountryInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_State">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="CountryID" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_StateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_StateResult" nillable="true" type="q19:ArrayOfStateInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_Function">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="FunctionID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_FunctionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_FunctionResult" nillable="true" type="q20:ArrayOfFunctionInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_Function">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="FunctionID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_FunctionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_FunctionResult" nillable="true" type="q21:FunctionInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_Function">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objFunctionInfo" nillable="true" type="q22:FunctionInfo" />
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q23:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_FunctionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_FunctionResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_Language">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="LanguageID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="LanguageName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_LanguageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_LanguageResult" nillable="true" type="q24:ArrayOfLanguageInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_Language">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="LanguageID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="LanguageName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_LanguageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_LanguageResult" nillable="true" type="q25:LanguageInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_Language">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="obj" nillable="true" type="q26:LanguageInfo" />
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q27:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_LanguageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_LanguageResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_DataValueLanguageWise">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="MasterTablePrefixs" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="LanguageIds" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_DataValueLanguageWiseResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_DataValueLanguageWiseResult" nillable="true" type="q28:ArrayOfLanguageValueInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_DataValueLanguageWise">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="obj" nillable="true" type="q29:LanguageValueInfo" />
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q30:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_DataValueLanguageWiseResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_DataValueLanguageWiseResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_LanguageCountry">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="LanguageID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CountryID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Visibility" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_LanguageCountryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_LanguageCountryResult" nillable="true" type="q31:ArrayOfLanguageCountryInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_LanguageCountry">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="LanguageID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CountryID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Visibility" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_LanguageCountryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_LanguageCountryResult" nillable="true" type="q32:LanguageCountryInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_LanguageCountry">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="obj" nillable="true" type="q33:LanguageCountryInfo" />
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q34:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_LanguageCountryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_LanguageCountryResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_ServiceClass">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ServiceClassID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ServiceClassName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_ServiceClassResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_ServiceClassResult" nillable="true" type="q35:ArrayOfServiceClassInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_ServiceClass">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ServiceClassID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ServiceClassName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_ServiceClassResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_ServiceClassResult" nillable="true" type="q36:ServiceClassInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_ServiceClass">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="obj" nillable="true" type="q37:ServiceClassInfo" />
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q38:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_ServiceClassResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_ServiceClassResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_ServiceType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ServiceTypeID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ServiceTypeName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_ServiceTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_ServiceTypeResult" nillable="true" type="q39:ArrayOfServiceTypeInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_ServiceType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ServiceTypeID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ServiceTypeName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_ServiceTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_ServiceTypeResult" nillable="true" type="q40:ServiceTypeInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_ServiceType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="obj" nillable="true" type="q41:ServiceTypeInfo" />
+        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q42:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_ServiceTypeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_ServiceTypeResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_ServiceUnit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ServiceUnitID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ServiceUnitName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_ServiceUnitResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_ServiceUnitResult" nillable="true" type="q43:ArrayOfServiceUnitInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_ServiceUnit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ServiceUnitID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ServiceUnitName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_ServiceUnitResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_ServiceUnitResult" nillable="true" type="q44:ServiceUnitInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_ServiceUnit">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="obj" nillable="true" type="q45:ServiceUnitInfo" />
+        <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q46:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_ServiceUnitResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_ServiceUnitResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_Settings">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_SettingsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_SettingsResult" nillable="true" type="q47:ArrayOfSettingsInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_Settings">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_SettingsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_SettingsResult" nillable="true" type="q48:SettingsInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_Settings">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q49="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objSettingsInfo" nillable="true" type="q49:SettingsInfo" />
+        <xs:element xmlns:q50="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q50:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_SettingsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_SettingsResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_StaticValue">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Key" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_StaticValueResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q51="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_StaticValueResult" nillable="true" type="q51:ArrayOfStaticValuInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_Terms">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="TermsID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganisationCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_TermsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q52="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_TermsResult" nillable="true" type="q52:ArrayOfTermsInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_Terms">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="TermsID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganisationCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_TermsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q53="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_TermsResult" nillable="true" type="q53:TermsInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_Terms">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q54="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="TermsInfo" nillable="true" type="q54:TermsInfo" />
+        <xs:element xmlns:q55="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q55:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_TermsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_TermsResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,131 @@
+﻿@model BusinessObjects.BranchInfo
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        BindCountry($("#ddlCountry"), $("#hdnCountry").val(), $("#ddlState"), $("#hdnState").val());
+
+        if (document.getElementById("uiOrganisationName") != null && document.getElementById("uiOrganisationName") != undefined) {
+            BindOrganization($("#uiOrganisationName"), $("#hdnOrganizationCode").val());
+        }
+
+        $("#ddlCountry").change(function () {
+            BindState($("#ddlState"), $(this).val(), "");
+        });
+    });
+
+    function Save_Branch(isDelete) {
+
+        var dataarray = {
+            "isOnlyDelete": isDelete
+        , "OrganizaionName": $("#uiOrganisationName").val()
+        , "BranchId": $("#hdnBranchID").val()
+        , "BranchName": $("#txtBranchName").val()
+        , "Street1": $("#txt_Street1").val()
+        , "Street2": $("#txt_Street2").val()
+        , "City": $("#txt_City").val()
+        , "State": $("#ddlCountry").val()
+        , "Country": $("#ddlCountry").val()
+        , "isMainBranch": ($("#chkisMainBranch").prop('checked') ? "Y" : "")
+        , "isActive": ($("#chkIsActive").prop('checked') ? "Y" : "")
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/branchsave",
+            data: dataarray,
+            success: function (data) {
+                if (data == "Ok") {
+                    if (isDelete == "Y") {
+                        alert("Data deleted");
+                    } else {
+                        alert("Data updated");
+                    }
+
+                    MakeAllControlsBlank();
+                    CloseParentPopup();
+                }
+                else {
+                    alert(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+
+</script>
+
+
+
+<div class="portlet-body form">
+    <input type="hidden" value="@Model.BranchID" id="hdnBranchID" />
+    <input type="hidden" value="@Model.OrganizationCode" id="hdnOrganizationCode" />
+    <input type="hidden" value="@Model.Country" id="hdnCountry" />
+    <input type="hidden" value="@Model.State" id="hdnState" />
+    <div class="form-body">
+        @if (Session["UserDetails"] != null && "M".Contains(((BusinessObjects.UserInfo)Session["UserDetails"]).UserType.ToString().Trim().ToUpper()))
+        {
+            <div class="form-group">
+                <label class="control-label">Organizations</label>
+                <select id="uiOrganisationName" class="bs-select form-control" data-live-search="true" data-size="8"></select>
+                <div class="form-control-focus"> </div>
+            </div>
+        }
+        <div class="form-group">
+            <label class="control-label">Branch Name</label>
+            <input placeholder="Branch Name" id="txtBranchName" value="@Model.BranchName" class="form-control" type="text" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Street 1</label>
+            <input placeholder="Street 1" id="txt_Street1" value="@Model.Street1" class="form-control" type="text" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Street 1</label>
+            <input placeholder="Street 2" id="txt_Street2" value="@Model.Street2" class="form-control" type="text" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">City</label>
+            <input placeholder="City" id="txt_City" value="@Model.City" class="form-control" type="text" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Country</label>
+            <select id="ddlCountry" class="bs-select form-control" data-live-search="true" data-size="8"></select>
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">State</label>
+            <select id="ddlState" class="bs-select form-control" data-live-search="true" data-size="8"></select>
+            <div class="form-control-focus"> </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="mt-checkbox-inline">
+            <label class="mt-checkbox">
+                Is main branch?&nbsp;&nbsp;<input type="checkbox" id="chkisMainBranch" checked="checked" class="checkbox" />
+                <span></span>
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="mt-checkbox-inline">
+            <label class="mt-checkbox">
+                Is Active?&nbsp;&nbsp;<input type="checkbox" id="chkIsActive" checked="checked" class="checkbox" />
+                <span></span>
+            </label>
+        </div>
+    </div>
+</div>
+<div class="form-actions">
+    <input type="button" id="uiSaveBranch" value="Submit" class="btn green-meadow" onclick="return Save_Branch('');" />
+    <input type="submit" id="uiDeleteBranch" value="Delete" class="btn red-mint" onclick="return Save_Branch('Y');" />
+    <input type="button" value="Close" class="btn yellow" onclick="closepopup();" />
+</div>
+</div>

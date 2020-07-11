@@ -1,0 +1,220 @@
+﻿@model List<BusinessObjects.ServiceClassInfo>
+
+@{
+    ViewBag.Title = "ServiceClass list";
+}
+
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+@section Styles
+{
+    @Styles.Render("~/assets/global/plugins/datatables/datatables.min.css")
+    @Styles.Render("~/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css")
+
+    @Styles.Render("~/assets/global/plugins/bootstrap-select/css/bootstrap-select.css")
+    @Styles.Render("~/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css")
+    <style type="text/css">
+        .row-bottom-5px {
+            margin-bottom: 5px;
+        }
+    </style>
+}
+<!-- END PAGE LEVEL PLUGINS -->
+
+<script type="text/javascript">
+    function OpenDetailsPage(id) {
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            cache: false,
+            type: "GET",
+            //url: "/MasterPages/GetDetails_ServiceClass/",
+            url: "/serviceclass/",
+            contentType: "application/json; charset=utf-8",
+            data: { "ServiceClassID": id },
+            datatype: "json",
+            success: function (data) {
+                $('#content_ServiceClass_Details').html(data);
+                //$('#myModal').modal(options);
+                $('.modal-title').html("ServiceClass Details");
+                $('#myModal').modal('show');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve ServiceClass. due to error=' + xhr.status + '=' + thrownError);
+            }
+        });
+    }
+
+    function OpenUploadPage() {
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/upload",
+            contentType: "application/json; charset=utf-8",
+            //data: { "ServiceClassID": id },
+            datatype: "json",
+            success: function (data) {
+                $('#content_ServiceClass_Details').html(data);
+                //$('#myModal').modal(options);
+                $('.modal-title').html("Upload Excel");
+                $('#myModal').modal('show');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states.');
+            }
+        });
+    }
+
+    function CloseParentPopup() {
+        $('#content_ServiceClass_Details').html('');
+        $('#myModal').modal('hide');
+        window.location.href = "/MasterPages/GetList_ServiceClass/";
+    }
+
+    function closepopup() {
+        if (confirm('Would you like to colse the window?')) {
+            $('#content_ServiceClass_Details').html('');
+            $('#myModal').modal('hide');
+        }
+    }
+</script>
+
+<!-- /.modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog modal-full">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="closepopup();" aria-hidden="true"></button>
+                <h4 class="modal-title">Modal Title</h4>
+            </div>
+            <div class="modal-body" id="content_ServiceClass_Details"> </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!-- BEGIN PAGE HEAD-->
+<div class="page-head">
+    <!-- BEGIN PAGE TITLE -->
+    <div class="page-title">
+        <h1>
+            ServiceClass
+            <small>ServiceClasss</small>
+        </h1>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- BEGIN PAGE TOOLBAR -->
+    <div class="page-toolbar">
+        <!-- BEGIN THEME PANEL -->
+        <div class="btn-group btn-group-devided" data-toggle="buttons">
+            <a class="btn btn-circle btn-default" href="javascript:;" onclick="OpenDetailsPage('')">
+                <i class="fa fa-plus"></i> Add
+            </a>
+            @*<label class="btn btn-transparent grey-salsa btn-outline btn-circle btn-sm" style="display:none;">
+                <a href="#" class="toggle" onclick="OpenUploadPage('')">Upload</a>
+            </label>*@
+        </div>
+        <div class="btn-group">
+            <a class="btn red btn-outline btn-circle" href="javascript:;" data-toggle="dropdown">
+                <i class="fa fa-share"></i>
+                <span class="hidden-xs"> Trigger Tools </span>
+                <i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="dropdown-menu pull-right" id="sample_3_tools">
+                <li>
+                    <a href="javascript:;" data-action="0" class="tool-action">
+                        <i class="icon-printer"></i> Print
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-action="1" class="tool-action">
+                        <i class="icon-check"></i> Copy
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-action="2" class="tool-action">
+                        <i class="icon-doc"></i> PDF
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-action="3" class="tool-action">
+                        <i class="icon-paper-clip"></i> Excel
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-action="4" class="tool-action">
+                        <i class="icon-cloud-upload"></i> CSV
+                    </a>
+                </li>
+                <li class="divider"> </li>
+                <li>
+                    <a href="javascript:;" data-action="5" class="tool-action">
+                        <i class="icon-refresh"></i> Reload
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- END THEME PANEL -->
+    </div>
+    <!-- END PAGE TOOLBAR -->
+</div>
+<!-- END PAGE HEAD-->
+<div class="row">
+    <div class="col-md-12">
+        <!-- Begin: life time stats -->
+        <div class="portlet light portlet-fit portlet-datatable bordered">
+            <div class="portlet-body">
+                <div class="table-container">
+                    @if (Model != null)
+                    {
+                        <table class="table table-striped table-bordered table-hover" id="sample_3">
+                            <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>ServiceClass</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (BusinessObjects.ServiceClassInfo obj in Model)
+                                {
+                                    <tr>
+                                        <td><a href="#" onclick="OpenDetailsPage(@obj.ServiceClassId)" class="anchorDetail">Details</a></td>
+                                        <td>@obj.ServiceClassName    </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="col-md-6">
+                            No data to be previewed
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- End: life time stats -->
+    </div>
+</div>
+
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+@section Scripts1
+{
+    @Scripts.Render("~/assets/global/scripts/datatable.js")
+    @Scripts.Render("~/assets/global/plugins/datatables/datatables.min.js")
+    @Scripts.Render("~/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js")
+
+    @Scripts.Render("~/assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js")
+    @Scripts.Render("~/assets/global/plugins/moment.min.js")
+    @Scripts.Render("~/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js")
+}
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+@section Scripts2
+{
+    @Scripts.Render("~/assets/pages/scripts/table-datatables-buttons.min.js")
+    @Scripts.Render("~/assets/pages/scripts/components-bootstrap-select.min.js")
+    @Scripts.Render("~/assets/pages/scripts/components-date-time-pickers.min.js")
+}
+<!--END PAGE LEVEL SCRIPTS-->

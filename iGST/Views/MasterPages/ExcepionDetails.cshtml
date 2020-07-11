@@ -1,0 +1,472 @@
+﻿@model BusinessObjects.InvoiceInfo
+
+<script type="text/javascript">
+
+    function Save_Expense(isDelete) {
+
+        if ($("#ddlCustomer").val() == "") {
+            alert("Customer name selection mandatory");
+            $("#ddlCustomer").focus();
+            return false;
+        }
+        if ($("#txtExpenceDate").val() == "") {
+            alert("Expence date is mandatory");
+            $("#txtExpenceDate").focus();
+            return false;
+        }
+
+        var xmlstring = "";
+        /*
+        <row>
+				<col pid="" price="" qty="", totalamout = "", tax="" />
+			</row>
+        */
+
+        $("[name*=ddlProductList]").each(function () {
+            var tr = $(this).closest("tr");
+            xmlstring += '[row]';
+            xmlstring += '  [col ';
+            xmlstring += '      pid="' + $(this).val() + '"  ';
+            xmlstring += '      qty="' + tr.find("input[name^='text_Quantity']").val() + '" ';
+            xmlstring += '      price="' + tr.find("input[name^='text_Price']").val() + '" ';
+            xmlstring += '      total="' + tr.find("input[name^='text_Total']").val() + '" ';
+            xmlstring += '      tax="' + tr.find("input[name^='text_Tax']").val() + '" ';
+            xmlstring += '      totaltax="' + tr.find("input[name^='text_Total_Tax']").val() + '" ';
+            xmlstring += '  /] ';
+            xmlstring += '[/row]';
+        });
+
+        var dataarray = {
+
+            "isOnlyDelete": isDelete
+            , "BillId": $("#hdnInvoiceID").val()
+            , "CusID": $("#ddlCustomer").val()
+            , "BranchID": $("#hdnBranchID").val()
+            , "BillDate": $("#txtExpenceDate").val()
+            , "DueDate": $("#txtExpenceDueDate").val()
+            , "CustomerAddress": $("#txtCusAddress").val()
+            , "CustomerCity": $("#txtExpenceDueDate").val()
+            , "CustomerCountry": $("#ddlCountry_Basic").val()
+            , "CustomerState": $("#ddlState_Basic").val()
+            , "xmlstring": xmlstring
+            , "IsReturned": ($("#chkIsReturned").prop('checked') ? "Y" : "")
+            , "Iscancelled": ($("#chkIsCancelled").prop('checked') ? "Y" : "")
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/saveexpense",
+            data: dataarray,
+            success: function (data) {
+                if (data == "Ok") {
+                    if (isDelete == "Y") {
+                        alert("Data deleted");
+                    } else {
+                        alert("Data updated");
+                    }
+
+                    MakeAllControlsBlank();
+                    CloseParentPopup();
+                }
+                else {
+                    alert(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $(function () {
+            $(".date-picker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+0", // You can set the year range as per as your need
+                dateFormat: 'dd/mm/yy'
+            });
+        });
+
+        $("#addButton").click(function () {
+            $(this).closest("tr").clone(true).appendTo("#sample_3").find('input[type=text]').each(function () { $(this).val(''); });
+        });
+
+        $("#deleteButton").click(function () {
+            $(this).closest("tr").remove();
+        });
+
+        $("#ddlCountry_Basic").change(function () {
+            BindState($("#ddlState_Basic"), $(this).val(), "");
+        });
+
+        //BindTerms();
+        BindCountry($("#ddlCountry_Basic"), $("#hdnCusCountry").val(), $("#ddlState_Basic"), $("#hdnStateId").val());
+        BindSupplier($("#ddlCustomer"));
+        BindProduct();
+
+        $("input[name=text_Quantity]").each(function () {
+            $(this).keydown(function (e) { FilterKeys("I", e, $(this)); });
+            $(this).keyup(function (e) { GetTotal($(this)); });
+        });
+
+        $("input[name=text_Price]").each(function () {
+            $(this).keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+            $(this).keyup(function (e) { GetTotal($(this)); });
+        });
+
+        $("input[name=text_Total]").each(function () {
+            $(this).keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+        });
+
+        $("input[name=text_Tax]").each(function () {
+            $(this).keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+            $(this).keyup(function (e) { GetTotal($(this)); });
+        });
+
+        $("input[name=text_Total_Tax]").each(function () {
+            $(this).keydown(function (e) { return false; });
+            $(this).keyup(function (e) { return false; });
+        });
+
+        $("#text_PaidAmount").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+        $("#text_PaidAmount").keyup(function (e) { finddueAmount(); });
+        $("#text_DueAmount").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+        $("#text_ConversionRate").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+        $("#text_ConversionRate").keyup(function (e) { PriceConversion(); });
+
+        $("#text_DueAmount").keydown(function (e) { return false; });
+        $("#text_DueAmount").keyup(function (e) { return false; });
+        $("#text_Total_Tax_Total").keydown(function (e) { return false; });
+        $("#text_Total_Tax_Total").keyup(function (e) { return false; });
+    });
+
+    function finddueAmount() {
+        var sub = ($("#text_Total_Tax_Total").val() == "" ? 0 : Number($("#text_Total_Tax_Total").val()))
+                - ($("#text_PaidAmount").val() == "" ? 0 : Number($("#text_PaidAmount").val())) 
+
+        $("#text_DueAmount").val(sub);
+    }
+
+    function PriceConversion() {
+        var previousconversionrate = $("#hidden_ConversionRate").val().trim() == "" ? 1 : Number($("#hidden_ConversionRate").val());
+        var conversionrate = $("#text_ConversionRate").val().trim() == "" ? 1 : Number($("#text_ConversionRate").val());
+
+        $("input[name=text_Price]").each(function () {
+            var newval = (($(this).val().trim() == "" ? 0 : Number($(this).val())) / previousconversionrate) * conversionrate;
+
+            $(this).val(newval);
+
+            GetTotal($(this));
+        });
+
+        var newpaidamount = ($("#text_PaidAmount").val() == "" ? 0 : Number($("#text_PaidAmount").val())) * conversionrate;
+
+        $("#text_PaidAmount").val(newpaidamount);
+
+        finddueAmount();
+
+        $("#hidden_ConversionRate").val(conversionrate);
+    }
+
+
+    function GetTotal(obj) {
+
+        obj.closest("tr").find("input[name=text_Total]").each(function () {
+            var price = 0;
+            var qty = 0;
+            var tax = 0;
+
+            $(this).closest("tr").find("input[name=text_Price]").each(function () { price = Number($(this).val() == "" ? 0 : $(this).val()); });
+            $(this).closest("tr").find("input[name=text_Quantity]").each(function () { qty = Number($(this).val() == "" ? 1 : $(this).val()); });
+
+            $(this).closest("tr").find("input[name=text_Tax]").each(function () { tax = Number($(this).val() == "" ? 0 : $(this).val()); });
+
+            $(this).val(price * qty);
+
+            $(this).closest("tr").find("input[name=text_Total_Tax]").each(function () { $(this).val((price * qty) + Number(tax)); });
+        });
+
+        var sum = 0;
+
+        obj.closest("tbody").find("input[name=text_Total_Tax]").each(function () {
+            sum = sum + ($(this).val() == "" ? 0 : Number($(this).val()));
+        });
+
+        obj.closest("table").find("input[id=text_Total_Tax_Total]").each(function () {
+            $(this).val(sum);
+        });
+    }
+
+</script>
+
+
+
+<div class="portlet-body form">
+    @Html.HiddenFor(m => m.InvoiceID, new { @id = "hdnExpenceID" })
+    <div class="form-body">
+        <input type="hidden" id="hdnStateId" value="@Model.CusState" />
+        <input type="hidden" id="hdnCusCountry" value="@Model.CusCountry" />
+        <input type="hidden" id="hdnInvoiceID" value="@Model.InvoiceID" />
+        <input type="hidden" id="hdnBranchID" value="@Model.BranchID" />
+        <div class="row">
+            <div class="col-lg-9" style="border-right:solid 1px #83767c;">
+                <div class="row row-bottom-5px">
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        Supplier
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5">
+                        <select id="ddlCustomer" class="bs-select form-control">
+                            <option value="">Customer...</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        Date
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5">
+                        <div class="form-group">
+                            <input type="datetime" id="txtExpenceDate date-picker" value="@Model.InvoiceDate" class="form-control" style="width:80%; float:left;" />
+                            @*<i class="fa fa-calendar" style="float:left;font-size:28px;"></i>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-bottom-5px">
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        Ship to
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-5">
+                        @Html.TextBoxFor(m => m.CusAddress, new { @id = "txtCusAddress", @class = "form-control", @placeholder = "Address" })
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        City
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-5">
+                        <input type="text" id="txtAddress" value="@Model.CusCity" class="form-control" />
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        Country
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-5">
+                        <select id="ddlCountry_Basic" class="bs-select form-control" data-live-search="true" data-size="8"></select><div class="form-control-focus"> </div>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        Sate
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-5">
+                        <select id="ddlState_Basic" class="bs-select form-control" data-live-search="true" data-size="8"></select><div class="form-control-focus"> </div>
+                    </div>
+                </div>
+                <div class="row row-bottom-5px">
+                    <div class="col-lg-12">
+                        <table class="table table-striped table-bordered table-hover" id="sample_3">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                    <th>Tax</th>
+                                    <th>Total incld. Tax</th>
+                                    <th colspan="2">Add/ Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><select name="ddlProductList" class="bs-select form-control"></select></td>
+                                    <td><input type="text" name="text_Quantity" class="form-control" /></td>
+                                    <td><input type="text" name="text_Price" class="form-control" /></td>
+                                    <td><input type="text" name="text_Total" class="form-control" /></td>
+                                    <td><input type="text" name="text_Tax" class="form-control" /></td>
+                                    <td><input type="text" name="text_Total_Tax" class="form-control" /></td>
+                                    <td><input type="button" id="addButton" class="btn btn-primary btn-sm" value="Add" /></td>
+                                    <td><input type="button" id="deleteButton" class="btn btn-danger btn-sm" value="Delete" /></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td><b>Total</b></td>
+                                    <td><input type="text" id="text_Total_Tax_Total" class="form-control" /></td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="row row-bottom-5px">
+                    <div class="col-lg-1">
+                        Currency
+                    </div>
+                    <div class="col-lg-2">
+                        <select id="ddlCurrency" class="bs-select form-control" data-live-search="true" data-size="8">
+                            <option value="ALL">Leke (Lek)</option>
+                            <option value="USD">Dollars ($)</option>
+                            <option value="AFN">Afghanis (?)</option>
+                            <option value="ARS">Pesos ($)</option>
+                            <option value="AWG">Guilders (ƒ)</option>
+                            <option value="AUD">Dollars ($)</option>
+                            <option value="AZN">New Manats (ман)</option>
+                            <option value="BSD">Dollars ($)</option>
+                            <option value="BBD">Dollars ($)</option>
+                            <option value="BYR">Rubles (p.)</option>
+                            <option value="EUR">Euro (€)</option>
+                            <option value="BZD">Dollars (BZ$)</option>
+                            <option value="BMD">Dollars ($)</option>
+                            <option value="BOB">Bolivianos ($b)</option>
+                            <option value="BAM">Convertible Marka (KM)</option>
+                            <option value="BWP">Pula (P)</option>
+                            <option value="BGN">Leva (??)</option>
+                            <option value="BRL">Reais (R$)</option>
+                            <option value="GBP">Pounds (£)</option>
+                            <option value="BND">Dollars ($)</option>
+                            <option value="KHR">Riels (?)</option>
+                            <option value="CAD">Dollars ($)</option>
+                            <option value="KYD">Dollars ($)</option>
+                            <option value="CLP">Pesos ($)</option>
+                            <option value="CNY">Yuan Renminbi (¥)</option>
+                            <option value="COP">Pesos ($)</option>
+                            <option value="CRC">Colón (¢)</option>
+                            <option value="HRK">Kuna (kn)</option>
+                            <option value="CUP">Pesos (?)</option>
+                            <option value="CZK">Koruny (Kc)</option>
+                            <option value="DKK">Kroner (kr)</option>
+                            <option value="DOP ">Pesos (RD$)</option>
+                            <option value="XCD">Dollars ($)</option>
+                            <option value="EGP">Pounds (£)</option>
+                            <option value="SVC">Colones ($)</option>
+                            <option value="FKP">Pounds (£)</option>
+                            <option value="FJD">Dollars ($)</option>
+                            <option value="GHC">Cedis (¢)</option>
+                            <option value="GIP">Pounds (£)</option>
+                            <option value="GTQ">Quetzales (Q)</option>
+                            <option value="GGP">Pounds (£)</option>
+                            <option value="GYD">Dollars ($)</option>
+                            <option value="HNL">Lempiras (L)</option>
+                            <option value="HKD">Dollars ($)</option>
+                            <option value="HUF">Forint (Ft)</option>
+                            <option value="ISK">Kronur (kr)</option>
+                            <option value="INR">Rupees (Rp)</option>
+                            <option value="IDR">Rupiahs (Rp)</option>
+                            <option value="IRR">Rials (?)</option>
+                            <option value="IMP">Pounds (£)</option>
+                            <option value="ILS">New Shekels (?)</option>
+                            <option value="JMD">Dollars (J$)</option>
+                            <option value="JPY">Yen (¥)</option>
+                            <option value="JEP">Pounds (£)</option>
+                            <option value="KZT">Tenge (??)</option>
+                            <option value="KPW">Won (?)</option>
+                            <option value="KRW">Won (?)</option>
+                            <option value="KGS">Soms (??)</option>
+                            <option value="LAK">Kips (?)</option>
+                            <option value="LVL">Lati (Ls)</option>
+                            <option value="LBP">Pounds (£)</option>
+                            <option value="LRD">Dollars ($)</option>
+                            <option value="CHF">Switzerland Francs (CHF)</option>
+                            <option value="LTL">Litai (Lt)</option>
+                            <option value="MKD">Denars (???)</option>
+                            <option value="MYR">Ringgits (RM)</option>
+                            <option value="MUR">Rupees (?)</option>
+                            <option value="MXN">Pesos ($)</option>
+                            <option value="MNT">Tugriks (?)</option>
+                            <option value="MZN">Meticais (MT)</option>
+                            <option value="NAD">Dollars ($)</option>
+                            <option value="NPR">Rupees (?)</option>
+                            <option value="ANG">Guilders (ƒ)</option>
+                            <option value="NZD">Dollars ($)</option>
+                            <option value="NIO">Cordobas (C$)</option>
+                            <option value="NGN">Nairas (?)</option>
+                            <option value="NOK">Krone (kr)</option>
+                            <option value="OMR">Rials (?)</option>
+                            <option value="PKR">Rupees (?)</option>
+                            <option value="PAB">Balboa (B/.)</option>
+                            <option value="PYG">Guarani (Gs)</option>
+                            <option value="PEN">Nuevos Soles (S/.)</option>
+                            <option value="PHP">Pesos (Php)</option>
+                            <option value="PLN">Zlotych (zl)</option>
+                            <option value="QAR">Rials (?)</option>
+                            <option value="RON">New Lei (lei)</option>
+                            <option value="RUB">Rubles (???)</option>
+                            <option value="SHP">Pounds (£)</option>
+                            <option value="SAR">Riyals (?)</option>
+                            <option value="RSD">Dinars (???.)</option>
+                            <option value="SCR">Rupees (?)</option>
+                            <option value="SGD">Dollars ($)</option>
+                            <option value="SBD">Dollars ($)</option>
+                            <option value="SOS">Shillings (S)</option>
+                            <option value="ZAR">Rand (R)</option>
+                            <option value="LKR">Rupees (?)</option>
+                            <option value="SEK">Kronor (kr)</option>
+                            <option value="SRD">Dollars ($)</option>
+                            <option value="SYP">Pounds (£)</option>
+                            <option value="TWD">New Dollars (NT$)</option>
+                            <option value="THB">Baht (?)</option>
+                            <option value="TTD">Dollars (TT$)</option>
+                            <option value="TRY">Lira (TL)</option>
+                            <option value="TRL">Liras (£)</option>
+                            <option value="TVD">Dollars ($)</option>
+                            <option value="UAH">Hryvnia (?)</option>
+                            <option value="UYU">Pesos ($U)</option>
+                            <option value="UZS">Sums (??)</option>
+                            <option value="VEF">Bolivares Fuertes (Bs)</option>
+                            <option value="VND">Dong (?)</option>
+                            <option value="YER">Rials (?)</option>
+                            <option value="ZWD">Zimbabwe Dollars (Z$)</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3">
+                        Convert rate (1 INR =)
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="text" id="text_ConversionRate" class="form-control" placeholder="1234" />
+                        <input type="hidden" id="hidden_ConversionRate" />
+                    </div>
+                    <div class="col-lg-3">
+                        Is Returned?&nbsp;&nbsp;<input type="checkbox" id="chkIsReturned" checked="checked" class="checkbox" />
+                    </div>
+                </div>
+                <div class="row row-bottom-5px">
+                    <div class="col-lg-1">
+                        Paid
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="text" id="text_PaidAmount" class="form-control" placeholder="Amount to be paid" />
+                    </div>
+                    <div class="col-lg-1">
+                        Due
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="text" id="text_DueAmount" class="form-control" />
+                    </div>
+                    <div class="col-lg-1">
+                        Due Date
+                    </div>
+                    <div class="col-lg-5">
+                        <input type="datetime" id="txtExpenceDueDate" value="@Model.InvoiceDueDate" class="form-control" style="width:80%;float:left;" />
+                        <i class="fa fa-calendar" style="float:left;font-size:28px;"></i>
+                    </div>
+                </div>
+                <div class="form-group" style="display:none;">
+                    <div class="mt-checkbox-inline">
+                        <label class="mt-checkbox">
+                            Is Cancelled?&nbsp;&nbsp;<input type="checkbox" id="chkIsCancelled" checked="checked" class="checkbox" />
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-actions ">
+                    <input type="button" id="uiSaveExpence" value="Submit" class="btn green-meadow" onclick="return Save_Expense('');" />
+                    <input type="submit" id="uiDeleteExpence" value="Delete" class="btn red-mint" onclick="return Save_Expense('Y');" />
+                    <input type="button" value="Close" class="btn yellow" onclick="closepopup();" />
+                </div>
+            </div>
+            <div class="col-lg-3">
+
+            </div>
+        </div>
+    </div>

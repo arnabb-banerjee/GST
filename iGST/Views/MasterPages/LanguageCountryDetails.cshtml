@@ -1,0 +1,105 @@
+﻿@model BusinessObjects.LanguageCountryInfo
+
+
+<script type="text/javascript">
+
+    function Save_Language(isDelete) {
+
+        var dataarray = {
+            "isOnlyDelete": isDelete
+        , "Id": $("#hdnLanguageID").val()
+        , "LanguageId": $("#ddlLanguage").val()
+        , "CountryId": $("#ddlCountry").val()
+        , "Visibility": ($("#chkVisibility").prop('checked') ? "Y" : "")
+        , "Priority": $("#ddlPriority").val()
+        , "IsActive": ($("#chkIsActive").prop('checked') ? "Y" : "")
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/languagecountrysave",
+            data: dataarray,
+            success: function (data) {
+                if (isDelete == "Y") {
+                    alert("Data deleted");
+                } else {
+                    alert("Data updated");
+                }
+                MakeAllControlsBlank();
+                CloseParentPopup();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+            }
+        });
+    }
+
+    function MakeAllControlsBlank() {
+
+        $('input[type="text"]').each(function () {
+            $(this).val('');
+        });
+
+        $("#chkIsActive").attr('checked', true);
+    }
+
+    $(document).ready(function () {
+        $("#ddlLanguage").focus();
+        BindCountry($("#ddlCountry"), null, null, null);
+        BindLanguage($("#ddlLanguage"), null);
+    });
+
+
+</script>
+
+
+
+<div class="portlet-body form">
+    @Html.HiddenFor(m => m.LanguageId, new { @id = "hdnLanguageID" })
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label">Language</label>
+            <select id="ddlLanguage" class="form-control input-sm"></select>
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Country</label>
+            <select id="ddlCountry" class="bs-select form-control"></select>
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Priority</label>
+            <select id="ddlPriority" class="bs-select form-control" data-live-search="true" data-size="8">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <div class="mt-checkbox-inline">
+                <label class="mt-checkbox">
+                    Visibility?&nbsp;&nbsp;<input type="checkbox" id="chkVisibility" checked="checked" class="checkbox" />
+                    <span></span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="mt-checkbox-inline">
+                <label class="mt-checkbox">
+                    Is Active?&nbsp;&nbsp;<input type="checkbox" id="chkIsActive" checked="checked" class="checkbox" />
+                    <span></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-actions">
+        <input type="button" id="uiSaveLanguage" value="Submit" class="btn green-meadow" onclick="return Save_Language('');" />
+        <input type="submit" id="uiDeleteLanguage" value="Delete" class="btn red-mint" onclick="return Save_Language('Y');" />
+        <input type="button" value="Close" class="btn yellow" onclick="closepopup();" />
+    </div>
+</div>

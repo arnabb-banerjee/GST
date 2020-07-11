@@ -1,0 +1,117 @@
+﻿@model BusinessObjects.SettingsInfo
+
+<script type="text/javascript">
+
+    function Save_Settings() {
+
+        var dataarray = {
+            "an_AlertText_GSTDate": $("#uian_AlertText_GSTDate").val()
+            , "an_AlertText_PaidMembership": $("#uian_AlertText_PaidMembership").val()
+            , "an_isAllowedAlert_GSTDate": ($("#uian_isAllowedAlert_GSTDate").prop('checked') ? "Y" : "")
+            , "an_isAllowedAlert_PaidMembership": ($("#uian_isAllowedAlert_PaidMembership").prop('checked') ? "Y" : "")
+            , "c_isAllowedMultyLanguage": ""
+            , "InfoType": "AN"
+            , "mc_CurrencyList": ""
+            , "mc_isAllowedMutyCurrency": ""
+            , "OrganizationCode": $("#uiOrganisationName").val()
+            , "p_BankAccountHolder": ""
+            , "p_BankAccountIBankName": ""
+            , "p_BankAccountIBranchName": ""
+            , "p_BankAccountIFSCCode": ""
+            , "p_BankAccountIMCRCode": ""
+            , "p_BankAccountNumber": ""
+            , "p_isAllowedOnlinePayment": ""
+            , "p_PaypalAccountID": ""
+            , "CompanyName": ""
+            , "Email": ""
+            , "Mobile": ""
+            , "Address": ""
+            , "City": ""
+            , "State": ""
+            , "Country": ""
+            , "Website": ""
+            , "CIN": ""
+            , "PAN": ""
+            , "DefaultEmail": ""
+            , "SMTP": ""
+        }
+        $("#loading").hide();
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/settingssave",
+            data: dataarray,
+            success: function (data) {
+                $("#loading").hide();
+                if (data == "Ok") {
+                    if (isDelete == "Y") {
+                        alert("Data deleted");
+                    } else {
+                        alert("Data updated");
+                    }
+
+                    MakeAllControlsBlank();
+                    CloseParentPopup();
+                }
+                else {
+                    alert(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $("#loading").hide();
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+
+    //$(document).ready(function () {});
+
+</script>
+
+
+<div class="portlet-body form">
+    <input type="hidden" value="@Model.OrganizationCode" id="hdnOrganizationCode" />
+    <div class="form-body">
+        @if (Session["UserDetails"] != null && "M".Contains(((BusinessObjects.UserInfo)Session["UserDetails"]).UserType.ToString().Trim().ToUpper()))
+        {
+            <div class="form-group">
+                <label class="control-label">Organizations</label>
+                <select id="uiOrganisationName" class="bs-select form-control" data-live-search="true" data-size="8">@Html.Raw(HttpUtility.HtmlDecode(ViewBag.Organizations))</select>
+                <div class="form-control-focus"> </div>
+            </div>
+        }
+
+        <div class="form-group">
+            <div class="mt-checkbox-inline">
+                <label class="mt-checkbox">
+                    Allow alert for the GST payment date?&nbsp;&nbsp;<input type="checkbox" id="uian_isAllowedAlert_GSTDate" class="checkbox" @(Model.an_isAllowedAlert_GSTDate ? "checked=checked" : "") />
+                    <span></span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Alert text for GST comming date</label>
+            <input placeholder="Bank Name" id="uian_AlertText_GSTDate" value="@Model.an_AlertText_GSTDate" class="form-control" type="text" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <div class="mt-checkbox-inline">
+                <label class="mt-checkbox">
+                    Allow alert for payment of membership?&nbsp;&nbsp;<input type="checkbox" id="uian_isAllowedAlert_PaidMembership" class="checkbox" @(Model.an_isAllowedAlert_PaidMembership ? "checked=checked" : "") />
+                    <span></span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Text for payment of membership</label>
+            <input placeholder="Bank Name" id="uian_AlertText_PaidMembership" value="@Model.an_AlertText_PaidMembership" class="form-control" type="text" />
+            <div class="form-control-focus"> </div>
+        </div>
+
+        <div class="form-actions">
+            <input type="button" id="uiSaveBank" value="Submit" class="btn green-meadow" onclick="return Save_Settings('');" />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:50495/sProductService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BusinessObjects" />
+  <xs:element name="GetList_ProductDropdownlist">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ProductID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ProductName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsExpense" type="xs:boolean" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CategoryId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+        <xs:element minOccurs="0" name="LanguageId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_ProductDropdownlistResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_ProductDropdownlistResult" nillable="true" type="q1:ArrayOfProductInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_Product">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ProductID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ProductName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsExpense" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CategoryId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+        <xs:element minOccurs="0" name="LanguageId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_ProductResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_ProductResult" nillable="true" type="q2:ArrayOfProductInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_Product">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ProductID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ProductName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsExpense" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CategoryId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+        <xs:element minOccurs="0" name="LanguageId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_ProductResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_ProductResult" nillable="true" type="q3:ProductInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_Product">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="obj" nillable="true" type="q4:ProductInfo" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q5:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_ProductResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_ProductResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Upload_Product">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOvereWrite" type="xs:boolean" />
+        <xs:element minOccurs="0" name="ds" nillable="true">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:appinfo>
+                <ActualType Name="DataSet" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+              </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+              <xs:element ref="xs:schema" />
+              <xs:any />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q6:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Upload_ProductResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Upload_ProductResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="bReturn" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_ProductOrganization">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="OrganizationproductId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ProductID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ProductName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CountryId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+        <xs:element minOccurs="0" name="LanguageId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_ProductOrganizationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_ProductOrganizationResult" nillable="true" type="q7:ArrayOfProductOrganiztionInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_ProductOrganization">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="OrganizationproductId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ProductID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ProductName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CountryId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+        <xs:element minOccurs="0" name="LanguageId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_ProductOrganizationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_ProductOrganizationResult" nillable="true" type="q8:ArrayOfProductOrganiztionInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_ProductOrganization">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="obj" nillable="true" type="q9:ProductOrganiztionInfo" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q10:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_ProductOrganizationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_ProductOrganizationResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_ProductOrganizationImage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="isOnlyDelete" type="xs:boolean" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="obj" nillable="true" type="q11:ProductOrganiztionImageInfo" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="objUserInfo" nillable="true" type="q12:UserInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Save_ProductOrganizationImageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Save_ProductOrganizationImageResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="errormsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_ProductOrganizationImage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ImageId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationproductId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ProductID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsMain" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetList_ProductOrganizationImageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetList_ProductOrganizationImageResult" nillable="true" type="q13:ArrayOfProductOrganiztionImageInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_ProductOrganizationImage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ImageId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="OrganizationproductId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ProductID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsActive" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="IsMain" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDetails_ProductOrganizationImageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/BusinessObjects" minOccurs="0" name="GetDetails_ProductOrganizationImageResult" nillable="true" type="q14:ProductOrganiztionImageInfo" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

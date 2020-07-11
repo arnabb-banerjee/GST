@@ -1,0 +1,142 @@
+﻿@model List<BusinessObjects.ProductOrganiztionInfo>
+
+
+<script type="text/javascript">
+
+    function Save_ProductOrganization(isDelete, obj) {
+        var productid = ''
+
+        //alert(isDelete);
+
+        obj.closest("tr").find("input[name=hdnProductId]").each(function () { productid = $(this).val(); });
+        //alert(productid);
+        var dataarray = {
+            "isOnlyDelete": isDelete
+        , "ProductId": productid
+        , "CategoryId": "0"
+        , "CountryId": "0"
+            // Modified on [3rd August 2019] by [Partha] cause [Organisation Code not included] - Start
+        , "OrganizationCode": $("#uiOrganisationName").val()
+            // End: Modified on [3rd August 2019]
+        , "isActive": "Y"
+        , "Name": ""
+        , "Description": ""
+        , "SKU": ""
+        , "Unit": ""
+        , "Class": ""
+        , "AbatementPercentage": ""
+        , "ServiceType": ""
+        , "SalePrice": ""
+        , "isInclusiveTax": ""
+        , "AvailableQty": ""
+        , "IncomeAccount": ""
+        , "SupplierId": ""
+        , "PreferredSupplierId": ""
+        , "ReverseCharge": ""
+        , "PurchaseTax": ""
+        , "SaleTax": ""
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/manageexpenseforuser",
+            data: dataarray,
+            success: function (data) {
+                if (data == "Ok") {
+                    return false;
+                    //if (isDelete == "Y") {
+                    //    alert("Data deleted");
+                    //} else {
+                    //    alert("Data updated");
+                    //}
+                    //MakeAllControlsBlank();
+                    //CloseParentPopup();
+                }
+                else {
+                    alert(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+
+    function BindCategory(CategoryID) {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/categoriesdropdown",
+            data: { "CategoryID": "0" },
+            success: function (data) {
+                $("#ddlCategory").html('');
+                $.each(data, function (id, option) {
+                    $("#ddlCategory").append($('<option></option>').val(option.CategoryId).html(option.CategoryName));
+                });
+                //
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve category.');
+                
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        BindCategory('');
+
+        if (document.getElementById("uiOrganisationName") != null && document.getElementById("uiOrganisationName") != undefined) {
+            BindOrganization($("#uiOrganisationName"), $("#hdnOrganizationCode").val());
+        }
+    });
+</script>
+
+<div class="portlet-body form">
+    <div class="form-body">
+        @if (Session["UserDetails"] != null && "M".Contains(((BusinessObjects.UserInfo)Session["UserDetails"]).UserType.ToString().Trim().ToUpper()))
+        {
+            <div class="form-group">
+                <label class="control-label">Organizations</label>
+                <select id="uiOrganisationName" class="bs-select form-control" data-live-search="true" data-size="8"></select>
+                <div class="form-control-focus"> </div>
+            </div>
+        }
+        <div class="form-group">
+            @if (Model != null)
+            {
+                <input type="hidden" value="@Model[0].OrganizationCode" id="hdnOrganizationCode" />
+
+                <table class="table table-striped table-bordered table-hover" id="sample_3">
+                    <thead>
+                        <tr>
+                            <th>Produc</th>
+                            <th>Category</th>
+                            <th>Selected</th>
+                        </tr>
+                    </thead>
+                    <tbody id="body_role_list">
+                        @foreach (BusinessObjects.ProductOrganiztionInfo obj in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @obj.ProductName
+                                    <input type="hidden" value="@obj.ProductId" name="hdnProductId" />
+                                </td>
+                                <td>@obj.CategoryName</td>
+                                <td><input type="checkbox" class="checkbox" @(obj.isSelected ? "checked=\"checked\"" : "") onchange="return Save_ProductOrganization(this.checked?'N':'Y', $(this))" /></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="col-md-6">
+                    No data to be previewed
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,115 @@
+﻿@model BusinessObjects.ServiceTypeInfo
+
+
+<script type="text/javascript">
+
+    function Save_ServiceType(isDelete) {
+
+        var dataarray = {
+            "isOnlyDelete": isDelete
+        , "ServiceTypeId": $("#hdnServiceTypeID").val()
+        , "ServiceTypeName": $("#txtName").val()
+        , "IsActive": ($("#chkIsActive").prop('checked') ? "Y" : "")
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/servicetypesave",
+            data: dataarray,
+            success: function (data) {
+                if (isDelete == "Y") {
+                    alert("Data deleted");
+                } else {
+                    alert("Data updated");
+                }
+                MakeAllControlsBlank();
+                CloseParentPopup();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+            }
+        });
+    }
+
+    function MakeAllControlsBlank() {
+
+        $('input[type="text"]').each(function () {
+            $(this).val('');
+        });
+
+        $("#chkIsActive").attr('checked', true);
+    }
+
+    $(document).ready(function () {
+    //    $("#txtDueInNextMonth").keydown(function (e) { FilterKeys("I", e, $(this)); });
+        //    $("#txtDiscount").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+
+        $("#txtName").focus();
+    });
+
+    //function FilterKeys(e, type) {
+    //    // Allow: backspace, delete, tab, escape, enter and .
+    //    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+    //        // Allow: Ctrl+A, Command+A
+    //        (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+    //        // Allow: home, end, left, right, down, up
+    //        (e.keyCode >= 35 && e.keyCode <= 40)) {
+    //        // let it happen, don't do anything
+    //        return;
+    //    }
+
+    //    if (type == "AN") {
+    //        if ((e.keyCode > 64 && e.keyCode < 91)) {
+    //            return;
+    //        }
+    //        if (e.shiftKey && (e.keyCode > 64 && e.keyCode < 91)) {
+    //            return;
+    //        }
+    //    }
+    //    if (type == "I" || type == "N" || type == "Mob") {
+    //        if (type == "Mob" && (e.keyCode == 107 || e.keyCode == 32)) {
+    //            return;
+    //        }
+    //        if (type == "N" && e.keyCode == 119) {
+    //            return;
+    //        }
+    //        if (((e.keyCode > 48 && e.keyCode < 57)) || (e.keyCode > 96 && e.keyCode < 105)) {
+    //            return;
+    //        }
+    //    }
+
+    //    //if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+    //    //    e.preventDefault();
+    //    //}
+
+    //    e.preventDefault();
+    //}
+
+</script>
+
+
+
+<div class="portlet-body form">
+    @Html.HiddenFor(m => m.ServiceTypeId, new { @id = "hdnServiceTypeID" })
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label">ServiceType</label>
+            <input type="text" value="@Model.ServiceTypeName" id = "txtName" class = "form-control" placeholder = "Enter a service type" autofocus />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <div class="mt-checkbox-inline">
+                <label class="mt-checkbox">
+                    Is Active?&nbsp;&nbsp;<input type="checkbox" id="chkIsActive" checked="checked" class="checkbox" />
+                    <span></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-actions">
+        <input type="button" id="uiSaveServiceType" value="Submit" class="btn green-meadow" onclick="return Save_ServiceType('');" />
+        <input type="submit" id="uiDeleteServiceType" value="Delete" class="btn red-mint" onclick="return Save_ServiceType('Y');" />
+        <input type="button" value="Close" class="btn yellow" onclick="closepopup();" />
+    </div>
+</div>

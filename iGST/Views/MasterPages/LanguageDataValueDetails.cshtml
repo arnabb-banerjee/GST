@@ -1,0 +1,166 @@
+﻿@model List<BusinessObjects.LanguageValueInfo>
+
+
+<script type="text/javascript">
+
+    function Save_DataValueLanguageWise(obj) {
+        var isOnlyDelete ="N";
+
+        if(obj.val() == "")
+        {
+            obj.closest("tr").find("input[name=hdnExistingValue]").each(function () {
+                if($(this).val() != ""){
+                    if(confirm("Do you want to remove the previous value??")){
+                        isOnlyDelete = "Y";
+                    }
+                    else{
+                        return false;
+                    }
+                }
+                else {
+                    return false;
+                }
+            });
+        }
+
+        var MasterIDField = "";
+        var MasterTablePrefix = "";
+        var LanguageId = "";
+
+        obj.closest("tr").find("input[name=hdnMasterIDField]").each(function () { MasterIDField = $(this).val(); });
+        obj.closest("tr").find("input[name=hdnMasterTablePrefix]").each(function () { MasterTablePrefix = $(this).val(); });
+        obj.closest("tr").find("input[name=hdnLanguageId]").each(function () { LanguageId = $(this).val(); });
+
+        var dataarray = {
+            "isOnlyDelete": isOnlyDelete
+        , "LanguageId": LanguageId
+        , "value": obj.val()
+        , "MasterTablePrefix": MasterTablePrefix
+        , "MasterIDField": MasterIDField
+        , "isActive": "Y"
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/multiplelanguagesave",
+            data: dataarray,
+            success: function (data) {
+                if (isOnlyDelete == "Y") {
+                    alert("Data deleted");
+                } else {
+                    alert("Data updated");
+                }
+                //MakeAllControlsBlank();
+                //CloseParentPopup();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+
+    function MakeAllControlsBlank() {
+
+        $('input[type="text"]').each(function () {
+            $(this).val('');
+        });
+
+        $("#chkIsActive").attr('checked', true);
+    }
+
+    $(document).ready(function () {
+        //$("#txtDueInFixedNumberDays").keydown(function (e) { FilterKeys("I", e, $(this)); });
+        //$("#txtDueInCertainDayOfMonth").keydown(function (e) { FilterKeys("I", e, $(this)); });
+        //$("#txtDueInNextMonth").keydown(function (e) { FilterKeys("I", e, $(this)); });
+        //$("#txtDiscount").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+    });
+
+    function FilterKeys(e, type) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+            // Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+            // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+            // let it happen, don't do anything
+            return;
+        }
+
+        if (type == "AN") {
+            if ((e.keyCode > 64 && e.keyCode < 91)) {
+                return;
+            }
+            if (e.shiftKey && (e.keyCode > 64 && e.keyCode < 91)) {
+                return;
+            }
+        }
+        if (type == "I" || type == "N" || type == "Mob") {
+            if (type == "Mob" && (e.keyCode == 107 || e.keyCode == 32)) {
+                return;
+            }
+            if (type == "N" && e.keyCode == 119) {
+                return;
+            }
+            if (((e.keyCode > 48 && e.keyCode < 57)) || (e.keyCode > 96 && e.keyCode < 105)) {
+                return;
+            }
+        }
+
+        //if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        //    e.preventDefault();
+        //}
+
+        e.preventDefault();
+    }
+
+</script>
+
+
+
+<div class="portlet-body form">
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label">Name</label>
+            @if (Model != null)
+            {
+                <table class="table table-striped table-bordered table-hover" id="sample_3">
+                    <thead>
+                        <tr>
+                            <th>Module name</th>
+                            <th>Item</th>
+                            <th>Text (@Model[0].LanguageName)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="body_role_list">
+                        @foreach (BusinessObjects.LanguageValueInfo obj in Model)
+                        {
+                            <tr>
+                                <td>@obj.MasterTableName</td>
+                                <td>
+                                    @obj.MasterFieldValue
+                                    <input type="hidden" name="hdnMasterIDField" value="@obj.MasterIDField" />
+                                    <input type="hidden" name="hdnMasterTablePrefix" value="@obj.MasterTablePrefix" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" value="@obj.value" onchange="return Save_DataValueLanguageWise($(this));" />
+                                    <input type="hidden" name="hdnExistingValue" value="@obj.value" />
+                                    <input type="hidden" name="hdnLanguageId" value="@obj.LanguageId" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="col-md-6">
+                    No data to be previewed
+                </div>
+            }
+            <div class="form-control-focus"> </div>
+
+        </div>
+    </div>
+</div>

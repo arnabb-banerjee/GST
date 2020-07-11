@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="GSTService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:50495/GSTService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:50495/GSTService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:50495/GSTService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BusinessObjects" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IGSTService_GetList_Role_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_Role" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetList_Role_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_RoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetDetails_Role_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_Role" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetDetails_Role_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_RoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Save_Role_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_Role" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Save_Role_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_RoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Get_Effective_Role_ForAUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:Get_Effective_Role_ForAUser" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Get_Effective_Role_ForAUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Get_Effective_Role_ForAUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetList_TaxMaster_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_TaxMaster" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetList_TaxMaster_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_TaxMasterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetDetails_TaxMaster_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_TaxMaster" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetDetails_TaxMaster_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_TaxMasterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Save_TaxMaster_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_TaxMaster" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Save_TaxMaster_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_TaxMasterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetList_TaxCountryMap_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_TaxCountryMap" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetList_TaxCountryMap_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_TaxCountryMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetDetails_TaxCountryMap_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_TaxCountryMap" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetDetails_TaxCountryMap_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_TaxCountryMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Save_TaxCountryMap_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_TaxCountryMap" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Save_TaxCountryMap_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_TaxCountryMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetList_TaxCountryCategoryMap_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_TaxCountryCategoryMap" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetList_TaxCountryCategoryMap_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_TaxCountryCategoryMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetDetails_TaxCountryCategoryMap_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_TaxCountryCategoryMap" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetDetails_TaxCountryCategoryMap_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_TaxCountryCategoryMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Save_TaxCountryCategoryMap_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_TaxCountryCategoryMap" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Save_TaxCountryCategoryMap_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_TaxCountryCategoryMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetList_TaxExpenseCountryCategoryMap_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_TaxExpenseCountryCategoryMap" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetList_TaxExpenseCountryCategoryMap_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_TaxExpenseCountryCategoryMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetDetails_TaxExpenseCountryCategoryMap_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_TaxExpenseCountryCategoryMap" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_GetDetails_TaxExpenseCountryCategoryMap_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_TaxExpenseCountryCategoryMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Save_TaxExpenseCountryCategoryMap_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_TaxExpenseCountryCategoryMap" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Save_TaxExpenseCountryCategoryMap_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_TaxExpenseCountryCategoryMapResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Get_Gst_InputMessage">
+    <wsdl:part name="parameters" element="tns:Get_Gst" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Get_Gst_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Get_GstResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Get_GstCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:Get_GstCategory" />
+  </wsdl:message>
+  <wsdl:message name="IGSTService_Get_GstCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Get_GstCategoryResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IGSTService">
+    <wsdl:operation name="GetList_Role">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/GetList_Role" message="tns:IGSTService_GetList_Role_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/GetList_RoleResponse" message="tns:IGSTService_GetList_Role_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Role">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/GetDetails_Role" message="tns:IGSTService_GetDetails_Role_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/GetDetails_RoleResponse" message="tns:IGSTService_GetDetails_Role_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_Role">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/Save_Role" message="tns:IGSTService_Save_Role_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/Save_RoleResponse" message="tns:IGSTService_Save_Role_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_Effective_Role_ForAUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/Get_Effective_Role_ForAUser" message="tns:IGSTService_Get_Effective_Role_ForAUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/Get_Effective_Role_ForAUserResponse" message="tns:IGSTService_Get_Effective_Role_ForAUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_TaxMaster">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/GetList_TaxMaster" message="tns:IGSTService_GetList_TaxMaster_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/GetList_TaxMasterResponse" message="tns:IGSTService_GetList_TaxMaster_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_TaxMaster">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/GetDetails_TaxMaster" message="tns:IGSTService_GetDetails_TaxMaster_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/GetDetails_TaxMasterResponse" message="tns:IGSTService_GetDetails_TaxMaster_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_TaxMaster">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/Save_TaxMaster" message="tns:IGSTService_Save_TaxMaster_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/Save_TaxMasterResponse" message="tns:IGSTService_Save_TaxMaster_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_TaxCountryMap">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/GetList_TaxCountryMap" message="tns:IGSTService_GetList_TaxCountryMap_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/GetList_TaxCountryMapResponse" message="tns:IGSTService_GetList_TaxCountryMap_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_TaxCountryMap">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/GetDetails_TaxCountryMap" message="tns:IGSTService_GetDetails_TaxCountryMap_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/GetDetails_TaxCountryMapResponse" message="tns:IGSTService_GetDetails_TaxCountryMap_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_TaxCountryMap">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/Save_TaxCountryMap" message="tns:IGSTService_Save_TaxCountryMap_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/Save_TaxCountryMapResponse" message="tns:IGSTService_Save_TaxCountryMap_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_TaxCountryCategoryMap">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/GetList_TaxCountryCategoryMap" message="tns:IGSTService_GetList_TaxCountryCategoryMap_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/GetList_TaxCountryCategoryMapResponse" message="tns:IGSTService_GetList_TaxCountryCategoryMap_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_TaxCountryCategoryMap">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/GetDetails_TaxCountryCategoryMap" message="tns:IGSTService_GetDetails_TaxCountryCategoryMap_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/GetDetails_TaxCountryCategoryMapResponse" message="tns:IGSTService_GetDetails_TaxCountryCategoryMap_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_TaxCountryCategoryMap">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/Save_TaxCountryCategoryMap" message="tns:IGSTService_Save_TaxCountryCategoryMap_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/Save_TaxCountryCategoryMapResponse" message="tns:IGSTService_Save_TaxCountryCategoryMap_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_TaxExpenseCountryCategoryMap">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/GetList_TaxExpenseCountryCategoryMap" message="tns:IGSTService_GetList_TaxExpenseCountryCategoryMap_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/GetList_TaxExpenseCountryCategoryMapResponse" message="tns:IGSTService_GetList_TaxExpenseCountryCategoryMap_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_TaxExpenseCountryCategoryMap">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/GetDetails_TaxExpenseCountryCategoryMap" message="tns:IGSTService_GetDetails_TaxExpenseCountryCategoryMap_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/GetDetails_TaxExpenseCountryCategoryMapResponse" message="tns:IGSTService_GetDetails_TaxExpenseCountryCategoryMap_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_TaxExpenseCountryCategoryMap">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/Save_TaxExpenseCountryCategoryMap" message="tns:IGSTService_Save_TaxExpenseCountryCategoryMap_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/Save_TaxExpenseCountryCategoryMapResponse" message="tns:IGSTService_Save_TaxExpenseCountryCategoryMap_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_Gst">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/Get_Gst" message="tns:IGSTService_Get_Gst_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/Get_GstResponse" message="tns:IGSTService_Get_Gst_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_GstCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGSTService/Get_GstCategory" message="tns:IGSTService_Get_GstCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGSTService/Get_GstCategoryResponse" message="tns:IGSTService_Get_GstCategory_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="iGST_Svc.GSTService_Binding_IGSTService" type="tns:IGSTService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetList_Role">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/GetList_Role" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Role">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/GetDetails_Role" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_Role">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/Save_Role" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_Effective_Role_ForAUser">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/Get_Effective_Role_ForAUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_TaxMaster">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/GetList_TaxMaster" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_TaxMaster">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/GetDetails_TaxMaster" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_TaxMaster">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/Save_TaxMaster" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_TaxCountryMap">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/GetList_TaxCountryMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_TaxCountryMap">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/GetDetails_TaxCountryMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_TaxCountryMap">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/Save_TaxCountryMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_TaxCountryCategoryMap">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/GetList_TaxCountryCategoryMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_TaxCountryCategoryMap">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/GetDetails_TaxCountryCategoryMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_TaxCountryCategoryMap">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/Save_TaxCountryCategoryMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_TaxExpenseCountryCategoryMap">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/GetList_TaxExpenseCountryCategoryMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_TaxExpenseCountryCategoryMap">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/GetDetails_TaxExpenseCountryCategoryMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_TaxExpenseCountryCategoryMap">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/Save_TaxExpenseCountryCategoryMap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_Gst">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/Get_Gst" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_GstCategory">
+      <soap:operation soapAction="http://tempuri.org/IGSTService/Get_GstCategory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GSTService">
+    <wsdl:port name="iGST_Svc.GSTService_Binding_IGSTService" binding="tns:iGST_Svc.GSTService_Binding_IGSTService">
+      <soap:address location="http://localhost:50495/GSTService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

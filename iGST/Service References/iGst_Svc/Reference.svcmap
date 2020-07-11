@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="59fdfff6-b514-45d7-a197-c0c051cb2aa2" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:50495/GSTService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="GSTService1.xsd" MetadataType="Schema" ID="b13ecf96-422f-439c-8cb7-5206ac622085" SourceId="1" SourceUrl="http://localhost:50495/GSTService.svc?xsd=xsd1" />
+    <MetadataFile FileName="GSTService2.xsd" MetadataType="Schema" ID="019511b1-5c0f-4c22-a8be-ebb8d26a35ea" SourceId="1" SourceUrl="http://localhost:50495/GSTService.svc?xsd=xsd2" />
+    <MetadataFile FileName="GSTService.wsdl" MetadataType="Wsdl" ID="33d5ddb2-f5db-45b6-bd53-0df20aacad44" SourceId="1" SourceUrl="http://localhost:50495/GSTService.svc?wsdl" />
+    <MetadataFile FileName="GSTService.xsd" MetadataType="Schema" ID="eb857837-9006-4d16-a9ca-31501ab399e6" SourceId="1" SourceUrl="http://localhost:50495/GSTService.svc?xsd=xsd0" />
+    <MetadataFile FileName="GSTService.disco" MetadataType="Disco" ID="8d997c86-63a9-4e73-a1a5-64b93a3f92cc" SourceId="1" SourceUrl="http://localhost:50495/GSTService.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

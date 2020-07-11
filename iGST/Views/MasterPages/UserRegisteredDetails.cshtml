@@ -1,0 +1,509 @@
+﻿@model BusinessObjects.UserInfo
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        try {
+            //BindCountry($("#ddlCountry"), $("#hdnCountry").val(), $("#ddlState"), $("#hdnState").val());
+            $(function () {
+                $(".date-picker").datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: "-100:+0", // You can set the year range as per as your need
+                    dateFormat: 'dd/mm/yy'
+                });
+            });
+
+            $("#ddlCountry").change(function () {
+                BindState($("#ddlState"), $(this).val(), "");
+            });
+
+            //if (document.getElementById("uiOrganisationName") != null && document.getElementById("uiOrganisationName") != undefined) {
+            //    BindOrganization($("#uiOrganisationName"), $("#hdnOrganizationCode").val());
+            //}
+
+            //BindStaticValues2($("#ddlTitle"), $("#ddlSafix"));
+
+            $("#txtDueInFixedNumberDays").keydown(function (e) { FilterKeys("I", e, $(this)); });
+            $("#txtDueInCertainDayOfMonth").keydown(function (e) { FilterKeys("I", e, $(this)); });
+            $("#txtDueInNextMonth").keydown(function (e) { FilterKeys("I", e, $(this)); });
+            $("#txtDiscount").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+        }
+        catch (err) {
+            alert(err);
+        }
+
+        $("#txtFirst_Name").focus();
+
+    });
+
+    function Save_User(isDelete) {
+        var message = "";
+        var functions = "";
+
+        if ($("#ddlUserType").val() == "") {
+            alert("User type is mandatory");
+            $("#ddlUserType").focus();
+            return false;
+        }
+        if ($("#txtFirst_Name").val() == "") {
+            alert("First name is mandatory");
+            $("#txtFirst_Name").focus();
+            return false;
+        }
+        if ($("#txtLast_Name").val() == "") {
+            alert("Last name is mandatory");
+            $("#txtLast_Name").focus();
+            return false;
+        }
+        if ($("#txtEmailID").val() == "") {
+            alert("Email Address is mandatory");
+            $("#txtEmailID").focus();
+            return false;
+        }
+        if ($("#txtMobile").val() == "") {
+            alert("Mobile Number is mandatory");
+            $("#txtMobile").focus();
+            return false;
+        }
+        if ($("#uiRegPassword").val() == "") {
+            alert("Please enter Password");
+            $("#uiPassword").focus();
+            return false;
+        }
+        //if ($("#uiRePassword").val() == "") {
+        //    alert("Please confirm Password");
+        //    $("#uiRePassword").focus();
+        //    return false;
+        //}
+        if ($("#uiRePassword").val() != $("#uiRegPassword").val()) {
+            alert("Password is not matched with confirm password");
+            $("#uiRePassword").focus();
+            return false;
+        }
+
+        var functon = "", branch = "";
+
+        $("#body_function_list").find("input[type=checkbox]").each(function () {
+            if (this.checked) {
+
+                functon = ""; branch = "";
+
+                $(this).closest("tr").find("input[type=hidden]").each(function () {
+                    if ($(this).attr("name") == "function") {
+                        functon = $(this).val() != null && $(this).val() != "" ? $(this).val() : "0";
+                    }
+                    //else if ($(this).attr("name") == "branch") {
+                    //    branch = $(this).val() != null && $(this).val() != "" ? $(this).val() : "0";
+                    //}
+                });
+
+                //functions += (functions.length > 0 ? "#" : "") + functon + "," + branch;
+                functions += (functions.length > 0 ? "#" : "") + functon + ",0";
+            }
+        });
+
+        //alert(functions);
+
+        if (functions.trim().replace("&nbsp;", "") == "") {
+            alert("Selection of at least one function is mandatory");
+            return false;
+        }
+
+        //if (message.length > 0) {
+        //    alert(message);
+        //    return false;
+        //}
+
+        var dataarray = {
+            "isOnlyDelete": isDelete
+            , "UserType": "R"
+            , "OrganizaionName": $("#uiOrganisationName").val()
+            , "OrganizaionCode": $("#uiOrganisationName").val()
+            , "UserCode": $("#hdnUserCode").val()
+            , "Title": $("#ddlTitle").val()
+            , "First_name": $("#txtFirst_Name").val()
+            , "Middle_name": $("#txtMiddle_Name").val()
+            , "Last_name": $("#txtLast_Name").val()
+            , "EmailID": $("#txtEmailID").val()
+            , "Mobile": $("#txtMobile").val()
+            , "Address": $("#uiStreet1").val()
+            , "Street2": $("#uiStreet2").val()
+            , "City": $("#txt_City").val()
+            , "State": $("#ddlState").val()
+            , "Country": $("#ddlCountry").val()
+            , "PIN": $("#txtPIN").val()
+            , "isActive": ($("#chkIsActive").prop('checked') ? "Y" : "")
+            , "isApproved": ($("#chkIsApproved").prop('checked') ? "Y" : "")
+            , "Functions": functions
+            , "Password": $("#uiRegPassword").val()
+        }
+        $("#loadingdetailspage").show();
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/moderatesave",
+            data: dataarray,
+            success: function (data) {
+                $("#loadingdetailspage").hide();
+                if (data == "Ok") {
+                    if (isDelete == "Y") {
+                        alert("Data deleted");
+                    } else {
+                        alert("Data updated");
+                    }
+
+                    MakeAllControlsBlank();
+                    CloseParentPopup();
+                }
+                else {
+                    alert(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $("#loadingdetailspage").hide();
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+
+    function CheckPasswordStrength(password) {
+        var password_strength = document.getElementById("password_strength");
+
+        //TextBox left blank.
+        if (password.length == 0) {
+            password_strength.innerHTML = "";
+            return;
+        }
+
+        //Regular Expressions.
+        var regex = new Array();
+        regex.push("[A-Z]"); //Uppercase Alphabet.
+        regex.push("[a-z]"); //Lowercase Alphabet.
+        regex.push("[0-9]"); //Digit.
+        regex.push("[$!%*#?&]"); //Special Character.
+
+        var passed = 0;
+
+        //Validate for each Regular Expression.
+        for (var i = 0; i < regex.length; i++) {
+            if (new RegExp(regex[i]).test(password)) {
+                passed++;
+            }
+        }
+
+        //Validate for length of Password.
+        if (passed > 2 && password.length > 8) {
+            passed++;
+        }
+
+        if (passed > 5) { passed = 5; }
+
+        //Display status.
+        var bakcolor = "";
+        var color = "";
+        var strength = "";
+        switch (passed) {
+            case 0:
+            case 1:
+                strength = "Weak";
+                bakcolor = "red";
+                color = "white";
+                break;
+            case 2:
+                strength = "Good";
+                bakcolor = "darkorange";
+                color = "black";
+                break;
+            case 3:
+            case 4:
+                strength = "Strong";
+                bakcolor = "green";
+                color = "white";
+                break;
+            case 5:
+                strength = "Very Strong";
+                color = "darkgreen";
+                color = "white";
+                break;
+        }
+        password_strength.innerHTML = strength;
+        password_strength.style.background = bakcolor;
+        password_strength.style.color = color;
+    }
+
+    function ddlUserType_change() {
+        if ($("#ddlUserType").val() == "M") {
+            $("#divOrganizationlbl").hide();
+            $("#divOrganizationctrl").hide();
+        }
+        else {
+            $("#divOrganizationlbl").show();
+            $("#divOrganizationctrl").show();
+        }
+    }
+</script>
+
+
+<div id="loadingdetailspage" style="display:none;width:100vw; height:100vh; background-color:rgba(0,0,0,0.7); z-index:999; position:fixed; margin:0;top:0;left:0;padding-left:49%; padding-top:22%; ">
+    <i class="fa fa-spinner fa-spin" style="font-size:48px;color:white;"></i>
+</div>
+<div class="portlet-body form">
+    <input type="hidden" value="@Model.Title" id="hdnTitle" />
+    <input type="hidden" value="@Model.Safix" id="hdnSafix" />
+    <input type="hidden" value="@Model.UserCode" id="hdnUserCode" />
+    <input type="hidden" value="@Model.Country" id="hdnCountry" />
+    <input type="hidden" value="@Model.State" id="hdnState" />
+    <input type="hidden" value="@Model.OrganizationCode" id="hdnOrganizationCode" />
+    <input type="hidden" value="@Model.UserCode" id="hdnCusID" />
+    <div class="form-body">
+        <div class="row row-bottom-5px">
+            <div class="col-lg-3" id="divOrganizationlbl">
+                Organization/Company Name
+            </div>
+            <div class="col-lg-3" id="divOrganizationctrl">
+                <select id="uiOrganisationName" class="bs-select form-control" data-live-search="true" data-size="8">
+                    @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Organizations))
+                </select>
+            </div>
+        </div>
+        <div class="row row-bottom-5px">
+            <div class="col-lg-1">
+                Title
+            </div>
+            <div class="col-lg-2">
+                <select id="ddlTitle" class="bs-select form-control">
+                    @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Title))
+                </select>
+            </div>
+            <div class="col-lg-1">
+                First name
+            </div>
+            <div class="col-lg-2">
+                <div class="input-icon">
+                    <i class="fa fa fa-user font-green"></i>
+                    <input id="txtFirst_Name" value="@Model.First_Name" placeholder="First name" class="form-control" type="text" />
+                </div>
+            </div>
+            <div class="col-lg-1">
+                Mid Name
+            </div>
+            <div class="col-lg-2">
+                <input id="txtMiddle_Name" value="@Model.Middle_Name" placeholder="Middle name" class="form-control" type="text" />
+            </div>
+            <div class="col-lg-1">
+                Last name
+            </div>
+            <div class="col-lg-2">
+                <input id="txtLast_Name" value="@Model.Last_Name" placeholder="Last name" class="form-control" type="text" />
+            </div>
+        </div>
+        <div class="row row-bottom-5px">
+            <div class="col-lg-1">
+                Safix
+            </div>
+            <div class="col-lg-2">
+                <select id="ddlSafix" class="bs-select form-control">
+                    @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Safix))
+                </select>
+            </div>
+            <div class="col-lg-1">
+                DOB
+            </div>
+            <div class="col-lg-3">
+                <div class="input-icon">
+                    <i class="fa fa fa-calendar font-green"></i>
+                    <input id="txtDOB" value="@Model.DOB" placeholder="dd/MM/yyyy" class="form-control date-picker" type="text" />
+                </div>
+            </div>
+            <div class="col-lg-1">
+                Sex
+            </div>
+            <div class="col-lg-3">
+                <div class="mt-radio-inline">
+                    <label class="mt-radio">
+                        <input type="radio" name="rd_sex" id="rd_male" value="M" @(Model.Sex == "M" ? "checked" : "")/> Male
+                        <span></span>
+                    </label>
+                    <label class="mt-radio">
+                        <input type="radio" name="rd_sex" id="rd_female" value="F" @(Model.Sex == "F" ? "checked" : "")/> Female
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-bottom-5px">
+            <div class="col-lg-1">
+                Email
+            </div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-envelope"></i>
+                    </span>
+                    @Html.TextBoxFor(m => m.EmailID, new { @id = "txtEmailID", @class = "form-control", @placeholder = "Email address" })
+                </div>
+            </div>
+            <div class="col-lg-1">
+                Mobile
+            </div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-phone"></i>
+                    </span>
+                    @Html.TextBoxFor(m => m.MobileNumber, new { @id = "txtMobile", @class = "form-control", @placeholder = "10 digits mobile number" })
+                </div>
+            </div>
+        </div>
+
+        @if (Model.UserCode == null || (Model.UserCode != null && Model.UserCode.Trim().ToUpper().Replace("<NEW>", "").Length == 0))
+        {
+            <div class="row row-bottom-5px">
+                <div class="col-lg-1">Password</div>
+                <div class="col-lg-2">
+                    <input class="form-control" type="password" autocomplete="off" id="uiRegPassword" placeholder="Password" onkeyup="return CheckPasswordStrength(this.value);" onkeypress="return CheckPasswordStrength(this.value);" />
+                    <div id="password_strength">&nbsp;</div>
+                </div>
+                <div class="col-lg-1">Re-type Your Password</div>
+                <div class="col-lg-2">
+                    <input class="form-control" type="password" autocomplete="off" placeholder="Re-type Your Password" id="uiRePassword" />
+                </div>
+            </div>
+        }
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item"></li>
+                    <li><a href="#tpFunctions" data-toggle="tab" role="tab" class="navbar-link active" onclick="$('#txt_Street1').focus();">Functions</a></li>
+                    <li><a href="#tpCustomerAddress" data-toggle="tab" role="tab" class="navbar-link" onclick="$('#txt_Street1').focus();">Addresses</a></li>
+                    <li><a href="#tpNotes" data-toggle="tab" role="tab" class="navbar-link" onclick="$('#txtNotes').focus();">Notes</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="tpFunctions">
+                        <div class="col-lg-12">
+                            @if (Model.UserBranchRoleList != null)
+                            {
+                                <table class="table table-striped table-bordered table-hover" id="sample_3">
+                                    <thead>
+                                        <tr>
+                                            <th>Function</th>
+                                            @*<th>Branch</th>*@
+                                            <th>Select</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="body_function_list">
+                                        @foreach (BusinessObjects.UserBranchRoleMappingInfo obj in Model.UserBranchRoleList)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <input type="hidden" name="function" value="@obj.FunctionID" />
+                                                    @obj.FunctionName
+                                                </td>
+                                                @*<td>
+                                                    <input type="hidden" name="branch" value="@obj.BranchID" />
+                                                    @obj.BranchName
+                                                </td>*@
+                                                <td><input type="checkbox" class="checkbox" @(obj.isSelected ? "checked=\"checked\"" : "") /></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <div class="col-md-6">
+                                    No data to be previewed
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane fade" id="tpCustomerAddress">
+                        <div class="row row-bottom-5px">
+                            <div class="col-lg-1">
+                                Street 1
+                            </div>
+                            <div class="col-lg-3">
+                                <input class="form-control" type="text" placeholder="Address" id="uiStreet1" value="@Model.Street1" />
+                            </div>
+                            <div class="col-lg-1">
+                                Street 2
+                            </div>
+                            <div class="col-lg-3">
+                                <input class="form-control" type="text" placeholder="Address" id="uiStreet1" value="@Model.Street2" />
+                            </div>
+                        </div>
+                        <div class="row row-bottom-5px">
+                            <div class="col-lg-1">
+                                City
+                            </div>
+                            <div class="col-lg-3">
+                                <input class="form-control" type="text" placeholder="City/Town/Village" id="txt_City" value="@Model.City" />
+                            </div>
+                        </div>
+                        <div class="row row-bottom-5px">
+                            <div class="col-lg-1">
+                                Country
+                            </div>
+                            <div class="col-lg-3">
+                                <select id="ddlCountry" class="bs-select form-control" data-live-search="true" data-size="8">
+                                   @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Countries_Basic))
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row row-bottom-5px">
+                            <div class="col-lg-1">
+                                State
+                            </div>
+                            <div class="col-lg-3">
+                                <select id="ddlState" class="bs-select form-control" data-live-search="true" data-size="8">
+                                    @Html.Raw(HttpUtility.HtmlDecode(ViewBag.State_Basic))
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane fade" id="tpNotes">
+                        <div class="col-lg-8">
+                            <textarea class="form-control" id="txtNotes" placeholder="Notes..." rows="5">@Model.Notes</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row row-bottom-5px">
+        <div class="col-lg-3">
+            <div class="mt-checkbox-inline">
+                <label class="mt-checkbox">
+                    Is Active?&nbsp;&nbsp;<input type="checkbox" id="chkIsActive" class="checkbox" @(Model.IsActive ? "checked" : "")/>
+                    <span></span>
+                </label>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="mt-checkbox-inline">
+                <label class="mt-checkbox">
+                    Is Approved?&nbsp;&nbsp;<input type="checkbox" id="chkIsApproved" class="checkbox" @(Model.IsApproved ? "checked" : "")/>
+                    <span></span>
+                </label>
+            </div>
+        </div>
+        <div class="col-lg-3">
+        </div>
+        <div class="col-lg-3">
+            <input type="button" id="uiSaveUser" value="Submit" class="btn green-meadow" onclick="return Save_User('');" />
+            @if (Model.UserCode != null && Model.UserCode.Trim().ToUpper().Replace("<NEW>", "").Length > 0)
+            {
+                <input type="submit" id="uiDeleteUser" value="Delete" class="btn red-mint" onclick="return Save_User('Y');" />
+            }
+            <input type="button" value="Close" class="btn yellow" onclick="closepopup();" />
+        </div>
+    </div>
+</div>

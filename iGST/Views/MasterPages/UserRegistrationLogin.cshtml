@@ -1,0 +1,462 @@
+﻿@model BusinessObjects.UserInfo
+@{
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+<script type="text/javascript">
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        alert(profile.getId()); // Do not send to your backend! Use an ID token instead.
+        alert(profile.getName());
+        alert(profile.getImageUrl());
+        alert(profile.getEmail()); // This is null if the 'email' scope is not present.
+    }
+
+    function User_Registration() {
+        if ($("input[name='rd_UserType']:checked") == null) {
+            alert("Please select if you are a business man/ accountant");
+            $("#rd_BusinessUser").focus();
+            return false;
+        }
+        else if ($("input[name='rd_UserType']:checked").val() == null) {
+            alert("Please select if you are a business man/ accountant");
+            $("#rd_BusinessUser").focus();
+            return false;
+        }
+        else if ($("input[name='rd_UserType']:checked").val() == "") {
+            alert("Please select if you are a business man/ accountant");
+            $("#rd_BusinessUser").focus();
+            return false;
+        }
+
+        if (!ValidateControl(document.getElementById("uiOrganisationName"), "Organisation Name", true)) {
+            return false;
+        }
+        if (!ValidateControl(document.getElementById("uiFirstName"), "First Name", true)) {
+            return false;
+        }
+        if (!ValidateControl(document.getElementById("uiLastName"), "Last Name", true)) {
+            return false;
+        }
+        if (!ValidateControl(document.getElementById("uiEmailaddress"), "Email Name", true)) {
+            return false;
+        }
+        if (!ValidateControl(document.getElementById("uiMobileNUmber"), "Mobile number", false)) {
+            return false;
+        }
+        if (document.getElementById("uiRegPassword").value == "") {
+            alert("Password should not be blank.");
+            document.getElementById("uiRegPassword").focus();
+            return false;
+        }
+        if (document.getElementById("uiRePassword").value == "") {
+            alert("Confirm password should not be blank.");
+            document.getElementById("uiRePassword").focus();
+            return false;
+        }
+        if (!IsEqual(document.getElementById("uiRegPassword"), document.getElementById("uiRePassword"), "Password", "Confirm password")) {
+            return false;
+        }
+
+        $("#loading").show();
+
+        var dataarray = {
+            "UserType": $("input[name='rd_UserType']:checked").val()
+        , "FirstName": $("#uiFirstName").val()
+        , "MidName": $("#uiMidName").val()
+        , "LastName": $("#uiLastName").val()
+        , "OrganizaionName": $("#uiOrganisationName").val()
+        , "UserID": ''
+        , "Street1": $("#uiStreet1").val()
+        , "EmailID": $("#uiEmailaddress").val()
+        , "Mobile": $("#uiMobileNUmber").val()
+        , "City": $("#txt_City").val()
+        , "State": $("#ddlState").val()
+        , "Country": $("#ddlCountry").val()
+        , "Password": $("#uiRegPassword").val()
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/registration",
+            data: dataarray,
+            success: function (data) {
+                $("#loading").hide();
+
+                if (data == "Ok") {
+                    MakeAllControlsBlank();
+                    window.location.href = "/index";
+                }
+                else {
+                    alert(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $("#loading").hide();
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+
+    function User_Login() {
+        var addAntiForgeryToken = function (data) {
+            data.__RequestVerificationToken = $("[name='__RequestVerificationToken']").val();
+            return data;
+        };
+
+        if (!ValidateControl(document.getElementById("uiUserName"), "Emai address / mobile number", true)) {
+            return false;
+        }
+        if (document.getElementById("uiPassword").value == "") {
+            alert("Password should not be blank");
+            document.getElementById("uiPassword").focus();
+            return false;
+        }
+
+        var dataarray = {
+            "UserCode": encodeURI($("#uiUserName").val())
+        , "Password": encodeURI($("#uiPassword").val())
+        , "UserType": ""
+        }
+
+        $("#loading").show();
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/processlogin",
+            data: addAntiForgeryToken(dataarray),
+            success: function (data) {
+                $("#loading").hide();
+
+                if (data == "Ok") {
+                    window.location.href = "/";
+                }
+                else {
+                    alert(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $("#loading").hide();
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+
+    function CheckPasswordStrength(password) {
+        var password_strength = document.getElementById("password_strength");
+
+        //TextBox left blank.
+        if (password.length == 0) {
+            password_strength.innerHTML = "";
+            return;
+        }
+
+        //Regular Expressions.
+        var regex = new Array();
+        regex.push("[A-Z]"); //Uppercase Alphabet.
+        regex.push("[a-z]"); //Lowercase Alphabet.
+        regex.push("[0-9]"); //Digit.
+        regex.push("[$!%*#?&]"); //Special Character.
+
+        var passed = 0;
+
+        //Validate for each Regular Expression.
+        for (var i = 0; i < regex.length; i++) {
+            if (new RegExp(regex[i]).test(password)) {
+                passed++;
+            }
+        }
+
+        //Validate for length of Password.
+        if (passed > 2 && password.length > 8) {
+            passed++;
+        }
+
+        if (passed > 5) { passed = 5; }
+
+        //Display status
+
+        var bakcolor = "";
+        var color = "";
+        var strength = "";
+        switch (passed) {
+            case 0:
+            case 1:
+                strength = "Weak";
+                bakcolor = "red";
+                color = "white";
+                break;
+            case 2:
+                strength = "Good";
+                bakcolor = "darkorange";
+                color = "black";
+                break;
+            case 3:
+            case 4:
+                strength = "Strong";
+                bakcolor = "green";
+                color = "white";
+                break;
+            case 5:
+                strength = "Very Strong";
+                color = "darkgreen";
+                color = "white";
+                break;
+        }
+        password_strength.innerHTML = strength;
+        password_strength.style.background = bakcolor;
+        password_strength.style.color = color;
+    }
+
+    window.onload = function () {
+
+        $('.login-form input').each(function () {
+            if ($(this).attr('type') == "text" || $(this).attr('type') == "password") {
+                $(this).keypress(function (e) {
+                    var key = e.which || e.keyCode || 0;
+                    if (key == 13) { $(".login-form").submit(); User_Login(); $(".login-form").submit(); }
+                });
+            }
+        });
+
+        $('.register-form input').each(function () {
+            if ($(this).attr('type') == "text" || $(this).attr('type') == "select-one" || $(this).attr('type') == "password" || $(this).attr('type') == "checkbox" || $(this).attr('type') == "radio") {
+                $(this).keypress(function (e) {
+                    var key = e.which || e.keyCode || 0;
+                    if (key == 13) {
+                        $(".register-form").submit(); User_Registration();
+                    }
+                });
+            }
+        });
+
+        $("#register-btn").click(function () {
+            $("#uiOrganisationName").focus();
+            //BindCountry($("#ddlCountry"), null, null, null);
+        })
+
+        //$("#uiOrganisationName").keyup(function (e) {
+        //    var key = e.which || e.keyCode || 0;
+        //    if (key == 13) { $("#register-submit-btn").click(); }
+        //});
+        //$("#uiEmailaddress").keyup(function (e) {
+        //    var key = e.which || e.keyCode || 0;
+        //    if (key == 13) { $("#register-submit-btn").click(); }
+        //});
+        //$("#uiMobileNUmber").keyup(function (e) {
+        //    var key = e.which || e.keyCode || 0;
+        //    if (key == 13) { $("#register-submit-btn").click(); }
+        //});
+        //$("#uiStreet1").keyup(function (e) {
+        //    var key = e.which || e.keyCode || 0;
+        //    if (key == 13) { $("#register-submit-btn").click(); }
+        //});
+        //$("#txt_City").keyup(function (e) {
+        //    var key = e.which || e.keyCode || 0;
+        //    if (key == 13) { $("#register-submit-btn").click(); }
+        //});
+        //$("#ddlCountry").keyup(function (e) {
+        //    var key = e.which || e.keyCode || 0;
+        //    if (key == 13) { $("#register-submit-btn").click(); }
+        //});
+        //$("#ddlState").keyup(function (e) {
+        //    var key = e.which || e.keyCode || 0;
+        //    if (key == 13) { $("#register-submit-btn").click(); }
+        //});
+        //$("#uiRegPassword").keyup(function (e) {
+        //    var key = e.which || e.keyCode || 0;
+        //    if (key == 13) { $("#register-submit-btn").click(); }
+        //});
+        //$("#uiRePassword").keyup(function (e) {
+        //    var key = e.which || e.keyCode || 0;
+        //    if (key == 13) { $("#register-submit-btn").click(); }
+        //});
+    }
+
+    function ForgotPassword() {
+        if ($("#uiForgotEmail").val() == "") {
+            alert("Emai address is mandatory");
+            $("#uiForgotEmail").focus();
+            return false;
+        }
+
+        var dataarray = {
+            "UserCodeEmailIDMobile": $("#uiForgotEmail").val()
+            , "OTPSendOption": "E"
+        }
+        $("#loading").show();
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/forgotpassword",
+            data: dataarray,
+            success: function (data) {
+                $("#loading").hide();
+
+                if (data == "Ok") {
+                    window.location.href = "/";
+                }
+                else {
+                    $("#loading").hide();
+                    alert(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+</script>
+
+
+
+<!-- BEGIN LOGIN FORM -->
+<form class="login-form" method="post" autocomplete="off">
+    @Html.AntiForgeryToken()
+    <h3 class="form-title font-green">Sign In</h3>
+    <div class="alert alert-danger display-hide">
+        <button class="close" data-close="alert"></button>
+        <span> Enter any username and password. </span>
+    </div>
+    <div class="form-group">
+        <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+        <label class="control-label visible-ie8 visible-ie9">Username</label>
+        <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Email address/ Mobile number" id="uiUserName" autofocus />
+    </div>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">Password</label>
+        <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" id="uiPassword" />
+    </div>
+    <div class="form-actions">
+        <button type="button" id="btnLogin" class="btn green uppercase" onclick="return User_Login();">Login</button>
+        <label class="rememberme check mt-checkbox mt-checkbox-outline">
+            <input type="checkbox" name="remember" value="1" />Remember
+            <span></span>
+        </label>
+        <a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
+    </div>
+    <div class="login-options">
+        <h4>Or login with</h4>
+        <ul class="social-icons">
+            <li>
+                <a class="social-icon-color facebook" data-original-title="facebook" href="facebooklogin"></a>
+            </li>
+            <li>
+                <a class="social-icon-color twitter" data-original-title="Twitter" href="javascript:;"></a>
+            </li>
+            <li>
+                <a class="social-icon-color googleplus" data-original-title="Goole Plus" data-onsuccess="onSignIn" href="javascript:;"></a>
+            </li>
+            <li>
+                <a class="social-icon-color linkedin" data-original-title="Linkedin" href="javascript:;"></a>
+            </li>
+        </ul>
+    </div>
+    <div class="create-account">
+        <p>
+            <a href="javascript:;" id="register-btn" class="uppercase">Create an account</a>
+        </p>
+    </div>
+</form>
+<!-- END LOGIN FORM -->
+<!-- BEGIN FORGOT PASSWORD FORM -->
+<form class="forget-form" action="" method="post">
+    <h3 class="font-green">Forget Password ?</h3>
+    <p> Enter your e-mail address below to reset your password. </p>
+    <div class="form-group">
+        <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" id="uiForgotEmail" name="email" />
+    </div>
+    <div class="form-actions">
+        <button type="button" id="back-btn" class="btn green btn-outline">Back</button>
+        <button type="submit" id="btnForgotPassword" class="btn btn-success uppercase pull-right" onclick="return ForgotPassword();">Submit</button>
+    </div>
+</form>
+<!-- END FORGOT PASSWORD FORM -->
+<!-- BEGIN REGISTRATION FORM -->
+<form class="register-form" action="" method="post">
+    <h3 class="font-green">Sign Up</h3>
+    <p class="hint"> Enter your personal details below: </p>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">Account</label>
+        <div class="mt-radio-inline">
+            <div class="row">
+                <div class="col-lg-6"><input type="radio" name="rd_UserType" id="rd_BusinessUser" value="R" /> I have Business</div>
+                <div class="col-lg-6"><input type="radio" name="rd_UserType" id="rd_Accountant" value="A" /> I am Accountant</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">Organization/Company Name</label>
+        <input class="form-control placeholder-no-fix" type="text" placeholder="Organization/Company Name" id="uiOrganisationName" />
+    </div>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">First Name</label>
+        <input class="form-control placeholder-no-fix" type="text" placeholder="First Name" id="uiFirstName" />
+    </div>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">Mid Name</label>
+        <input class="form-control placeholder-no-fix" type="text" placeholder="Mid Name" id="uiMidName" />
+    </div>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">Last Name</label>
+        <input class="form-control placeholder-no-fix" type="text" placeholder="Last Name" id="uiLastName" />
+    </div>
+    <div class="form-group">
+        <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+        <label class="control-label visible-ie8 visible-ie9">Email address</label>
+        <input class="form-control placeholder-no-fix" type="text" placeholder="Email address" id="uiEmailaddress" />
+    </div>
+    <div class="form-group">
+        <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+        <label class="control-label visible-ie8 visible-ie9">Mobile number</label>
+        <input class="form-control placeholder-no-fix" type="text" placeholder="Mobile number" id="uiMobileNUmber" maxlength="20" />
+    </div>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">Address</label>
+        <input class="form-control placeholder-no-fix" type="text" placeholder="Address" id="uiStreet1" />
+    </div>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">City/Town</label>
+        <input class="form-control placeholder-no-fix" type="text" placeholder="City/ Town/ Village" id="txt_City" />
+    </div>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">Country</label>
+        <select id="ddlCountry" class="bs-select form-control" data-live-search="true" data-size="8" onchange="BindState($('#ddlState'), this.value, '');">@Html.Raw(HttpUtility.HtmlDecode(ViewBag.Countries))</select>
+    </div>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">State</label>
+        <select id="ddlState" class="bs-select form-control" data-live-search="true" data-size="8"></select>
+    </div>
+
+    <p class="hint"> Enter your account details below: </p>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">Password</label>
+        <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="uiRegPassword" placeholder="Password" onkeyup="return CheckPasswordStrength(this.value);" onkeypress="return CheckPasswordStrength(this.value);" />
+        <div id="password_strength" style="border:solid 1px #000000;">&nbsp;</div>
+    </div>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">Re-type Your Password</label>
+        <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Re-type Your Password" id="uiRePassword" />
+    </div>
+    <div class="form-group margin-top-20 margin-bottom-20">
+        <label class="mt-checkbox mt-checkbox-outline">
+            <input type="checkbox" name="tnc" /> I agree to the
+            <a href="javascript:;">Terms of Service </a> &
+            <a href="javascript:;">Privacy Policy </a>
+            <span></span>
+        </label>
+        <div id="register_tnc_error"> </div>
+    </div>
+    <div class="form-actions">
+        <button type="button" id="register-back-btn" class="btn green btn-outline">Back</button>
+        <button type="button" id="register-submit-btn" class="btn btn-success uppercase pull-right" onclick="return User_Registration();">Register</button>
+    </div>
+</form>
+
+<!-- END REGISTRATION FORM -->

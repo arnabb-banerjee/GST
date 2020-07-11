@@ -1,0 +1,264 @@
+﻿@model List<BusinessObjects.LanguageInfo>
+
+@{
+    ViewBag.Title = "Language list";
+}
+
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+@section Styles
+    {
+    @Styles.Render("~/assets/global/plugins/datatables/datatables.min.css")
+    @Styles.Render("~/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css")
+
+    @Styles.Render("~/assets/global/plugins/bootstrap-select/css/bootstrap-select.css")
+    @Styles.Render("~/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css")
+    <style type="text/css">
+        .row-bottom-5px {
+            margin-bottom: 5px;
+        }
+    </style>
+}
+<!-- END PAGE LEVEL PLUGINS -->
+
+<script type="text/javascript">
+    function OpenDetailsPage() {
+        var moduleName = "";
+        var language = "";
+
+        $(document).find("input[name=chkModule]").each(function () {
+            if (this.checked == true) {
+                moduleName = $(this).val();
+            }
+        });
+
+        $(document).find("input[name=chkLanguage]").each(function () {
+            if (this.checked == true) {
+                language = $(this).val();
+            }
+        });
+
+        if (moduleName == "") { alert("Select one module name"); return false; }
+        if (language == "") { alert("Select one language"); return false; }
+        
+
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/multiplelanguage",
+            contentType: "application/json; charset=utf-8",
+            data: { "LanguageIds": language, "MasterTablePrefixs": moduleName },
+            datatype: "json",
+            success: function (data) {
+                $('#content_Language_Details').html(data);
+                $('.modal-title').html("Language Details");
+                $('#myModal').modal('show');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve Language. due to error=' + xhr.status + '=' + thrownError);
+            }
+        });
+    }
+
+    function OpenUploadPage() {
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/upload",
+            contentType: "application/json; charset=utf-8",
+            //data: { "LanguageID": id },
+            datatype: "json",
+            success: function (data) {
+                $('#content_Language_Details').html(data);
+                $('.modal-title').html("Upload Excel");
+                $('#myModal').modal('show');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve states.');
+            }
+        });
+    }
+
+    function CloseParentPopup() {
+        $('#content_Language_Details').html('');
+        $('#myModal').modal('hide');
+        window.location.href = "/MasterPages/GetList_DataValueLanguageWise/";
+    }
+
+    function closepopup() {
+        if (confirm('Would you like to colse the window?')) {
+            $('#content_Language_Details').html('');
+            $('#myModal').modal('hide');
+        }
+    }
+</script>
+
+<!-- /.modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog modal-full">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="CloseParentPopup();" aria-hidden="true"></button>
+                <h4 class="modal-title">Modal Title</h4>
+            </div>
+            <div class="modal-body" id="content_Language_Details"> </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!-- BEGIN PAGE HEAD-->
+<div class="page-head">
+    <!-- BEGIN PAGE TITLE -->
+    <div class="page-title">
+        <h1>
+            Language
+            <small>Languages</small>
+        </h1>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- BEGIN PAGE TOOLBAR -->
+    <div class="page-toolbar">
+        <!-- BEGIN THEME PANEL -->
+        <div class="btn-group btn-group-devided" data-toggle="buttons">
+            @*<a class="btn btn-circle btn-default" href="javascript:;" onclick="OpenDetailsPage('')">
+                <i class="fa fa-plus"></i> Add
+            </a>
+            <label class="btn btn-transparent grey-salsa btn-outline btn-circle btn-sm" style="display:none;">
+                <a href="#" class="toggle" onclick="OpenUploadPage('')">Upload</a>
+            </label>*@
+        </div>
+        <div class="btn-group">
+            <a class="btn red btn-outline btn-circle" href="javascript:;" data-toggle="dropdown">
+                <i class="fa fa-share"></i>
+                <span class="hidden-xs"> Trigger Tools </span>
+                <i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="dropdown-menu pull-right" id="sample_3_tools">
+                <li>
+                    <a href="javascript:;" data-action="0" class="tool-action">
+                        <i class="icon-printer"></i> Print
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-action="1" class="tool-action">
+                        <i class="icon-check"></i> Copy
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-action="2" class="tool-action">
+                        <i class="icon-doc"></i> PDF
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-action="3" class="tool-action">
+                        <i class="icon-paper-clip"></i> Excel
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-action="4" class="tool-action">
+                        <i class="icon-cloud-upload"></i> CSV
+                    </a>
+                </li>
+                <li class="divider"> </li>
+                <li>
+                    <a href="javascript:;" data-action="5" class="tool-action">
+                        <i class="icon-refresh"></i> Reload
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- END THEME PANEL -->
+    </div>
+    <!-- END PAGE TOOLBAR -->
+</div>
+<!-- END PAGE HEAD-->
+<div class="portlet-body form">
+    <!-- Begin: life time stats -->
+    <div class="portlet light portlet-fit portlet-datatable bordered">
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-lg-3">Module Name</div>
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            Products
+                        </div>
+                        <div class="col-lg-10">
+                            <input type="checkbox" name="chkModule" class="checkbox" value="P" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            Categories
+                        </div>
+                        <div class="col-lg-10">
+                            <input type="checkbox" name="chkModule" class="checkbox" value="CA" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">Languages</div>
+                <div class="col-lg-9">
+                    @if (Model != null)
+                        {
+                            foreach (BusinessObjects.LanguageInfo obj in Model)
+                            {
+                        <div class="row">
+                            <div class="col-lg-2">
+                                @obj.LanguageName
+                            </div>
+                            <div class="col-lg-10">
+                                <input type="checkbox" name="chkLanguage" class="checkbox" value="@obj.LanguageId" />
+                            </div>
+                        </div>
+                            }
+                        }
+                        else
+                        {
+                        <div class="row">
+                            <div class="col-lg-12">
+                                No data to be previewed
+                            </div>
+                        </div>
+                        }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-actions" style="text-align:right;">
+        <input type="button" id="uiSetLanguage" value="Set Language" class="btn green-meadow" onclick="return OpenDetailsPage('')" />
+        <input type="button" value="Close" class="btn yellow" onclick="clearpage();" />
+    </div>
+    <!-- End: life time stats -->
+</div>
+
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+@section Scripts1
+        {
+    @Scripts.Render("~/assets/global/scripts/datatable.js")
+    @Scripts.Render("~/assets/global/plugins/datatables/datatables.min.js")
+    @Scripts.Render("~/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js")
+
+    @Scripts.Render("~/assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js")
+    @Scripts.Render("~/assets/global/plugins/moment.min.js")
+    @Scripts.Render("~/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js")
+}
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+@section Scripts2
+        {
+    @Scripts.Render("~/assets/pages/scripts/table-datatables-buttons.min.js")
+    @Scripts.Render("~/assets/pages/scripts/components-bootstrap-select.min.js")
+    @Scripts.Render("~/assets/pages/scripts/components-date-time-pickers.min.js")
+}
+<!--END PAGE LEVEL SCRIPTS-->

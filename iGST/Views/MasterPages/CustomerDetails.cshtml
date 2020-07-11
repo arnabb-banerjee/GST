@@ -1,0 +1,684 @@
+﻿@model BusinessObjects.CustomerInfo
+
+
+<script type="text/javascript">
+    function Save_Customer(isDelete) {
+        //alert($("#txtNotes").val());
+        var dataarray = {
+            "UserType": "C"
+        , "isDelete": isDelete
+        , "CusID": $("#hdnCusID").val()
+        , "Title": $("#ddlTitle").val()
+        , "First_Name": $("#txtFirst_Name").val()
+        , "Middle_Name": $("#txtMiddle_Name").val()
+        , "Last_Name": $("#txtLast_Name").val()
+        , "DOB": $("#txtDOB").val()
+        , "Sex": $("input[name='rd_sex']:checked").val()
+        , "Safix": $("#ddlSafix").val()
+        , "ParentCusID": ""
+        , "BillingWith": $("#txtBillingWith").val()
+        , "IsActive": ($("#chkIsActive").prop('checked') ? "Y" : "N")
+        , "OrganizationCode": $("#uiOrganisationName").val()
+        , "EmailID": $("#txtEmailID").val()
+        , "Mobile": $("#txtMobile").val()
+        , "Street1": $("#txt_Street1").val()
+        , "Street2": $("#txt_Street2").val()
+        , "City": $("#txt_City").val()
+        , "State": $("#ddlState_Basic").val()
+        , "Country": $("#ddlCountry_Basic").val()
+        , "Website": $("#txtWebsite").val()
+        , "GSTRegistrationType": $("#ddlRegistration_Type").val()
+        , "GSTIN": $("#txtGSTIN").val()
+        , "IsSubCustomer": ($("#chkIsSubCustomer").prop('checked') ? "Y" : "N")
+        , "TaxRegNo": $("#txtTaxRegNo").val()
+        , "CSTRegNo": $("#txtCSTRegNo").val()
+        , "PANNo": $("#txtPANNo").val()
+        , "Terms": $("#ddlTerms").val()
+        , "PrefferedPaymentMethod": $("#ddlPrefferedPaymentMethod").val()
+        , "PrefferedDeliveryMethod": $("#ddlPrefferedDeliveryMethod").val()
+        , "Shipping_Street1": $("#txtShipping_Street1").val()
+        , "Shipping_Street2": $("#txtShipping_Street2").val()
+        , "Shipping_City": $("#txtShipping_City").val()
+        , "Shipping_State": $("#ddlState_Shipping").val()
+        , "Shipping_Country": $("#ddlCountry_Shipping").val()
+        , "Billing_Street1": $("#txtBilling_Street1").val()
+        , "Billing_Street2": $("#txtBilling_Street2").val()
+        , "Billing_City": $("#txtBilling_City").val()
+        , "Billing_State": $("#ddlState_Billing").val()
+        , "Billing_Country": $("#ddlCountry_Billing").val()
+
+        , "OpeningBalance": $("#txtOpeningBalance").val()
+        , "AsOfDate": $("#uiAsOfDate").val()
+        , "Notes": $("#txtNotes").val()
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/customersave",
+            data: dataarray,
+            success: function (data) {
+                if (data == "Ok") {
+                    if (isDelete == "Y") {
+                        alert("Data deleted");
+                    } else {
+                        alert("Data updated");
+                    }
+                    MakeAllControlsBlank();
+                    CloseParentPopup();
+                }
+                else {
+                    alert(data);
+                    return false;
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $(function () {
+            $(".date-picker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+0", // You can set the year range as per as your need
+                dateFormat: 'dd/mm/yy',
+                regional: "en-GB",
+            });
+        });
+
+        $("#ddlCountry_Basic").change(function () {
+            BindState($("#ddlState_Basic"), $(this).val(), "");
+        });
+
+        $("#ddlCountry_Billing").change(function () {
+            BindState($("#ddlState_Billing"), $(this).val(), "");
+        });
+
+        $("#ddlCountry_Shipping").change(function () {
+            BindState($("#ddlState_Shipping"), $(this).val(), "");
+        });
+
+        $("#txtMobile").keydown(function (e) { FilterKeys("mobile", e, $(this)); });
+        $("#txtOpeningBalance").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+        $("#txtPANNo").keydown(function (e) { FilterKeys(e, "AN"); });
+
+        $("#ddlTitle").focus();
+
+        $('.nav-tabs a').click(function () {
+            $(this).tab('show');
+            $(this).find("input :first").focus();
+        });
+
+        //BindStaticValues($("#ddlRegistration_Type"), $("#ddlTitle"), $("#ddlSafix"), $("#ddlPrefferedDeliveryMethod"), $("#ddlPrefferedPaymentMethod"), $("#hdnGSTRegistrationType").val(), $("#hdnTitle").val(), $("#hdnSafix").val(), $("#hdnPrefferedDeliveryMethod").val(), $("#hdnPrefferedPaymentMethod").val());
+        BindTerms($("#ddlTerms"));
+        //BindCountry3($("#ddlCountry_Basic"), $("#ddlCountry_Billing"), $("#ddlCountry_Shipping"), $("#hdnCountry").val(), $("#hdnBilling_Country").val(), $("#hdnShipping_Country").val(), $("#ddlState_Basic"), $("#ddlState_Billing"), $("#ddlState_Shipping"), $("#hdnState").val(), $("#hdnBilling_State").val(), $("#hdnShipping_State").val());
+
+        //if (document.getElementById("uiOrganisationName") != null && document.getElementById("uiOrganisationName") != undefined) {
+        //    BindOrganization($("#uiOrganisationName"), $("#hdnOrganizationCode").val());
+        //}
+
+        $('.nav-tabs a[href="#tpGSTResitrationDetails"]').tab('show');
+
+
+        //GetMainImage();
+
+
+        //$('#myCarousel').carousel({
+        //    interval: 5000
+        //});
+
+        //$('#myCarousel').on('slid.bs.carousel', function (e) {
+        //    var id = $('.item.active').data('slide-number');
+        //    $('#carousel-text').html($('#slide-content-' + id).html());
+        //});
+    });
+
+
+    function OpenUploadImagePage() {
+        if ($("#hdnCusID").val() == null ||
+            ($("#hdnCusID").val() != null && $("#hdnCusID").val().trim().replace("0", "") == "")) {
+            alert("You should update customer details first");
+            document.getElementById("uiOrganisationName").focus();
+            return false;
+        }
+
+        $("#loading").show();
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/openimageupload",
+            contentType: "application/json; charset=utf-8",
+            data: { "type": "C", "ParentId": $("#hdnCusID").val() },
+            datatype: "json",
+            success: function (data) {
+                $("#loading").hide();
+                $('#childModal_content_Details').html(data);
+                //$('#myModal').modal(options);
+                $('#child-modal-title').html("Upload image");
+                $('#mychildModal').modal('show');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $("#loading").hide();
+                alert('Failed to open upload page.' + xhr.responseText + thrownError);
+            }
+        });
+    }
+
+    function GetMainImage() {
+        $("#loading").show();
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/getimageforcustomer",
+            contentType: "application/json; charset=utf-8",
+            data: { "ImageId": "0", "CustomerID": $("#hdnCusID").val(), "IsActive": "", "IsMain": "" },
+            datatype: "json",
+            success: function (data) {
+                thumhtml = "";
+                imagehtml = "";
+                if (data != null && data != "NO") {
+                    //alert(shtml);
+
+                    var i = 0;
+                    $.each(data, function (id, option) {
+
+                        imagehtml += '  <div class="' + (i == 0 ? "active item" : "item") + '" data-slide-number="' + i + '">';
+                        imagehtml += '     <img src="/UploadData/' + option.FileName + '">';
+                        imagehtml += '  </div>';
+
+                        thumhtml += '  <li class="col-sm-3">';
+                        thumhtml += '      <a class="thumbnail" id="carousel-selector-' + i + '" onclick="imageclick(this)">';
+                        thumhtml += '           <i class="fa fa-times" id="' + option.ImageId + '" onclick="return DeleteImage(this);"></i>';
+                        thumhtml += '           <img src="/UploadData/' + option.FileName + '">';
+                        thumhtml += '      </a>';
+                        thumhtml += '  </li>';
+
+                        //shtml += '  <div class="col-lg-3 col-md-4 col-sm-12">';
+                        //shtml += '      <img src="" alt = ""/>';
+                        //shtml += '  </div>';
+
+                        i++;
+                    });
+                    //alert(shtml);
+                    $(".hide-bullets").html(thumhtml);
+                    $(".carousel-inner").html(imagehtml);
+                }
+                else {
+                    thumhtml += '  <div class="col-lg-12 col-md-12 col-sm-12" style="text-align:center;cursor:pointer;" onclick="return OpenUploadImagePage()">';
+                    thumhtml += '      <img src="/UploadData/NoImage.jpg" alt = ""/>';
+                    thumhtml += '  </div>';
+
+                    $("#divImageDisplaysection").html(thumhtml);
+                }
+                $("#loading").hide();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $("#loading").hide();
+                alert('Failed to display image ' + xhr.responseText + thrownError);
+            }
+        });
+    }
+
+    function imageclick(obj) {
+        //Handles the carousel thumbnails
+        //var id_selector = obj.attr("id");
+        var id_selector = obj.id;
+
+        try {
+            //alert(id_selector);
+            var id = /-(\d+)$/.exec(id_selector)[1];
+            //alert(id);
+            console.log(id_selector, id);
+            jQuery('#myCarousel').carousel(parseInt(id));
+        } catch (e) {
+            console.log('Regex failed!', e);
+        }
+    }
+
+    function CloseChildParentPopup() {
+        //GetMainImage();
+        $('#childModal_content_Details').html('');
+        $('#mychildModal').modal('hide');
+    }
+
+
+</script>
+
+<!-- /.modal -->
+<div class="modal fade" id="mychildModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog modal-full">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="CloseChildParentPopup();" aria-hidden="true"></button>
+                <h4 id="child-modal-title" class="modal-title">Modal Title</h4>
+            </div>
+            <div class="modal-body" id="childModal_content_Details"> </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+@if (Session["UserDetails"] != null && "M".Contains(((BusinessObjects.UserInfo)Session["UserDetails"]).UserType.ToString().Trim().ToUpper()))
+{
+    <div class="row  form-body row-bottom-5px">
+        <div class="col-lg-1">
+            Organizations
+        </div>
+        <div class="col-lg-2">
+            <select id="uiOrganisationName" class="bs-select form-control" data-live-search="true" data-size="8">@ViewBag.Organizations</select>
+        </div>
+    </div>
+}
+<div class="row  form-body row-bottom-5px">
+    <input type="hidden" value="@Model.OrganizationCode" id="hdnOrganizationCode" />
+    <input type="hidden" value="@Model.Title" id="hdnTitle" />
+    <input type="hidden" value="@Model.Safix" id="hdnSafix" />
+    <input type="hidden" value="@Model.GSTRegistrationType" id="hdnGSTRegistrationType" />
+    <input type="hidden" value="@Model.PrefferedDeliveryMethod" id="hdnPrefferedDeliveryMethod" />
+    <input type="hidden" value="@Model.PrefferedPaymentMethod" id="hdnPrefferedPaymentMethod" />
+    <input type="hidden" value="@Model.Country" id="hdnCountry" />
+    <input type="hidden" value="@Model.Billing_Country" id="hdnBilling_Country" />
+    <input type="hidden" value="@Model.Shipping_Country" id="hdnShipping_Country" />
+    <input type="hidden" value="@Model.State" id="hdnState" />
+    <input type="hidden" value="@Model.Billing_State" id="hdnBilling_State" />
+    <input type="hidden" value="@Model.Shipping_State" id="hdnShipping_State" />
+    <input type="hidden" value="@Model.CusID" id="hdnCusID" />
+    <div class="col-lg-1">
+        Title
+    </div>
+    <div class="col-lg-2">
+        <select id="ddlTitle" class="bs-select form-control">
+            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Title))
+        </select>
+    </div>
+    <div class="col-lg-1">
+        First name
+    </div>
+    <div class="col-lg-2">
+        <div class="input-icon">
+            <i class="fa fa fa-user font-green"></i>
+            @Html.TextBoxFor(m => m.First_Name, new { @id = "txtFirst_Name", @class = "form-control", @placeholder = "First name" })
+        </div>
+    </div>
+    <div class="col-lg-1">
+        Middle Name
+    </div>
+    <div class="col-lg-2">
+        @Html.TextBoxFor(m => m.Middle_Name, new { @id = "txtMiddle_Name", @class = "form-control", @placeholder = "Middle name" })
+    </div>
+    <div class="col-lg-1">
+        Last name
+    </div>
+    <div class="col-lg-2">
+        @Html.TextBoxFor(m => m.Last_Name, new { @id = "txtLast_Name", @class = "form-control", @placeholder = "Last name" })
+    </div>
+</div>
+<div class="row  form-body row-bottom-5px">
+    <div class="col-lg-1">
+        Safix
+    </div>
+    <div class="col-lg-2">
+        <select id="ddlSafix" class="bs-select form-control">
+            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Safix))
+        </select>
+    </div>
+    <div class="col-lg-1">
+        DOB
+    </div>
+    <div class="col-lg-3">
+        <div>
+            @Html.TextBoxFor(m => m.DOB, new { @id = "txtDOB", @class = "form-control date-picker", @placeholder = "dd/MM/yyyy" })
+            @*<span class="input-group-btn">
+                <button class="btn default" type="button">
+                    <i class="fa fa-calendar"></i>
+                </button>
+            </span>*@
+        </div>
+    </div>
+    <div class="col-lg-1">
+        Sex
+    </div>
+    <div class="col-lg-3">
+        <div class="mt-radio-inline">
+            <label class="mt-radio">
+                <input type="radio" name="rd_sex" id="rd_male" value="M" @(Model.Sex == "M" ? "checked" : "") /> Male
+                <span></span>
+            </label>
+            <label class="mt-radio">
+                <input type="radio" name="rd_sex" id="rd_female" value="F" @(Model.Sex == "F" ? "checked" : "") /> Female
+                <span></span>
+            </label>
+        </div>
+    </div>
+</div>
+<div class="row form-body row-bottom-5px" style="display:none;">
+    <div class="col-lg-3">
+        Is Sub Customer
+    </div>
+    <div class="col-lg-1">
+        @Html.CheckBoxFor(m => m.IsSubCustomer, new { @id = "chkIsSubCustomer", @class = "form-control" })
+    </div>
+    <div class="col-lg-1">
+        Parent Customer
+    </div>
+    <div class="col-lg-3">
+        <select id="ddlParentCustomer" class="bs-select form-control"></select>
+    </div>
+    <div class="col-lg-1">
+        Billing With
+    </div>
+    <div class="col-lg-3">
+        @Html.TextBoxFor(m => m.BillingWith, new { @id = "txtBillingWith", @class = "form-control", @placeholder = "Billing With" })
+    </div>
+</div>
+<div class="row form-body row-bottom-5px">
+    <div class="col-lg-1">
+        Email
+    </div>
+    <div class="col-lg-3">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-envelope"></i>
+            </span>
+            @Html.TextBoxFor(m => m.EmailID, new { @id = "txtEmailID", @class = "form-control", @placeholder = "Email address" })
+        </div>
+    </div>
+    <div class="col-lg-1">
+        Mobile
+    </div>
+    <div class="col-lg-3">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-phone"></i>
+            </span>
+            @Html.TextBoxFor(m => m.Mobile, new { @id = "txtMobile", @class = "form-control", @placeholder = "10-20 digits mobile number", @maxlength = "20" })
+        </div>
+    </div>
+    <div class="col-lg-1">
+        Website
+    </div>
+    <div class="col-lg-3">
+        @Html.TextBoxFor(m => m.Website, new { @id = "txtWebsite", @class = "form-control", @placeholder = "http://" })
+    </div>
+</div>
+<div class="row form-body row-bottom-5px">
+
+    <div class="col-lg-1" style="display:none; visibility:hidden;">
+        Opening Balance
+    </div>
+    <div class="col-lg-3" style="display:none; visibility:hidden;">
+        @Html.TextBoxFor(m => m.OpeningBalance, new { @id = "txtOpeningBalance", @class = "form-control", @placeholder = "Opening Balance" })
+    </div>
+    <div class="col-lg-1" style="display:none; visibility:hidden;">
+        As of date
+    </div>
+    <div class="col-lg-3" style="display:none; visibility:hidden;">
+        <div class="input-group input-medium date date-picker" data-date-format="dd-mm-yyyy" data-date-start-date="+0d">
+            @Html.TextBoxFor(m => m.AsOfDate, new { @id = "uiAsOfDate", @class = "form-control", @placeholder = "dd/MM/yyyy" })
+            <span class="input-group-btn">
+                <button class="btn default" type="button">
+                    <i class="fa fa-calendar"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+
+    <div class="col-lg-1">
+        Terms
+    </div>
+    <div class="col-lg-3">
+        <select id="ddlTerms" class="bs-select form-control">
+            <option value=''>Select one</option>
+        </select>
+    </div>
+
+</div>
+<div class="row">&nbsp;</div>
+<div class="row">
+    <div class="col-lg-12">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item"></li>
+            <li><a href="#tpGSTResitrationDetails" data-toggle="tab" role="tab" class="navbar-link active" onclick="$('#txtGSTRegistrationType').focus();">Tax details</a></li>
+            <li><a href="#tpDeliveryMethods" data-toggle="tab" role="tab" class="navbar-link" onclick="$('#ddlPrefferedPaymentMethod').focus();">Delivery details</a></li>
+            <li><a href="#tpCustomerAddress" data-toggle="tab" role="tab" class="navbar-link" onclick="$('#txt_Street1').focus();">Customer Address</a></li>
+            <li><a href="#tpShippingAddress" data-toggle="tab" role="tab" class="navbar-link" onclick="$('#txtShipping_Street1').focus();">Shipping Address</a></li>
+            <li><a href="#tpBillingAddress" data-toggle="tab" role="tab" class="navbar-link" onclick="$('#txtBilling_Street1').focus();">Billing Address</a></li>
+            <li><a href="#tpNotes" data-toggle="tab" role="tab" class="navbar-link" onclick="$('#txtNotes').focus();">Notes</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="tpGSTResitrationDetails">
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-2">
+                        GST Registration Type
+                    </div>
+                    <div class="col-lg-3">
+                        <select id="ddlRegistration_Type" class="bs-select form-control">
+                            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.GSTRegistrationType))
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        GSTIN
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(m => m.GSTIN, new { @id = "txtGSTIN", @class = "form-control", @placeholder = "GSTIN" })
+                    </div>
+                </div>
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-2">
+                        Tax Reg. No.
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(m => m.TaxRegNo, new { @id = "txtTaxRegNo", @class = "form-control", @placeholder = "Tax Reg. No." })
+                    </div>
+                    <div class="col-lg-2">
+                        CST. Reg. No.
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(m => m.CSTRegNo, new { @id = "txtCSTRegNo", @class = "form-control", @placeholder = "CST Reg. No." })
+                    </div>
+                </div>
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-2">
+                        PAN Number
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(m => m.PANNo, new { @id = "txtPANNo", @class = "form-control", @placeholder = "PAN Number" })
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="tpDeliveryMethods">
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-2">
+                        Preffered Payment Method
+                    </div>
+                    <div class="col-lg-2">
+                        <select id="ddlPrefferedPaymentMethod" class="bs-select form-control">
+                            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.PrefferedPaymentMethod))
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-2">
+                        Preffered Delivery Method
+                    </div>
+                    <div class="col-lg-2">
+                        <select id="ddlPrefferedDeliveryMethod" class="bs-select form-control">
+                            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.PrefferedDeliveryMethod))
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="tpCustomerAddress">
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-1">
+                        Street 1
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(m => m.Street1, new { @id = "txt_Street1", @class = "form-control", @placeholder = "Street 1" })
+                    </div>
+                </div>
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-1">
+                        Street 2
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(m => m.Street2, new { @id = "txt_Street2", @class = "form-control", @placeholder = "Street 2" })
+                    </div>
+                </div>
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-1">
+                        City
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(m => m.City, new { @id = "txt_City", @class = "form-control", @placeholder = "City" })
+                    </div>
+                </div>
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-1">
+                        Country
+                    </div>
+                    <div class="col-lg-3">
+                        <select id="ddlCountry_Basic" class="bs-select form-control" data-live-search="true" data-size="8">
+                            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Countries_Basic))
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-1">
+                        State
+                    </div>
+                    <div class="col-lg-3">
+                        <select id="ddlState_Basic" class="bs-select form-control" data-live-search="true" data-size="8">
+                            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.State_Basic))
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="tpShippingAddress">
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-1">
+                        Street 1
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(m => m.Shipping_Street1, new { @id = "txtShipping_Street1", @class = "form-control", @placeholder = "Street 1" })
+                    </div>
+                </div>
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-1">
+                        Street 2
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(m => m.Shipping_Street2, new { @id = "txtShipping_Street2", @class = "form-control", @placeholder = "Street 2" })
+                    </div>
+                </div>
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-1">
+                        City
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(m => m.Shipping_City, new { @id = "txtShipping_City", @class = "form-control", @placeholder = "City" })
+                    </div>
+                </div>
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-1">
+                        Country
+                    </div>
+                    <div class="col-lg-3">
+                        <select id="ddlCountry_Shipping" class="bs-select form-control" data-live-search="true" data-size="8">
+                            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Countries_Ship))
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-1">
+                        State
+                    </div>
+                    <div class="col-lg-3">
+                        <select id="ddlState_Shipping" class="bs-select form-control" data-live-search="true" data-size="8">
+                            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.State_Ship))
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="tpBillingAddress">
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-1">
+                        Street 1
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(m => m.Billing_Street1, new { @id = "txtBilling_Street1", @class = "form-control", @placeholder = "Street 1" })
+                    </div>
+                </div>
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-1">
+                        Street 2
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(m => m.Billing_Street2, new { @id = "txtBilling_Street2", @class = "form-control", @placeholder = "Street 2" })
+                    </div>
+                </div>
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-1">
+                        City
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(m => m.Billing_City, new { @id = "txtBilling_City", @class = "form-control", @placeholder = "City" })
+                    </div>
+                </div>
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-1">
+                        Country
+                    </div>
+                    <div class="col-lg-3">
+                        <select id="ddlCountry_Billing" class="bs-select form-control" data-live-search="true" data-size="8">
+                            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Countries_Bill))
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-body row-bottom-5px">
+                    <div class="col-lg-1">
+                        State
+                    </div>
+                    <div class="col-lg-3">
+                        <select id="ddlState_Billing" class="bs-select form-control" data-live-search="true" data-size="8">
+                            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.State_Bill))
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="tpNotes">
+                <div class="col-lg-8">
+                    <textarea class="form-control" id="txtNotes" placeholder="Notes..." rows="5">@Model.Notes</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row form-body row-bottom-5px">
+    <div class="col-lg-3">
+        <div class="mt-checkbox-inline">
+            <label class="mt-checkbox">
+                Is Active?&nbsp;&nbsp;<input type="checkbox" id="chkIsActive" class="checkbox" @(Model.IsActive ? "checked" : "") />
+                <span></span>
+            </label>
+        </div>
+    </div>
+    <div class="col-lg-5">
+    </div>
+    <div class="col-lg-4">
+        <input type="button" id="uiSaveCustomer" value="Submit" class="btn green-meadow" onclick="return Save_Customer('');" />
+        <input type="submit" id="uiDeleteCustomer" value="Delete" class="btn red-mint" onclick="return Save_Customer('Y');" />
+        <input type="button" id="uiImageUpload" value="Upload Image" class="btn green-meadow" onclick="return OpenUploadImagePage();" />
+        <input type="button" value="Close" class="btn yellow" onclick="closepopup();" />
+    </div>
+</div>

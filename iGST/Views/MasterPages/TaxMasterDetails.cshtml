@@ -1,0 +1,58 @@
+﻿@model BusinessObjects.TaxMasterInfo
+
+<script type="text/javascript">
+
+    function Save(isDelete) {
+
+        var dataarray = {
+            "isOnlyDelete": isDelete
+        , "TaxDefinationID": $("#hdnTaxDefinationID").val()
+        , "TaxName": $("#txtName").val()
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/taxmastersave",
+            data: dataarray,
+            success: function (data) {
+                if (data == "Ok") {
+                    if (isDelete == "Y") {
+                        alert("Data deleted");
+                    } else {
+                        alert("Data updated");
+                    }
+
+                    MakeAllControlsBlank();
+                    CloseParentPopup();
+                }
+                else {
+                    alert(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+
+
+</script>
+
+<div class="portlet-body form">
+
+    <input type="hidden" value="@Model.TaxDefinationID" id="hdnTaxDefinationID" />
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label">Tax Name</label>
+            <input placeholder="Bank Name" id="txtName" value="@Model.TaxName" class="form-control" type="text" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-actions">
+            <input type="button" id="uiSaveBank" value="Submit" class="btn green-meadow" onclick="return Save('');" />
+            <input type="submit" id="uiDeleteBank" value="Delete" class="btn red-mint" onclick="return Save('Y');" />
+            <input type="button" value="Close" class="btn yellow" onclick="closepopup();" />
+        </div>
+    </div>
+</div>

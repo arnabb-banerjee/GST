@@ -1,0 +1,119 @@
+﻿@model BusinessObjects.BankInfo
+
+<script type="text/javascript">
+
+    function Save_Bank(isDelete) {
+
+        var dataarray = {
+            "isOnlyDelete": isDelete
+        , "OrganizaionName": $("#uiOrganisationName").val()
+        , "BankId": $("#hdnBankID").val()
+        , "BankName": $("#txtName").val()
+        , "CorpID": $("#txtCorpID").val()
+        , "Address": $("#txtAddress").val()
+        , "IFSCCOde": $("#txtIFSCCode").val()
+        , "MCRCode": $("#txtMCRCode").val()
+        , "isActive": ($("#chkIsActive").prop('checked') ? "Y" : "")
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/banksave",
+            data: dataarray,
+            success: function (data) {
+                if (data == "Ok") {
+                    if (isDelete == "Y") {
+                        alert("Data deleted");
+                    } else {
+                        alert("Data updated");
+                    }
+
+                    MakeAllControlsBlank();
+                    CloseParentPopup();
+                }
+                else {
+                    alert(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $("#txtDueInFixedNumberDays").keydown(function (e) { FilterKeys("I", e, $(this)); });
+        $("#txtDueInCertainDayOfMonth").keydown(function (e) { FilterKeys("I", e, $(this)); });
+        $("#txtDueInNextMonth").keydown(function (e) { FilterKeys("I", e, $(this)); });
+        $("#txtDiscount").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+
+        if (document.getElementById("uiOrganisationName") != null && document.getElementById("uiOrganisationName") != undefined) {
+            BindOrganization($("#uiOrganisationName"), $("#hdnOrganizationCode").val());
+        }
+
+    });
+
+</script>
+
+
+<div id="loading" style="display:none;width:100vw; height:100vh; background-color:rgba(0,0,0,0.7); z-index:999; position:fixed; margin:0;top:0;left:0;padding-left:49%; padding-top:22%; ">
+    <i class="fa fa-spinner fa-spin" style="font-size:48px;color:white;"></i>
+</div>
+<div class="portlet-body form">
+    <input type="hidden" value="@Model.BankID" id="hdnBankID" />
+    <input type="hidden" value="@Model.OrganizationCode" id="hdnOrganizationCode" />
+    <div class="form-body">
+        <a class="c-btn c-datepicker-btn">
+            <span class="material-icon">Open date picker</span>
+        </a>
+
+        @if (Session["UserDetails"] != null && "M".Contains(((BusinessObjects.UserInfo)Session["UserDetails"]).UserType.ToString().Trim().ToUpper()))
+        {
+            <div class="form-group">
+                <label class="control-label">Organizations</label>
+                <select id="uiOrganisationName" class="bs-select form-control" data-live-search="true" data-size="8"></select>
+                <div class="form-control-focus"> </div>
+            </div>
+        }
+        <div class="form-group">
+            <label class="control-label">Bank Name</label>
+            <input placeholder="Bank Name" id="txtName" value="@Model.Name" class="form-control" type="text" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Corporate ID</label>
+            <input placeholder="Corporate ID" id="txtCorpID" value="@Model.CorpID" class="form-control" type="text" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Address</label>
+            <input placeholder="Address" id="txtAddress" value="@Model.Address" class="form-control" type="text" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">IFSC Code</label>
+            <input placeholder="IFSC Code" id="txtIFSCCode" value="@Model.IFSCCode" class="form-control" type="text" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">MCR Code</label>
+            <input placeholder="MCR Code" id="txtMCRCode" value="@Model.MCRCode" class="form-control" type="text" />
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <div class="mt-checkbox-inline">
+                <label class="mt-checkbox">
+                    Is Active?&nbsp;&nbsp;<input type="checkbox" id="chkIsActive" checked="checked" class="checkbox" />
+                    <span></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-actions">
+        <input type="button" id="uiSaveBank" value="Submit" class="btn green-meadow" onclick="return Save_Bank('');" />
+        <input type="submit" id="uiDeleteBank" value="Delete" class="btn red-mint" onclick="return Save_Bank('Y');" />
+        <input type="button" value="Close" class="btn yellow" onclick="closepopup();" />
+    </div>
+</div>

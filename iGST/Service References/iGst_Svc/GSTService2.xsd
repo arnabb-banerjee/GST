@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BusinessObjects" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BusinessObjects" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfRoleInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="RoleInfo" nillable="true" type="tns:RoleInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRoleInfo" nillable="true" type="tns:ArrayOfRoleInfo" />
+  <xs:complexType name="RoleInfo">
+    <xs:sequence>
+      <xs:element name="_x003C_ActivityType_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Bill_Add_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Bill_Audit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Bill_Delete_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Bill_Edit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Bill_View_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Branch_Add_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Branch_Audit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Branch_Delete_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Branch_Edit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Branch_View_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Category_Add_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Category_Audit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Category_Delete_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Category_Edit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Category_View_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Customer_Add_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Customer_Audit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Customer_Delete_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Customer_Edit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Customer_View_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_DatauniqueID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_DefineLanguage_Add_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_DefineLanguage_Audit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_DefineLanguage_Delete_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_DefineLanguage_Edit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_DefineLanguage_View_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Function_Add_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Function_Audit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Function_Delete_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Function_Edit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Function_View_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_IsActive_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_IsOnlyForModerateUsers_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Language_Add_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Language_Audit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Language_Delete_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Language_Edit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Language_View_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_LastModifiedBy_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_LastModifiedOn_x003E_k__BackingField" type="xs:dateTime" />
+      <xs:element name="_x003C_Organization_Add_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Organization_Audit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Organization_Delete_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Organization_Edit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Organization_View_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Product_Add_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Product_Audit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Product_Delete_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Product_Edit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Product_View_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_RoleID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_RoleName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Role_Add_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Role_Audit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Role_Delete_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Role_Edit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Role_View_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_StaticValue_Add_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_StaticValue_Audit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_StaticValue_Delete_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_StaticValue_Edit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_StaticValue_View_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Terms_Add_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Terms_Audit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Terms_Delete_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Terms_Edit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Terms_View_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_UserModerate_Add_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_UserModerate_Audit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_UserModerate_Delete_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_UserModerate_Edit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_UserModerate_View_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_UserRegistered_Add_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_UserRegistered_Audit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_UserRegistered_Delete_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_UserRegistered_Edit_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_UserRegistered_View_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_isForMembershipView_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_isSelected_x003E_k__BackingField" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RoleInfo" nillable="true" type="tns:RoleInfo" />
+  <xs:complexType name="UserInfo">
+    <xs:sequence>
+      <xs:element name="_x003C_AccessAllowed_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_ActivityType_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ApplicableCurrencies_x003E_k__BackingField" nillable="true" type="tns:ArrayOfCurrencyOrganiztionInfo" />
+      <xs:element name="_x003C_BillingRatePerHour_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_CityName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_City_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_CountryName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Country_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_DOB_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_DatauniqueID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_DisplayName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_EffectiveRole_x003E_k__BackingField" nillable="true" type="tns:RoleInfo" />
+      <xs:element name="_x003C_EmailID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_EmployeeID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_First_Name_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Functions_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_HireDate_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_IsActive_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_IsApproved_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_IsEmailActive_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_IsMainUser_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_IsMobileActive_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_LastModifiedBy_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_LastModifiedOn_x003E_k__BackingField" type="xs:dateTime" />
+      <xs:element name="_x003C_Last_Name_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ManagerID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ManagerName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Middle_Name_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_MobileNumber_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Notes_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_OrganizationCode_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_OrganizationName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_PIN_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Password_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ReleaseDate_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Safix_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Sex_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_SsseionID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_StateName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_State_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Street1_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Street2_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Title_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_UserBranchRoleList_x003E_k__BackingField" nillable="true" type="tns:ArrayOfUserBranchRoleMappingInfo" />
+      <xs:element name="_x003C_UserCode_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_UserID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_UserName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_UserRegisteredEmail_x003E_k__BackingField" nillable="true" type="tns:UserEmailInfo" />
+      <xs:element name="_x003C_UserRegisteredMobile_x003E_k__BackingField" nillable="true" type="tns:UserMobileInfo" />
+      <xs:element name="_x003C_UserRoleList_x003E_k__BackingField" nillable="true" type="tns:ArrayOfUserBranchRoleMappingInfo" />
+      <xs:element name="_x003C_UserTypeName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_UserType_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_isBillableBydefault_x003E_k__BackingField" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UserInfo" nillable="true" type="tns:UserInfo" />
+  <xs:complexType name="ArrayOfCurrencyOrganiztionInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CurrencyOrganiztionInfo" nillable="true" type="tns:CurrencyOrganiztionInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCurrencyOrganiztionInfo" nillable="true" type="tns:ArrayOfCurrencyOrganiztionInfo" />
+  <xs:complexType name="CurrencyOrganiztionInfo">
+    <xs:sequence>
+      <xs:element name="SelfList" nillable="true" type="tns:ArrayOfCurrencyOrganiztionInfo" />
+      <xs:element name="_x003C_CurrencyId_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_CurrencyName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_OrganizationCode_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_OrganizationproductId_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_Symbol_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_isSelected_x003E_k__BackingField" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CurrencyOrganiztionInfo" nillable="true" type="tns:CurrencyOrganiztionInfo" />
+  <xs:complexType name="ArrayOfUserBranchRoleMappingInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UserBranchRoleMappingInfo" nillable="true" type="tns:UserBranchRoleMappingInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUserBranchRoleMappingInfo" nillable="true" type="tns:ArrayOfUserBranchRoleMappingInfo" />
+  <xs:complexType name="UserBranchRoleMappingInfo">
+    <xs:sequence>
+      <xs:element name="_x003C_BranchID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_BranchName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_DataUniqueID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_FunctionID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_FunctionName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_OrganizationCode_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_OrganizationName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_UserCode_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_UserName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_isSelected_x003E_k__BackingField" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UserBranchRoleMappingInfo" nillable="true" type="tns:UserBranchRoleMappingInfo" />
+  <xs:complexType name="UserEmailInfo">
+    <xs:sequence>
+      <xs:element name="_x003C_ActivityType_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_DatauniqueID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_EmailConfirmationSentOn_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_EmailID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_EmailVerifiedOn_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_IsActive_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_IsEmailConfirmationSend_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_IsEmailVerified_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_LastModifiedBy_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_LastModifiedOn_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_UserID_x003E_k__BackingField" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UserEmailInfo" nillable="true" type="tns:UserEmailInfo" />
+  <xs:complexType name="UserMobileInfo">
+    <xs:sequence>
+      <xs:element name="_x003C_ActivityType_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_DatauniqueID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_IsActive_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_IsMobileConfirmationSent_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_IsMobileVerified_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_LastModifiedBy_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_LastModifiedOn_x003E_k__BackingField" type="xs:dateTime" />
+      <xs:element name="_x003C_MobileConfirmationSentOn_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_MobileVerifiedOn_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Mobile_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_UserID_x003E_k__BackingField" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UserMobileInfo" nillable="true" type="tns:UserMobileInfo" />
+  <xs:complexType name="ArrayOfTaxMasterInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TaxMasterInfo" nillable="true" type="tns:TaxMasterInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTaxMasterInfo" nillable="true" type="tns:ArrayOfTaxMasterInfo" />
+  <xs:complexType name="TaxMasterInfo">
+    <xs:sequence>
+      <xs:element name="_x003C_ActivityType_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_DatauniqueID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_IsActive_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_TaxDefinationID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_TaxName_x003E_k__BackingField" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TaxMasterInfo" nillable="true" type="tns:TaxMasterInfo" />
+  <xs:complexType name="ArrayOfTaxCountryMapInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TaxCountryMapInfo" nillable="true" type="tns:TaxCountryMapInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTaxCountryMapInfo" nillable="true" type="tns:ArrayOfTaxCountryMapInfo" />
+  <xs:complexType name="TaxCountryMapInfo">
+    <xs:sequence>
+      <xs:element name="_x003C_ActivityType_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ApplicableType_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_CountryId_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_CountryName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_DatauniqueID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_IsExist_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_TaxDefinationID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_TaxName_x003E_k__BackingField" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TaxCountryMapInfo" nillable="true" type="tns:TaxCountryMapInfo" />
+  <xs:complexType name="ArrayOfTaxCountryCategoryMapInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TaxCountryCategoryMapInfo" nillable="true" type="tns:TaxCountryCategoryMapInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTaxCountryCategoryMapInfo" nillable="true" type="tns:ArrayOfTaxCountryCategoryMapInfo" />
+  <xs:complexType name="TaxCountryCategoryMapInfo">
+    <xs:sequence>
+      <xs:element name="_x003C_ActivityType_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ApplicableType_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_CategoryId_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_CategoryName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_CountryId_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_CountryName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_DatauniqueID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_IsExist_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Percentage_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_TaxDefinationID_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_TaxName_x003E_k__BackingField" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TaxCountryCategoryMapInfo" nillable="true" type="tns:TaxCountryCategoryMapInfo" />
+  <xs:complexType name="GSTInfo">
+    <xs:sequence>
+      <xs:element name="_x003C_CountryId_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Percentage_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ProductId_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_SalePrice_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ShipStateID_x003E_k__BackingField" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GSTInfo" nillable="true" type="tns:GSTInfo" />
+</xs:schema>

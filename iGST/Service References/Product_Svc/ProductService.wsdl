@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ProductService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:50495/sProductService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:50495/sProductService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:50495/sProductService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/BusinessObjects" />
+      <xsd:import schemaLocation="http://localhost:50495/sProductService.svc?xsd=xsd3" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IProductService_GetList_ProductDropdownlist_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ProductDropdownlist" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_GetList_ProductDropdownlist_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ProductDropdownlistResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_GetList_Product_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_Product" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_GetList_Product_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_GetDetails_Product_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_Product" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_GetDetails_Product_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_ProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_Save_Product_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_Product" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_Save_Product_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_ProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_Upload_Product_InputMessage">
+    <wsdl:part name="parameters" element="tns:Upload_Product" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_Upload_Product_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Upload_ProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_GetList_ProductOrganization_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ProductOrganization" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_GetList_ProductOrganization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ProductOrganizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_GetDetails_ProductOrganization_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_ProductOrganization" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_GetDetails_ProductOrganization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_ProductOrganizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_Save_ProductOrganization_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_ProductOrganization" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_Save_ProductOrganization_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_ProductOrganizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_Save_ProductOrganizationImage_InputMessage">
+    <wsdl:part name="parameters" element="tns:Save_ProductOrganizationImage" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_Save_ProductOrganizationImage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Save_ProductOrganizationImageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_GetList_ProductOrganizationImage_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ProductOrganizationImage" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_GetList_ProductOrganizationImage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetList_ProductOrganizationImageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_GetDetails_ProductOrganizationImage_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_ProductOrganizationImage" />
+  </wsdl:message>
+  <wsdl:message name="IProductService_GetDetails_ProductOrganizationImage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDetails_ProductOrganizationImageResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IProductService">
+    <wsdl:operation name="GetList_ProductDropdownlist">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProductService/GetList_ProductDropdownlist" message="tns:IProductService_GetList_ProductDropdownlist_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProductService/GetList_ProductDropdownlistResponse" message="tns:IProductService_GetList_ProductDropdownlist_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Product">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProductService/GetList_Product" message="tns:IProductService_GetList_Product_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProductService/GetList_ProductResponse" message="tns:IProductService_GetList_Product_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Product">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProductService/GetDetails_Product" message="tns:IProductService_GetDetails_Product_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProductService/GetDetails_ProductResponse" message="tns:IProductService_GetDetails_Product_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_Product">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProductService/Save_Product" message="tns:IProductService_Save_Product_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProductService/Save_ProductResponse" message="tns:IProductService_Save_Product_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Upload_Product">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProductService/Upload_Product" message="tns:IProductService_Upload_Product_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProductService/Upload_ProductResponse" message="tns:IProductService_Upload_Product_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_ProductOrganization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProductService/GetList_ProductOrganization" message="tns:IProductService_GetList_ProductOrganization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProductService/GetList_ProductOrganizationResponse" message="tns:IProductService_GetList_ProductOrganization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_ProductOrganization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProductService/GetDetails_ProductOrganization" message="tns:IProductService_GetDetails_ProductOrganization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProductService/GetDetails_ProductOrganizationResponse" message="tns:IProductService_GetDetails_ProductOrganization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_ProductOrganization">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProductService/Save_ProductOrganization" message="tns:IProductService_Save_ProductOrganization_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProductService/Save_ProductOrganizationResponse" message="tns:IProductService_Save_ProductOrganization_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Save_ProductOrganizationImage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProductService/Save_ProductOrganizationImage" message="tns:IProductService_Save_ProductOrganizationImage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProductService/Save_ProductOrganizationImageResponse" message="tns:IProductService_Save_ProductOrganizationImage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList_ProductOrganizationImage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProductService/GetList_ProductOrganizationImage" message="tns:IProductService_GetList_ProductOrganizationImage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProductService/GetList_ProductOrganizationImageResponse" message="tns:IProductService_GetList_ProductOrganizationImage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_ProductOrganizationImage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProductService/GetDetails_ProductOrganizationImage" message="tns:IProductService_GetDetails_ProductOrganizationImage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProductService/GetDetails_ProductOrganizationImageResponse" message="tns:IProductService_GetDetails_ProductOrganizationImage_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="iGST_Svc.ProductService_Binding_IProductService" type="tns:IProductService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetList_ProductDropdownlist">
+      <soap:operation soapAction="http://tempuri.org/IProductService/GetList_ProductDropdownlist" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_Product">
+      <soap:operation soapAction="http://tempuri.org/IProductService/GetList_Product" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_Product">
+      <soap:operation soapAction="http://tempuri.org/IProductService/GetDetails_Product" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_Product">
+      <soap:operation soapAction="http://tempuri.org/IProductService/Save_Product" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Upload_Product">
+      <soap:operation soapAction="http://tempuri.org/IProductService/Upload_Product" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_ProductOrganization">
+      <soap:operation soapAction="http://tempuri.org/IProductService/GetList_ProductOrganization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_ProductOrganization">
+      <soap:operation soapAction="http://tempuri.org/IProductService/GetDetails_ProductOrganization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_ProductOrganization">
+      <soap:operation soapAction="http://tempuri.org/IProductService/Save_ProductOrganization" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save_ProductOrganizationImage">
+      <soap:operation soapAction="http://tempuri.org/IProductService/Save_ProductOrganizationImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList_ProductOrganizationImage">
+      <soap:operation soapAction="http://tempuri.org/IProductService/GetList_ProductOrganizationImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDetails_ProductOrganizationImage">
+      <soap:operation soapAction="http://tempuri.org/IProductService/GetDetails_ProductOrganizationImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProductService">
+    <wsdl:port name="iGST_Svc.ProductService_Binding_IProductService" binding="tns:iGST_Svc.ProductService_Binding_IProductService">
+      <soap:address location="http://localhost:50495/sProductService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,461 @@
+﻿@model BusinessObjects.ProductOrganiztionInfo
+
+<style type="text/css">
+    .hide-bullets {
+        list-style: none;
+        margin-left: -40px;
+        margin-top: 20px;
+    }
+
+    .thumbnail {
+        padding: 0;
+    }
+
+    .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+        width: 100%;
+    }
+
+    .fa-times {
+        margin-right: 0;
+        margin-top: 0;
+        float: right;
+        cursor: pointer;
+    }
+</style>
+
+<script type="text/javascript">
+
+    function Save_ProductOrganization(isDelete) {
+        var productid = ''
+
+        if ($("#txtName").val() == "") {
+            alert("Please enter name of the product");
+            return false;
+        }
+
+        var dataarray = {
+            "isOnlyDelete": isDelete
+        , "OrganizationproductId": $("#hdnID").val()
+        , "ProductId": productid
+        , "CategoryId": $("#ddlCategory").val()
+        , "CountryId": "0"
+        , "OrganizationCode": $("#uiOrganisationName").val()
+        , "isActive": "Y"
+        , "Name": $("#txtName").val()
+        , "Description": $("#txtDescription").val()
+        , "SKU": $("#txtSKU").val()
+        , "Unit": $("#ddlUnit").val()
+        , "Class": $("#ddlClass").val()
+        , "AbatementPercentage": $("#txtAbatementPercentage").val()
+        , "ServiceType": $("#ddlServiceType").val()
+        , "SalePrice": $("#txtSalePrice").val()
+        , "isInclusiveTax": $("#chkInclusiveTax").val()
+        , "AvailableQty": $("#txtAvailableQty").val()
+        , "IncomeAccount": $("#ddlIncomeAccount").val()
+        , "SupplierId": $("#ddlSupplierID").val()
+        , "PreferredSupplierId": $("#ddlPreferredSupplierId").val()
+        , "ReverseCharge": $("#txtReverseCharge").val()
+        , "PurchaseTax": $("#txtPurchaseTax").val()
+        , "SaleTax": $("#txtSaleTax").val()
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/manageproductforuser",
+            data: dataarray,
+            success: function (data) {
+                if (data == "Ok") {
+                    if (isDelete == "Y") {
+                        alert("Data deleted");
+                    } else {
+                        alert("Data updated");
+                    }
+
+                    MakeAllControlsBlank();
+                    CloseParentPopup();
+                }
+                else {
+                    alert(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+
+    function OpenUploadImagePage() {
+        if ($("#hdnID").val() == null ||
+            ($("#hdnID").val() != null && $("#hdnID").val().trim().replace("0", "") == "")) {
+            alert("You should update product details first");
+            document.getElementById("uiOrganisationName").focus();
+            return false;
+        }
+
+        $("#loading").show();
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/openimageupload",
+            contentType: "application/json; charset=utf-8",
+            data: { "type": "P", "ParentId": $("#hdnID").val() },
+            datatype: "json",
+            success: function (data) {
+                $("#loading").hide();
+                $('#childModal_content_Details').html(data);
+                //$('#myModal').modal(options);
+                $('#child-modal-title').html("Upload image");
+                $('#mychildModal').modal('show');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $("#loading").hide();
+                alert('Failed to open upload page.' + xhr.responseText + thrownError);
+            }
+        });
+    }
+
+    function GetMainImage() {
+        $("#loading").show();
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/getimagefororganizationproduct",
+            contentType: "application/json; charset=utf-8",
+            data: { "ImageId": "0", "OrganizationproductId": $("#hdnID").val(), "ProductID": "", "IsActive": "", "IsMain": "" },
+            datatype: "json",
+            success: function (data) {
+                thumhtml = "";
+                imagehtml = "";
+                if (data != null && data != "NO") {
+                    //alert(shtml);
+
+                    var i = 0;
+                    $.each(data, function (id, option) {
+
+                        imagehtml += '  <div class="' + (i == 0 ? "active item" : "item") + '" data-slide-number="' + i + '">';
+                        imagehtml += '     <img src="/UploadData/' + option.FileName + '">';
+                        imagehtml += '  </div>';
+
+                        thumhtml += '  <li class="col-sm-3">';
+                        thumhtml += '      <a class="thumbnail" id="carousel-selector-' + i + '" onclick="imageclick(this)">';
+                        thumhtml += '           <i class="fa fa-times" id="' + option.ImageId + '" onclick="return DeleteImage(this);"></i>';
+                        thumhtml += '           <img src="/UploadData/' + option.FileName + '">';
+                        thumhtml += '      </a>';
+                        thumhtml += '  </li>';
+
+                        //shtml += '  <div class="col-lg-3 col-md-4 col-sm-12">';
+                        //shtml += '      <img src="" alt = ""/>';
+                        //shtml += '  </div>';
+
+                        i++;
+                    });
+                    //alert(shtml);
+                    $(".hide-bullets").html(thumhtml);
+                    $(".carousel-inner").html(imagehtml);
+                }
+                else {
+                    thumhtml += '  <div class="col-lg-12 col-md-12 col-sm-12" style="text-align:center;cursor:pointer;" onclick="return OpenUploadImagePage()">';
+                    thumhtml += '      <img src="/UploadData/NoImage.jpg" alt = ""/>';
+                    thumhtml += '  </div>';
+
+                    $("#divImageDisplaysection").html(thumhtml);
+                }
+                $("#loading").hide();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $("#loading").hide();
+                alert('Failed to display image ' + xhr.responseText + thrownError);
+            }
+        });
+    }
+
+    function imageclick(obj) {
+        //Handles the carousel thumbnails
+        //var id_selector = obj.attr("id");
+        var id_selector = obj.id;
+
+        try {
+            //alert(id_selector);
+            var id = /-(\d+)$/.exec(id_selector)[1];
+            //alert(id);
+            console.log(id_selector, id);
+            jQuery('#myCarousel').carousel(parseInt(id));
+        } catch (e) {
+            console.log('Regex failed!', e);
+        }
+    }
+
+    //function GetMainImage() {
+    //    $("#loading").show();
+    //    var options = { "backdrop": "static", keyboard: true };
+    //    $.ajax({
+    //        cache: false,
+    //        type: "GET",
+    //        url: "/getimagefororganizationproduct",
+    //        contentType: "application/json; charset=utf-8",
+    //        data: { "ImageId": "0", "OrganizationproductId": $("#hdnID").val(), "ProductID": "", "IsActive": "", "IsMain": "Y" },
+    //        datatype: "json",
+    //        success: function (data) {
+    //            shtml = "";
+    //            if (data != null && data != "NO") {
+    //                $.each(data, function (id, option) {
+    //                    shtml += '<div class="row">';
+    //                    shtml += '  <div class="col-lg-12 col-md-12 col-sm-12">';
+    //                    shtml += '      <img src="/UploadData/' + option.FileName + '" alt = "" height="50" width="50"/>';
+    //                    shtml += '  </div>';
+    //                    shtml += '</div>';
+    //                });
+    //            }
+    //            else {
+    //                shtml += '<div class="row">';
+    //                shtml += '  <div class="col-lg-12 col-md-12 col-sm-12">';
+    //                shtml += '      <img src="/UploadData/NoImage.jpg" alt = "" height="50" width="50"/>';
+    //                shtml += '  </div>';
+    //                shtml += '</div>';
+    //            }
+    //            $("#loading").hide();
+    //            $("#divImage").html(shtml);
+    //        },
+    //        error: function (xhr, ajaxOptions, thrownError) {
+    //            $("#loading").hide();
+    //            alert('Failed to display image.' + xhr.responseText + thrownError);
+    //        }
+    //    });
+    //}
+
+    function CloseChildParentPopup() {
+        GetMainImage();
+        $('#childModal_content_Details').html('');
+        $('#mychildModal').modal('hide');
+    }
+
+    $(document).ready(function () {
+        //BindCategory('');
+        //BindServiceUnit('');
+        //BindServiceType('');
+        //BindServiceClass('');
+        //BindBanks('', '');
+        //BindSuppliers('', '');
+        $("#txtAbatementPercentage").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+        $("#txtAvailableQty").keydown(function (e) { FilterKeys("I", e, $(this)); });
+        $("#txtPurchaseTax").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+        $("#txtReverseCharge").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+        $("#txtSalePrice").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+        $("#txtSaleTax").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+        GetMainImage();
+
+
+        $('#myCarousel').carousel({
+            interval: 5000
+        });
+
+        $('#myCarousel').on('slid.bs.carousel', function (e) {
+            var id = $('.item.active').data('slide-number');
+            $('#carousel-text').html($('#slide-content-' + id).html());
+        });
+    });
+</script>
+
+
+<!-- /.modal -->
+<div class="modal fade" id="mychildModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog modal-full">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="CloseChildParentPopup();" aria-hidden="true"></button>
+                <h4 id="child-modal-title" class="modal-title">Modal Title</h4>
+            </div>
+            <div class="modal-body" id="childModal_content_Details"> </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<div class="portlet-body form">
+    <input type="hidden" id="hdnID" value="@Model.OrganizationproductId" />
+    <div class="row">
+        <div class="col-lg-9">
+            @if (Session["UserDetails"] != null && "M".Contains(((BusinessObjects.UserInfo)Session["UserDetails"]).UserType.ToString().Trim().ToUpper()))
+            {
+                <div class="row row-bottom-5px">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        Organizations
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <select id="uiOrganisationName" class="bs-select form-control" data-live-search="true" data-size="8">@Html.Raw(HttpUtility.HtmlDecode(ViewBag.Organizations))</select>
+                    </div>
+                </div>
+            }
+            <div class="row row-bottom-5px">
+                <div class="row">
+                    <div class="col"></div>
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Name
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <input id="txtName" value="@Model.ProductName" maxlength="50" placeholder="Name of the product / service" class="form-control" type="text" autofocus />
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Description
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <input id="txtDescription" value="@Model.Description" maxlength="50" placeholder="Description" class="form-control" type="text" />
+                </div>
+            </div>
+            <div class="row row-bottom-5px">
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Category
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <select id="ddlCategory" class="bs-select form-control">@Html.Raw(HttpUtility.HtmlDecode(ViewBag.Categories))</select>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    SKU
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <input id="txtSKU" maxlength="50" value="@Model.SKU" placeholder="SKU" class="form-control" type="text" />
+                </div>
+            </div>
+            <div class="row row-bottom-5px">
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Unit
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <select id="ddlUnit" class="bs-select form-control">@Html.Raw(HttpUtility.HtmlDecode(ViewBag.ServiceUnits))</select>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Class
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <select id="ddlClass" class="bs-select form-control">@Html.Raw(HttpUtility.HtmlDecode(ViewBag.ServiceClasses))</select>
+                </div>
+            </div>
+            <div class="row row-bottom-5px">
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Service Type
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <select id="ddlServiceType" class="bs-select form-control">@Html.Raw(HttpUtility.HtmlDecode(ViewBag.ServiceTypes))</select>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Abatement Percentage
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <input id="txtAbatementPercentage" value="@Model.AbatementPercentage" maxlength="6" placeholder="00.00" class="form-control" type="text" />
+                </div>
+            </div>
+            <div class="row row-bottom-5px">
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Sale Price
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <input id="txtSalePrice" maxlength="21" value="@Model.SalePrice" placeholder="00.00" class="form-control" type="text" />
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Exempted
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="mt-checkbox-inline">
+                        <label class="mt-checkbox">
+                            <input type="checkbox" id="chkInclusiveTax" class="checkbox" @(Model.isInclusiveTax ? "checked='checked'" : "") />
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row row-bottom-5px">
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Available Qty
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <input id="txtAvailableQty" value="@Model.AvailableQty" maxlength="8" placeholder="1234" class="form-control" type="text" />
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Income Account
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <select id="ddlIncomeAccount" class="bs-select form-control">@Html.Raw(HttpUtility.HtmlDecode(ViewBag.IncomeAccounts))</select>
+                </div>
+            </div>
+            <div class="row row-bottom-5px">
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Suppliers
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <select id="ddlSupplierID" class="bs-select form-control">
+                        @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Customers))
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Preferred Supplier
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <select id="ddlPreferredSupplierId" class="bs-select form-control">@Html.Raw(HttpUtility.HtmlDecode(ViewBag.PreferedSuppliers))</select>
+                </div>
+            </div>
+            <div class="row row-bottom-5px">
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Reverse Charge
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <input id="txtReverseCharge" value="@Model.ReverseCharge" maxlength="6" placeholder="00.00" class="form-control" type="text" />
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Purchase Tax
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <input id="txtPurchaseTax" value="@Model.PurchaseTax" maxlength="6" placeholder="00.00" class="form-control" type="text" />
+                </div>
+            </div>
+            <div class="row row-bottom-5px">
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    Sales Tax
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <input id="txtSaleTax" value="@Model.SaleTax" maxlength="6" placeholder="00.00" class="form-control" type="text" />
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    &nbsp;
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3" id="divImageDisplaysection">
+            <div class="col-xs-12" id="slider">
+                <div class="col-sm-12" id="carousel-bounding-box" style="height:300px;">
+                    <div class="carousel slide" id="myCarousel">
+                        <!-- Carousel items -->
+                        <div class="carousel-inner">
+                        </div>
+                        <!-- Carousel nav -->
+                        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12" id="slider-thumbs" style="height:100px;overflow-y:auto;overflow-x:hidden;">
+                <!-- Bottom switcher of slider -->
+                <ul class="hide-bullets"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="action">
+        <input type="button" id="uiSaveCustomer" value="Submit" class="btn green-meadow" onclick="return Save_ProductOrganization('');" />
+        <input type="submit" id="uiDeleteCustomer" value="Delete" class="btn red-mint" onclick="return Save_ProductOrganization('Y');" />
+        <input type="button" id="uiImageUpload" value="Upload Image" class="btn green-meadow" onclick="return OpenUploadImagePage();" />
+        <input type="button" value="Close" class="btn yellow" onclick="closepopup();" />
+    </div>
+</div>

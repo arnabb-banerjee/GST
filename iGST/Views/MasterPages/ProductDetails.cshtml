@@ -1,0 +1,88 @@
+﻿@model BusinessObjects.ProductInfo
+
+
+<script type="text/javascript">
+
+    function Save_Product(isDelete) {
+
+        var dataarray = {
+            "isOnlyDelete": isDelete
+        , "ProductId": $("#hdnProductID").val()
+        , "CategoryId": $("#ddlCategory").val()
+        , "CountryId": $("#ddlCountry").val()
+        , "ProductName": $("#txtName").val()
+        , "isActive": ($("#chkIsActive").prop('checked') ? "Y" : "")
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/productsave",
+            data: dataarray,
+            success: function (data) {
+                if (data == "Ok") {
+                    if (isDelete == "Y") {
+                        alert("Data deleted");
+                    } else {
+                        alert("Data updated");
+                    }
+                    MakeAllControlsBlank();
+                    CloseParentPopup();
+                }
+                else {
+                    alert(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $("#ddlCountry").change(function () {
+            BindCategory_string('0', '', $(this).val(), $("#ddlCategory"));
+        });
+
+        //BindCountry($("#ddlCountry"), null, null, null);
+    });
+</script>
+
+<div class="portlet-body form">
+    @Html.HiddenFor(m => m.ProductId, new { @id = "hdnProductID" })
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label">Country</label>
+            <select id="ddlCountry" class="bs-select form-control" data-live-search="true" data-size="8">
+                @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Countries))
+            </select>
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Category</label>
+            <select id="ddlCategory" class="form-control">
+                @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Categories))
+            </select>
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Product Name</label>
+            @Html.TextBoxFor(m => m.ProductName, new { @id = "txtName", @class = "form-control", @placeholder = "Product name" })
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <div class="mt-checkbox-inline">
+                <label class="mt-checkbox">
+                    Is Active?&nbsp;&nbsp;<input type="checkbox" id="chkIsActive" @(Model.IsActive ? "checked=\"checked\"" : "") class="checkbox" />
+                    <span></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-actions">
+        <input type="button" id="uiSaveProduct" value="Submit" class="btn green-meadow" onclick="return Save_Product('');" />
+        <input type="submit" id="uiDeleteProduct" value="Delete" class="btn red-mint" onclick="return Save_Product('Y');" />
+        <input type="button" value="Close" class="btn yellow" onclick="closepopup();" />
+    </div>
+</div>

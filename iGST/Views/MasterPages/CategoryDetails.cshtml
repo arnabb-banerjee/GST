@@ -1,0 +1,186 @@
+﻿@model BusinessObjects.CategoryInfo
+
+<script type="text/javascript">
+
+    function Save_Category(isDelete) {
+
+        var dataarray = {
+            "isOnlyDelete": isDelete
+        , "CountryId": $("#ddlCountryId").val()
+        , "CategoryId": $("#hdnCategoryID").val()
+        , "ParentCategoryId": $("#ddlCategory").val()
+        , "WillCarryContent": ($("#chkWillCarryContent").prop('checked') ? "Y" : "")
+        , "CategoryName": $("#txtCategoryName").val()
+        , "ServiceOrGoods": $("#rd_Service").prop('checked') ? "S" : "G"
+        , "HsnSacCode": $("#txtSACCode").val()
+        , "isActive": ($("#chkIsActive").prop('checked') ? "Y" : "")
+        , "IsExpenseType": ($("#chkIsExpense").prop('checked') ? "Y" : "")
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/categorysave",
+            data: dataarray,
+            success: function (data) {
+                if (data == "Ok") {
+                    if (isDelete == "Y") {
+                        alert("Data deleted");
+                    } else {
+                        alert("Data updated");
+                    }
+                    MakeAllControlsBlank();
+                    CloseParentPopup($('#content_Category_Details'), '/MasterPages/GetList_Category/');
+                }
+                else {
+                    alert(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+
+            }
+        });
+    }
+
+    function MakeAllControlsBlank() {
+
+        $('input[type="text"]').each(function () {
+            $(this).val('');
+        });
+
+        $("#chkIsActive").attr('checked', true);
+    }
+
+    function BindCategory() {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/categoriesdropdown",
+            data: { "CategoryID": "", "option": "P" },
+            success: function (data) {
+                $("#ddlCategory").html('');
+                $.each(data, function (id, option) {
+                    $("#ddlCategory").append($('<option></option>').val(option.CategoryId).html(option.CategoryName));
+                });
+                
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve category.');
+            }
+        });
+
+        $("#ddlCategory").val(@Model.ParentCategoryId);
+    }
+
+    $(document).ready(function () {
+        BindCategory();
+        //$("#txtHSNCode").keydown(function (e) { FilterKeys("I", e, $(this)); });
+        //$("#txtSACCode").keydown(function (e) { FilterKeys("I", e, $(this)); });
+        //$("#txtDueInNextMonth").keydown(function (e) { FilterKeys("I", e, $(this)); });
+        //$("#txtDiscount").keydown(function (e) { FilterKeys("numeric", e, $(this)); });
+    });
+
+    function FilterKeys(e, type) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+            // Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+            // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+            // let it happen, don't do anything
+            return;
+        }
+
+        if (type == "AN") {
+            if ((e.keyCode > 64 && e.keyCode < 91)) {
+                return;
+            }
+            if (e.shiftKey && (e.keyCode > 64 && e.keyCode < 91)) {
+                return;
+            }
+        }
+        if (type == "I" || type == "N" || type == "Mob") {
+            if (type == "Mob" && (e.keyCode == 107 || e.keyCode == 32)) {
+                return;
+            }
+            if (type == "N" && e.keyCode == 119) {
+                return;
+            }
+            if (((e.keyCode > 48 && e.keyCode < 57)) || (e.keyCode > 96 && e.keyCode < 105)) {
+                return;
+            }
+        }
+
+        //if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        //    e.preventDefault();
+        //}
+
+        e.preventDefault();
+    }
+</script>
+
+<div class="portlet-body form">
+    @Html.HiddenFor(m => m.CategoryId, new { @id = "hdnCategoryID" })
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label">Parent Category</label>
+            <select id="ddlCategory" class="form-control"></select>
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Category Name</label>
+            @Html.TextBoxFor(m => m.CategoryName, new { @id = "txtCategoryName", @class = "form-control", @placeholder = "Category name" })
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Country</label>
+            <select id="ddlCountryId" class="form-control">
+                @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Countries))
+            </select>
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Service / Goods</label>
+            <div>
+                <input type="radio" name="rd_ServiceGoods" id="rd_Service" value="Service" @(Model.ServiceOrGoods.Trim().ToUpper() == "S" ? "checked=\"checked\"" : "") /> Service
+                <input type="radio" name="rd_ServiceGoods" id="rd_Goods" value="Goods" @(Model.ServiceOrGoods.Trim().ToUpper() == "G" ? "checked=\"checked\"" : "") /> Goods
+            </div>
+            <div class="form-control-focus"> </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">HSN/ SAC Code</label>
+            <input type="text" id="txtSACCode" value="@(Model.ServiceOrGoods.Trim().ToUpper() == "G" ? Model.HSNCode : Model.SACCode)" class="form-control" placeholder="HSN/CAC Code" />
+            <div class="form-control-focus"> </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="mt-checkbox-inline">
+            <label class="mt-checkbox">
+                Will not be Parent for any category&nbsp;&nbsp;<input type="checkbox" id="chkWillCarryContent" @(Model.WillCarryContent.Trim().ToUpper() == "Y" ? "checked=\"checked\"" : "") class="checkbox" />
+                <span></span>
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="mt-checkbox-inline">
+            <label class="mt-checkbox">
+                Is Expense Category?&nbsp;&nbsp;<input type="checkbox" id="chkIsExpense" @(Model.IsExpenseType ? "checked=\"checked\"" : "") class="checkbox" />
+                <span></span>
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="mt-checkbox-inline">
+            <label class="mt-checkbox">
+                Is Active?&nbsp;&nbsp;<input type="checkbox" id="chkIsActive" @(Model.IsActive ? "checked=\"checked\"" : "") class="checkbox" />
+                <span></span>
+            </label>
+        </div>
+    </div>
+</div>
+<div class="form-actions">
+    <input type="button" id="uiSaveCategory" value="Submit" class="btn green-meadow" onclick="return Save_Category('');" />
+    <input type="submit" id="uiDeleteCategory" value="Delete" class="btn red-mint" onclick="return Save_Category('Y');" />
+    <input type="button" value="Close" class="btn yellow" onclick="closepopup();" />
+</div>
